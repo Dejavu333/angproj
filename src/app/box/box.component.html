@@ -1,1 +1,19 @@
-<p>box works! {{sumXY()}}</p>
+<section cdkDropListGroup>
+  <!-- columns -->
+  @for (column of columns; track column.id; let columnIndex = $index) {
+  <div class="column" cdkDropList [cdkDropListData]="column.items"
+    [cdkDropListConnectedTo]="getConnectedLists(columnIndex)" (cdkDropListDropped)="handleDrop($event, columnIndex)">
+    
+    <!-- items -->
+    @for (item of column.items; track item.id; let itemIndex = $index) {
+    <div class="item" cdkDrag>
+      <div>{{ item.name }}
+        <button (click)="removeItem(columnIndex, itemIndex)">X</button>
+      </div>
+    </div>}
+
+    <button (click)="addItem(columnIndex)">Add Item</button>
+  </div>}
+
+  <button (click)="addColumn()">Add Column</button>
+</section>

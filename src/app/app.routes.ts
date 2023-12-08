@@ -9,13 +9,13 @@ import { AttendQuizPageComponent } from './pages/attend-quiz-page/attend-quiz-pa
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 
 export const routes: Routes = [
-    { path: 'login', component: LoginPageComponent },
-    { path: 'register', component: RegisterPageComponent },
-    { path: 'managequizzes', component: ManageQuizzesPageComponent },
-    { path: 'managequizinstances', component: ManageQuizInstancesPageComponent },
-    { path: 'emailtemplates', component: EmailTemplatesPageComponent },
-    { path: 'settings', component: SettingsPageComponent },
-    { path: 'attendquiz/:quizaccesstoken', component: AttendQuizPageComponent },
-    { path: '**', component: NotFoundPageComponent },
-  ];
+  { path: 'login', component: LoginPageComponent },
+  { path: 'register', component: RegisterPageComponent },
+  { path: 'managequizzes', component: ManageQuizzesPageComponent },
+  { path: 'managequizinstances', component: ManageQuizInstancesPageComponent },
+  { path: 'emailtemplates', component: EmailTemplatesPageComponent },
+  { path: 'settings', component: SettingsPageComponent },
+  { path: 'attendquiz/:quizaccesstoken', component: AttendQuizPageComponent },
+  { path: '**', component: NotFoundPageComponent },
+];
   
