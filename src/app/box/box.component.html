@@ -6,7 +6,7 @@
     
     <!-- items -->
     @for (item of column.items; track item.id; let itemIndex = $index) {
-    <div class="item" cdkDrag>
+    <div class="item" cdkDrag [@fade]="animateNewItem">
       <div>{{ item.name }}
         <button (click)="removeItem(columnIndex, itemIndex)">X</button>
       </div>

@@ -1,13 +1,17 @@
-import { signal, computed, Component } from '@angular/core';
+// import { signal, computed } from '@angular/core';
+import { Component } from '@angular/core';
 import { moveItemInArray, transferArrayItem, DragDropModule, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
+import { fadeAnimation } from '../animations';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-box',
   standalone: true,
   imports: [CommonModule, DragDropModule],
   templateUrl: './box.component.html',
-  styleUrl: './box.component.css'
+  styleUrl: './box.component.css',
+  animations: [fadeAnimation], 
 })
 // export class BoxComponent {
 //   y = signal<number>(20);
@@ -26,8 +30,8 @@ export class BoxComponent {
     { id: 2, items: [] },
   ];
 
-  animationDurationMs = 300;
-  animateNewItem = false;
+  lifecycleAnimationDuration = 300;
+  animateNewItem = "";
 
   getConnectedLists(index: number): string[] {
     return this.columns.map((_, i) => 'column-' + i);
@@ -53,18 +57,35 @@ export class BoxComponent {
     this.columns.splice(columnIndex, 1);
   }
 
+  enableLifecycleAnimation() {
+    this.animateNewItem = "fade";
+  }
+
+  disableLifecycleAnimation() {
+      this.animateNewItem = "";
+  }
+
+
   addItem(columnIndex: number) {
-    this.animateNewItem = true;
+    this.enableLifecycleAnimation();
+
     const newItem = { id: Date.now(), name: `newItem${Date.now()}` };
     this.columns[columnIndex].items.push(newItem);
-
+  
     setTimeout(() => {
-      this.animateNewItem = false;
-    }, this.animationDurationMs);
+      this.disableLifecycleAnimation();
+    }, this.lifecycleAnimationDuration);
   }
 
   removeItem(columnIndex: number, itemId: number) {
-    this.columns[columnIndex].items = this.columns[columnIndex].items.filter((item, index) => index !== itemId);
+    this.enableLifecycleAnimation();
+    
+    setTimeout(() => {  
+      this.columns[columnIndex].items = this.columns[columnIndex].items.filter((item, index) => index !== itemId);
+    }, 0);
+    setTimeout(()=> {
+      this.disableLifecycleAnimation();
+    }, this.lifecycleAnimationDuration)
   }
 }
 
