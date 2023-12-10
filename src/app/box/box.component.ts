@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { moveItemInArray, transferArrayItem, DragDropModule, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { fadeAnimation } from '../animations';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-box',
