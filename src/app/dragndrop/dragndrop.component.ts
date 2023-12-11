@@ -5,11 +5,11 @@ import { CommonModule } from '@angular/common';
 import { fadeAnimation } from '../animations';
 
 @Component({
-  selector: 'app-box',
+  selector: 'app-dragndrop',
   standalone: true,
   imports: [CommonModule, DragDropModule],
-  templateUrl: './box.component.html',
-  styleUrl: './box.component.css',
+  templateUrl: './dragndrop.component.html',
+  styleUrl: './dragndrop.component.css',
   animations: [fadeAnimation],
 })
 // export class BoxComponent {
@@ -23,14 +23,14 @@ import { fadeAnimation } from '../animations';
 // }
 
 
-export class BoxComponent {
+export class DragndropComponent {
   columns = [
     { id: 1, items: [{ id: 1, name: 'item1' }, { id: 2, name: 'item2' }, { id: 3, name: 'item3' }, { id: 4, name: 'item4' }] },
     { id: 2, items: [] },
   ];
 
   lifecycleAnimationDuration = 300;
-  isLifecycleAnimationDisabled = false;
+  isLifecycleAnimationDisabled = true;
 
   getConnectedLists(index: number): string[] {
     return this.columns.map((_, i) => 'column-' + i);

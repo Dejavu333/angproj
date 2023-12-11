@@ -1,11 +1,10 @@
-/* app.component.css */
 section {
   display: flex;
   width: 100%;
   padding: 0.3em;
   border: 3px solid rgb(144, 0, 0);
-  /* this will allow the dragged element to scroll the list */
-  overflow: auto;
+  overflow: auto;  /* this will allow the dragged element to scroll the list */
+
   height: 200px;
 }
 
@@ -15,8 +14,8 @@ section {
   padding: 0.3em;
   border: 1px solid black;
   margin: 0 0.3em;
-  /* this will allow the dragged element to scroll the list */
-  overflow: auto;
+  overflow: auto;  /* this will allow the dragged element to scroll the list */
+
 }
 
 .item {
@@ -31,7 +30,7 @@ button {
   cursor: pointer;
 }
 
-
+/* ckd */
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
@@ -48,6 +47,6 @@ button {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.column .cdk-drop-list-dragging .item:not(.cdk-drag-placeholder) {
+.cdk-drop-list-dragging .item:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
