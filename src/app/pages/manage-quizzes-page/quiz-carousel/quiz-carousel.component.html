@@ -1,0 +1,12 @@
+<li class="quiz scale-element" (dblclick)="toggleOptions()" [@scale]="{value: showOptions ? 'in' : 'out', params: {duration: 300, delay: 100}}">
+    @if (showOptions)
+    {
+        <div class="options" [@scale] [@fade]>
+            <div (click)="openQuizEditor()">E</div>
+            <div (click)="openQuizInstanceEditor()" style="margin-left: 0.5rem;">I</div>
+            <div (click)="deleteQuiz()">X</div>
+        </div>
+    }
+
+    {{ quizTitle }}
+</li>
