@@ -1,13 +1,4 @@
-.navbar-container {
-    grid-area: navbar;
-    position: fixed;
-    display: flex;
-    background: var(--color-white);
-    box-shadow: var(--shadow-primary);
-    border-radius: 2rem 2rem 2rem 2rem;
-}
-
-.menu-container {
+.sidebar {
     position: relative;
     min-width: 14vw;
     height: 98vh;
@@ -17,7 +8,7 @@
     box-shadow: var(--shadow-primary);
 }
 
-.menu-container:before {
+.sidebar:before {
     content: "";
     position: absolute;
     bottom: -2rem;
@@ -29,7 +20,7 @@
     box-shadow: 0 0 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
 }
 
-.menu-container:after {
+.sidebar:after {
     content: "";
     position: absolute;
     bottom: -2rem;

@@ -4,11 +4,11 @@
 
 <app-quiz-instance-editor currentlyEditedQuizTitle="currentlyEditedQuizTitle"/>
 
-<!-- <ColumnsEditor/> -->
+<!-- <app-quiz-columns-editor/> -->
 
 
 <div class="manage-container">
-    <input type="text" maxlength="12" id="columnTitleInp" placeholder="new category..." onkeydown="if (event.keyCode == 13) document.getElementById('add').click()">
+    <input type="text" maxlength="12" id="categoryInp" placeholder="new category..." onkeydown="if (event.keyCode == 13) document.getElementById('add').click()">
     <button id="add" class="button addcategory-button" on:click={addColumn}>add category</button>
 
     <input type="text" maxlength="12" id="searchCategoryInp" on:input={searchCategory} placeholder="search category...">
@@ -18,9 +18,13 @@
 
 <div class="columns-container">
     <ul class="columns">
-        @for (columnTitle of columnTitles; track $index)
+        @for (category of this.quizService.categoriesSig(); track category)
         {
-            <app-quiz-column columnTitle="columnTitle"/>
+            <app-category-column category="category"/>
+        }
+        @empty
+        {
+            <p>no categories</p>
         }
     </ul>
 </div>

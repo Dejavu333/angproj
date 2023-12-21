@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuizColumnComponent } from './quiz-column.component';
+import { CategoryColumnComponent } from './category-column.component';
 
-describe('QuizColumnComponent', () => {
-  let component: QuizColumnComponent;
-  let fixture: ComponentFixture<QuizColumnComponent>;
+describe('CategoryColumnComponent', () => {
+  let component: CategoryColumnComponent;
+  let fixture: ComponentFixture<CategoryColumnComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuizColumnComponent]
+      imports: [CategoryColumnComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(QuizColumnComponent);
+    fixture = TestBed.createComponent(CategoryColumnComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

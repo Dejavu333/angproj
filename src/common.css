@@ -47,18 +47,6 @@ a:hover {
   scale: 1.1;
 }
 
-/* .doing-column .column-header {
-    background: #13a4d9;
-  }
-  
-  .done-column .column-header {
-    background: #15d072;
-  }
-  
-  .trash-column .column-header {
-    background: #ff4444;
-  } */
-
 input,
 textarea {
   height: 1rem;

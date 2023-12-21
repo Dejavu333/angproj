@@ -19,7 +19,6 @@
 }
 
 .addcategory-button {
-    padding: 0 1rem;
     height: 4rem;
     width: 5rem;
     border-radius: var(--border-radius-primary);
