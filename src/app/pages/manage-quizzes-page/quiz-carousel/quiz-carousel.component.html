@@ -1,9 +1,10 @@
-<li class="quiz scale-element" (dblclick)="toggleOptions()" [@scale]="{value: isOptionsToggled ? 'in' : 'out', params: {duration: 300, delay: 100}}">
-    @if (isOptionsToggled)
+<!--todo scale animation with params-->
+<li class="quiz scale-element" (dblclick)=showQuizToolbar()>
+    @if (this.isQuizToolbarShowing)
     {
-        <div class="options" [@scale] [@fade]>
-            <div (click)="openQuizEditor()">E</div>
-            <div (click)="openQuizInstanceEditor()" style="margin-left: 0.5rem;">I</div>
+        <div class="options" [@fade]>
+            <div [routerLink]="'quiz-editor'" >E</div>
+            <div [routerLink]="'quiz-instance-editor'" style="margin-left: 0.5rem;">I</div>
             <div (click)="deleteQuiz()">X</div>
         </div>
     }

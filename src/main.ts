@@ -12,7 +12,8 @@ export function emitEvent(p_eventType: string, p_detail: any) {
 }
 
 export function onEvent(p_eventType: string, p_callback: (event: Event) => void) {
-  document.body.addEventListener(p_eventType, (event) => {
+  document.addEventListener(p_eventType, (event) => {
+    console.log(event);
     p_callback(event);
   });
 }

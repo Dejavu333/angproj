@@ -6,7 +6,7 @@
         <button class="button" id="addquiz-button" (click)=addEmptyQuizCarousel() >+</button>
     </div>
     <ul class="quiz-list" id={{category}}>
-        @for (quiz of quizzesInThisCategoryColumn; track quiz.title) {
+        @for (quiz of this.quizzesInThisCategoryColumnSig(); track quiz.title) {
             <app-quiz-carousel [quizTitle]=quiz.title />
         }
         @empty {

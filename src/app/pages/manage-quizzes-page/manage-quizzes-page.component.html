@@ -1,24 +1,24 @@
 <h1>quizzes</h1>
 
-<app-quiz-editor currentlyEditedQuizTitle="currentlyEditedQuizTitle"/>
-
-<app-quiz-instance-editor currentlyEditedQuizTitle="currentlyEditedQuizTitle"/>
-
+<!--<app-quiz-editor currentlyEditedQuizTitle="currentlyEditedQuizTitle"/>-->
+<!--<app-quiz-instance-editor currentlyEditedQuizTitle="currentlyEditedQuizTitle"/>-->
 <!-- <app-quiz-columns-editor/> -->
+
+<router-outlet></router-outlet>
 
 
 <div class="manage-container">
-    <input type="text" maxlength="12" id="categoryInp" placeholder="new category..." onkeydown="if (event.keyCode === 13) document.getElementById('add-category-button').click()">
-    <button id="add-category-button" class="button addcategory-button" (click)=addCategory >add category</button>
+    <input type="text" maxlength="12" id="categoryInp" placeholder="new category..." (keyup.enter)=addCategory() />
+    <button id="add-category-button" class="button addcategory-button" (click)=addCategory()>add category</button>
 
-    <input type="text" maxlength="12" id="searchCategoryInp" (input)=searchCategory() placeholder="search category...">
+    <input type="text" maxlength="12" id="searchCategoryInp" (input)=searchCategory() placeholder="search category..."/>
 
-    <input type="text" maxlength="12" id="searchQuizInp" (input)=searchQuiz() placeholder="search quiz...">
+    <input type="text" maxlength="12" id="searchQuizInp" (input)=searchQuiz() placeholder="search quiz..."/>
 </div>
 
 <div class="category-columns-container">
     <ul class="category-columns">
-        @for (category of this.quizService.categoriesSig(); track category)
+        @for (category of this.quizService.categoriesSig();track category)
         {
             <app-category-column [category]=category />
         }

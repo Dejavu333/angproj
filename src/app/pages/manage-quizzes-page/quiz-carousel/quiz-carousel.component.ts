@@ -1,30 +1,39 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {RouterLink} from "@angular/router";
+import {fadeAnimation} from 'app/app.animations';
+import {onEvent} from "../../../../main";
 
 @Component({
   selector: 'app-quiz-carousel',
   standalone: true,
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './quiz-carousel.component.html',
-  styleUrl: './quiz-carousel.component.css'
+  styleUrl: './quiz-carousel.component.css',
+  animations: [fadeAnimation],
 })
-export class QuizCarouselComponent {
-  deleteQuiz() {
-    throw new Error('Method not implemented.');
+export class QuizCarouselComponent implements OnInit {
+  @Input()
+  public quizTitle: string = "";
+  public isQuizToolbarShowing:boolean = false;
+
+  constructor() {
   }
 
-  openQuizInstanceEditor() {
-    throw new Error('Method not implemented.');
+  ngOnInit() {
+    onEvent("click",this.hideQuizToolbar);  //method must be lambda to bring its context
   }
 
-  openQuizEditor() {
-    throw new Error('Method not implemented.');
+  public deleteQuiz() {
+    console.log("deleting quiz...")
   }
 
-  toggleOptions() {
-    throw new Error('Method not implemented.');
+  public showQuizToolbar = ():void=>{
+    this.isQuizToolbarShowing=true;
   }
 
-  isOptionsToggled: any;
-  @Input() quizTitle: string = "";
-
+  public hideQuizToolbar = (e:Event):void=>{
+    this.isQuizToolbarShowing=false;
+  }
 }

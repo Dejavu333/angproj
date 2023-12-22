@@ -3,13 +3,15 @@ import {CategoryColumnComponent} from "./category-column/category-column.compone
 import {QuizEditorComponent} from "./quiz-editor/quiz-editor.component";
 import {QuizInstanceEditorComponent} from "./quiz-instance-editor/quiz-instance-editor.component";
 import {QuizService} from './quiz.service';
+import {emitEvent} from "main";
+import {RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'app-manage-quizzes-page',
   standalone: true,
   templateUrl: './manage-quizzes-page.component.html',
   styleUrl: './manage-quizzes-page.component.css',
-  imports: [CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent]
+  imports: [CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent, RouterOutlet]
 })
 export class ManageQuizzesPageComponent implements OnInit {
   // // public categoriesSig: Signal<string[]> = signal([]);
@@ -20,6 +22,7 @@ export class ManageQuizzesPageComponent implements OnInit {
 
   constructor(public quizService: QuizService) {
     // // this.quizService.readQuizzes();
+
   }
 
   ngOnInit(): void {
@@ -46,9 +49,8 @@ export class ManageQuizzesPageComponent implements OnInit {
     });
   }
 
+  // source
   public searchQuiz() {
-
+    emitEvent("searchQuiz",{input: "some"})
   }
-
-  protected readonly InputEvent = InputEvent;
 }
