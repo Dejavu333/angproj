@@ -1,4 +1,4 @@
-.column {
+.category-column {
     width: fit-content;
     min-width: 13vw;
     margin: 1rem;
@@ -24,15 +24,15 @@
     min-height: 3rem;
 }
 
-.column-button {
+.addquiz-button-container {
     text-align: center;
 }
 
-.addquiz-button {
+#addquiz-button {
     background-color: var(--color-light);
     margin: 0.6rem auto 0.6rem auto;
 }
 
-.addquiz-button:hover {
+#addquiz-button:hover {
     background-color: var(--color-light-highlight);
 }

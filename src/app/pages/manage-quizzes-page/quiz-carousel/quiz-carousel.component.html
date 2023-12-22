@@ -1,5 +1,5 @@
-<li class="quiz scale-element" (dblclick)="toggleOptions()" [@scale]="{value: showOptions ? 'in' : 'out', params: {duration: 300, delay: 100}}">
-    @if (showOptions)
+<li class="quiz scale-element" (dblclick)="toggleOptions()" [@scale]="{value: isOptionsToggled ? 'in' : 'out', params: {duration: 300, delay: 100}}">
+    @if (isOptionsToggled)
     {
         <div class="options" [@scale] [@fade]>
             <div (click)="openQuizEditor()">E</div>

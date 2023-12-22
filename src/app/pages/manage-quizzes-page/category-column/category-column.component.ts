@@ -12,4 +12,9 @@ import { QuizDTO } from '../quizDTO';
 export class CategoryColumnComponent {
     @Input() category: string = "";
     @Input() quizzesInThisCategoryColumn:QuizDTO[] = [];
+
+  addEmptyQuizCarousel() {
+    console.log("adding quizCarousel...")
+  }
 }
+

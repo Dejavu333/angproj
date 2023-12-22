@@ -1,13 +1,13 @@
-<li class="column default-quiz-column">
+<li class="category-column default-quiz-column">
     <div class="column-header">
         <h4>{{category}}</h4>
     </div>
-    <div class="column-button">
-        <button class="button addquiz-button" on:click={addQuizCarouselSkeleton}>+</button>
+    <div class="addquiz-button-container">
+        <button class="button" id="addquiz-button" (click)=addEmptyQuizCarousel() >+</button>
     </div>
     <ul class="quiz-list" id={{category}}>
         @for (quiz of quizzesInThisCategoryColumn; track quiz.title) {
-            <app-quiz-carousel quizTitle=quiz.title />
+            <app-quiz-carousel [quizTitle]=quiz.title />
         }
         @empty {
             <p>no quizzes</p>
