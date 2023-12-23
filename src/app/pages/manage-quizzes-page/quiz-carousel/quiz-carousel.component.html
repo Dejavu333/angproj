@@ -1,8 +1,8 @@
-<!--todo scale animation with params-->
+<!--todo @scale animation with params-->
 <li class="quiz scale-element" (dblclick)=showQuizToolbar()>
     @if (this.isQuizToolbarShowing)
     {
-        <div class="options" [@fade]>
+        <div class="quiz-toolbar" [@fade]>
             <div [routerLink]="'quiz-editor'" >E</div>
             <div [routerLink]="'quiz-instance-editor'" style="margin-left: 0.5rem;">I</div>
             <div (click)="deleteQuiz()">X</div>

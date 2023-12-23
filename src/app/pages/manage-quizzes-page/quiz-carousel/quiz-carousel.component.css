@@ -4,37 +4,36 @@
     justify-content: center;
     align-items: center;
     list-style-type: none;
-    background: var(--color-white);
+    background: var(--white-color);
     transition: all 0.3s;
     margin: 1rem;
     min-height: 4rem;
     min-width: 10vw;
     cursor: move;
     text-align: center;
-    box-shadow: var(--shadow-primary);
+    box-shadow: var(--primary-shadow);
     border-radius: 2rem;
 }
 
-.options {
+.quiz-toolbar {
     position: absolute;
     bottom: -2rem;
-    /* Position slightly below the quiz item */
     text-align: center;
     left: 100%;
     top: -10%;
 }
 
-.options>div {
+.quiz-toolbar>div {
     width: 1.5rem;
     height: 1.5rem;
     display: inline-block;
     cursor: pointer;
     margin: 0.1rem;
-    box-shadow: var(--shadow-primary);
+    box-shadow: var(--primary-shadow);
     border-radius: 10rem;
-    background-color: var(--color-secondary);
+    background-color: var(--secondary-color);
 }
 
-.options>div:hover {
-    background-color: var(--color-secondary-highlight);
+.quiz-toolbar>div:hover {
+    background-color: var(--secondary-color-highlight);
 }

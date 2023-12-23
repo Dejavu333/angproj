@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {RouterLink} from "@angular/router";
 import {fadeAnimation} from 'app/app.animations';
-import {onEvent} from "../../../../main";
 
 @Component({
   selector: 'app-quiz-carousel',
@@ -22,7 +21,6 @@ export class QuizCarouselComponent implements OnInit {
   }
 
   ngOnInit() {
-    onEvent("click",this.hideQuizToolbar);  //method must be lambda to bring its context
   }
 
   public deleteQuiz() {
@@ -33,7 +31,13 @@ export class QuizCarouselComponent implements OnInit {
     this.isQuizToolbarShowing=true;
   }
 
-  public hideQuizToolbar = (e:Event):void=>{
+  // public hideQuizToolbar = (e:Event):void=>{
+  //   this.isQuizToolbarShowing=false;
+  // }
+
+  @HostListener("document:click", ["$event"])
+  public hideQuizToolbar(e:Event):void {
+    console.log(e);
     this.isQuizToolbarShowing=false;
   }
 }

@@ -2,10 +2,10 @@
     position: relative;
     min-width: 14vw;
     height: 98vh;
-    background: var(--color-light);
+    background: var(--light-color);
     overflow: hidden;
     border-radius: 2rem 2rem 2rem 2rem;
-    box-shadow: var(--shadow-primary);
+    box-shadow: var(--primary-shadow);
 }
 
 .sidebar:before {
@@ -15,7 +15,7 @@
     left: -6rem;
     height: 15rem;
     width: 35rem;
-    background: var(--color-secondary);
+    background: var(--secondary-color);
     transform: rotate(25deg);
     box-shadow: 0 0 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
 }
@@ -27,14 +27,14 @@
     right: -10rem;
     height: 15rem;
     width: 30rem;
-    background: var(--color-primary);
+    background: var(--primary-color);
     transform: rotate(-25deg);
     box-shadow: 0 0 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
 
 }
 
 .brand-header {
-    color: var(--color-white);
+    color: var(--white-color);
     position: absolute;
     transform: rotate(-90deg);
     top: 6rem;
@@ -61,15 +61,15 @@ nav ul {
 }
 
 nav li {
-    padding: var(--padding-primary) 0;
+    padding: var(--primary-padding) 0;
     white-space: nowrap;
 }
 
 nav a {
     text-decoration: none;
-    color: var(--color-grey);
+    color: var(--grey-color);
     font-weight: 400;
 }
 nav a:hover {
-    color: var(--color-black);
+    color: var(--black-color);
 }

@@ -1,21 +1,21 @@
 :root {
   font-size: calc(0.5vw + 1vh);
   /* variables */
-  --color-primary: hsl(119, 46%, 58%);
-  --color-primary-hightlight: #73cb72;
-  --color-secondary: hsl(264, 32%, 70%);
-  --color-secondary-highlight: hsl(264, 32%, 74%);
-  --color-light: #abd4bc;
-  --color-light-highlight: #b8dbc7;
-  --color-black: rgb(30, 30, 30);
-  --color-white: rgb(255, 255, 255);
-  --color-grey: #444;
-  --shadow-primary: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
-  --border-thickness-primary: 0.4rem;
-  --border-thickness-secondary: 0.2rem;
-  --padding-primary: 0.4rem;
-  --margin-primary: 0.4rem;
-  --border-radius-primary: 2rem;
+  --primary-color: hsl(119, 46%, 58%);
+  --primary-color-hightlight: #73cb72;
+  --secondary-color: hsl(264, 32%, 70%);
+  --secondary-color-highlight: hsl(264, 32%, 74%);
+  --light-color: #abd4bc;
+  --light-color-highlight: #b8dbc7;
+  --black-color: rgb(30, 30, 30);
+  --white-color: rgb(255, 255, 255);
+  --grey-color: #444;
+  --primary-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
+  --primary-border-thickness: 0.4rem;
+  --secondary-border-thickness: 0.2rem;
+  --primary-padding: 0.4rem;
+  --primary-margin: 0.4rem;
+  --primary-border-radius: 2rem;
   --bold: 700;
 }
 
@@ -39,7 +39,7 @@ a,
 a:link,
 a:active,
 a:visited {
-  color: var(--color-black);
+  color: var(--black-color);
   text-decoration: none;
 }
 
@@ -51,10 +51,10 @@ input,
 textarea {
   height: 1rem;
   width: 11vw;
-  margin: var(--margin-primary);
-  border-radius: var(--border-radius-primary);
-  padding: var(--padding-primary);
-  box-shadow: var(--shadow-primary);
+  margin: var(--primary-margin);
+  border-radius: var(--primary-border-radius);
+  padding: var(--primary-padding);
+  box-shadow: var(--primary-shadow);
   border: none;
 }
 
@@ -70,13 +70,13 @@ textarea:focus {
 
 input::placeholder,
 textarea::placeholder {
-  color: var(--color-secondary);
+  color: var(--secondary-color);
 }
 
 input[type="checkbox"] {
   width: 1.3rem;
   height: 1.3rem;
-  margin: var(--margin-primary);
+  margin: var(--primary-margin);
 }
 
 ul {
@@ -92,16 +92,16 @@ li {
 button {
   font-weight: var(--bold);
   border: none;
-  box-shadow: var(--shadow-primary);
-  color: var(--color-black);
-  padding: var(--margin-primary);
-  margin-bottom: var(--margin-primary);
-  background-color: var(--color-primary);
+  box-shadow: var(--primary-shadow);
+  color: var(--black-color);
+  padding: var(--primary-margin);
+  margin-bottom: var(--primary-margin);
+  background-color: var(--primary-color);
   cursor: pointer;
 }
 
 button:hover {
-  background-color: var(--color-primary-hightlight);
+  background-color: var(--primary-color-hightlight);
 }
 
 .parent {
