@@ -11,9 +11,8 @@
     <input type="text" maxlength="12" id="categoryInp" placeholder="new category..." (keyup.enter)=addCategory() />
     <button id="add-category-button" class="button addcategory-button" (click)=addCategory()>add category</button>
 
-    <input type="text" maxlength="12" id="searchCategoryInp" (input)=searchCategory() placeholder="search category..."/>
-
-    <input type="text" maxlength="12" id="searchQuizInp" (input)=searchQuiz($event) placeholder="search quiz..."/>
+    <input type="text" maxlength="12" id="searchCategoryInp" (input)=searchCategory($event) placeholder="search category..."/>
+    <input type="text" maxlength="12" id="searchQuizInp" [formControl]="quizSearchControl"  placeholder="search quiz..."/>
 </div>
 
 <div class="category-columns-container">

@@ -9,7 +9,7 @@
     margin: 1rem;
     min-height: 4rem;
     min-width: 10vw;
-    cursor: move;
+    cursor: pointer;
     text-align: center;
     box-shadow: var(--primary-shadow);
     border-radius: 2rem;

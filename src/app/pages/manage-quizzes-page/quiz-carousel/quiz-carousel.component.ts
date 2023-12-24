@@ -6,7 +6,7 @@ import {fadeAnimation} from 'app/app.animations';
   selector: 'app-quiz-carousel',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './quiz-carousel.component.html',
   styleUrl: './quiz-carousel.component.css',
