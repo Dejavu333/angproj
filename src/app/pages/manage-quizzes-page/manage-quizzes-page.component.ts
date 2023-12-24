@@ -3,7 +3,6 @@ import {CategoryColumnComponent} from "./category-column/category-column.compone
 import {QuizEditorComponent} from "./quiz-editor/quiz-editor.component";
 import {QuizInstanceEditorComponent} from "./quiz-instance-editor/quiz-instance-editor.component";
 import {QuizService} from './quiz.service';
-import {emitEvent} from "main";
 import {RouterOutlet} from "@angular/router";
 
 @Component({
@@ -22,7 +21,6 @@ export class ManageQuizzesPageComponent implements OnInit {
 
   constructor(public quizService: QuizService) {
     // // this.quizService.readQuizzes();
-
   }
 
   ngOnInit(): void {
@@ -50,7 +48,10 @@ export class ManageQuizzesPageComponent implements OnInit {
   }
 
   // source
-  public searchQuiz() {
-    emitEvent("searchQuiz",{input: "some"})
+  public searchQuiz(e:Event) {
+    const searchTerm:string = (e.target as HTMLInputElement).value;
+    //could alter the filter field in quizzesState OR
+    this.quizService.searchStream.next(searchTerm);
+    //ÉS AKKOR MOST RÁ KÉNE IRATKOZNOM na most mutatkozott meg hogy wtf
   }
 }

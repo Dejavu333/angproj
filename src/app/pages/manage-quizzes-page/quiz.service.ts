@@ -1,7 +1,7 @@
 import { Injectable, Signal, WritableSignal, computed, effect, signal } from "@angular/core";
 import { QuizDTO} from "./quizDTO";
 import { QuizQuestionDTO } from "./quizQuestionDTO";
-import { Observable, of } from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 
 export @Injectable({ providedIn: 'root' })
 class QuizService {
@@ -9,6 +9,7 @@ class QuizService {
   //--------------------------------------------------------------
   public quizzesSig: WritableSignal<QuizDTO[]>;
   public categoriesSig: Signal<string[]>;
+  public searchStream = new BehaviorSubject<string>("");
 
   // constructors
   //--------------------------------------------------------------
@@ -74,11 +75,11 @@ class QuizService {
     ]);
   }
 
-  // private upsertQuizInDS(quiz: QuizDTO): void { 
+  // private upsertQuizInDS(quiz: QuizDTO): void {
 
   // }
 
-  // private deleteQuizInDS(quiz: QuizDTO): void { 
+  // private deleteQuizInDS(quiz: QuizDTO): void {
 
   // }
 }

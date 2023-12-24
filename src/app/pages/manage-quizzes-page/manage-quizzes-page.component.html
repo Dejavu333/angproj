@@ -13,7 +13,7 @@
 
     <input type="text" maxlength="12" id="searchCategoryInp" (input)=searchCategory() placeholder="search category..."/>
 
-    <input type="text" maxlength="12" id="searchQuizInp" (input)=searchQuiz() placeholder="search quiz..."/>
+    <input type="text" maxlength="12" id="searchQuizInp" (input)=searchQuiz($event) placeholder="search quiz..."/>
 </div>
 
 <div class="category-columns-container">
