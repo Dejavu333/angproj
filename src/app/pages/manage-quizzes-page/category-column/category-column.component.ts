@@ -18,7 +18,8 @@ export class CategoryColumnComponent {
   constructor(private quizService: QuizService) {
 
     this.quizzesInThisCategoryColumnSig = computed(() => {
-      return this.quizService.quizzesSig().filter(quiz => quiz.category == this.category)
+      console.log(this.quizService.filteredQuizzesCsig()); //todo remove
+      return this.quizService.filteredQuizzesCsig().filter(quiz => quiz.category == this.category)
                                           .sort((a, b) => a.indexInColumn - b.indexInColumn);
     });
   }

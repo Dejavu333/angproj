@@ -17,11 +17,10 @@ export class ManageQuizzesPageComponent implements OnInit {
   //===========================================================================
   // properties, fields
   //===========================================================================
-  // // public categoriesSig: Signal<string[]> = signal([]);
-  // readonly errorMessages = {
-  //   emptyError: "cannot be empty",
-  //   duplicateError: "already exists"
-  // }
+  readonly errorMessages = {
+    emptyError: "cannot be empty",
+    duplicateError: "already exists"
+  }
 
   //===========================================================================
   // constructors

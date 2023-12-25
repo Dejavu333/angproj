@@ -17,7 +17,7 @@
 
 <div class="category-columns-container">
     <ul class="category-columns">
-        @for (category of this.quizService.categoriesDsig();track category)
+        @for (category of this.quizService.categoriesCsig();track category)
         {
             <app-category-column [category]=category />
         }
