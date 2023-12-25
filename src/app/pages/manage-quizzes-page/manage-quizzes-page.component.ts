@@ -4,8 +4,7 @@ import {QuizEditorComponent} from "./quiz-editor/quiz-editor.component";
 import {QuizInstanceEditorComponent} from "./quiz-instance-editor/quiz-instance-editor.component";
 import {QuizService} from './quiz.service';
 import {RouterOutlet} from "@angular/router";
-import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {debounceTime, distinctUntilChanged} from "rxjs";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-manage-quizzes-page',
@@ -24,25 +23,11 @@ export class ManageQuizzesPageComponent implements OnInit {
   //   duplicateError: "already exists"
   // }
 
-  //src
-  quizSearchControl = new FormControl('');
-
   //===========================================================================
   // constructors
   //===========================================================================
   constructor(public quizService: QuizService) {
     // // this.quizService.readQuizzes();
-
-    //reducer
-    this.quizSearchControl.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged()
-      )
-      .subscribe(searchTerm => {
-        console.log(searchTerm);
-        searchTerm && this.searchQuiz(searchTerm); //should alter state and the consequence of that  should be the altered UI
-      });
   }
 
   //===========================================================================
@@ -76,11 +61,6 @@ export class ManageQuizzesPageComponent implements OnInit {
   }
 
   public searchQuiz(searchTerm:string) {
-
-    //could alter the filter field in quizzesState OR
-    this.quizService.searchStream.next(searchTerm);
-    //overhead upon overhead
-
     const quizzesDOMRepres: NodeListOf<HTMLElement> = document.querySelectorAll(".quiz");
     quizzesDOMRepres.forEach(q => {
       const quizTitle: string = q.innerText.toLowerCase();

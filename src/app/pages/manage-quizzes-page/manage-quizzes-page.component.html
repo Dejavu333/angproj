@@ -12,12 +12,12 @@
     <button id="add-category-button" class="button addcategory-button" (click)=addCategory()>add category</button>
 
     <input type="text" maxlength="12" id="searchCategoryInp" (input)=searchCategory($event) placeholder="search category..."/>
-    <input type="text" maxlength="12" id="searchQuizInp" [formControl]="quizSearchControl"  placeholder="search quiz..."/>
+    <input type="text" maxlength="12" id="searchQuizInp" [formControl]="quizService.quizSearchControl"  placeholder="search quiz..."/>
 </div>
 
 <div class="category-columns-container">
     <ul class="category-columns">
-        @for (category of this.quizService.categoriesSig();track category)
+        @for (category of this.quizService.categoriesDsig();track category)
         {
             <app-category-column [category]=category />
         }
