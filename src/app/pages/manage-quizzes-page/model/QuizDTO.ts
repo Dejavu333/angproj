@@ -1,4 +1,4 @@
-import { QuizQuestionDTO } from "./quizQuestionDTO";
+import { QuizQuestionDTO } from "./QuizQuestionDTO";
 
 export class QuizDTO {
     public title: string;

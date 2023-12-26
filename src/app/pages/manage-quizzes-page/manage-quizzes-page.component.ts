@@ -5,6 +5,7 @@ import {QuizInstanceEditorComponent} from "./quiz-instance-editor/quiz-instance-
 import {QuizService} from './quiz.service';
 import {RouterOutlet} from "@angular/router";
 import {ReactiveFormsModule} from "@angular/forms";
+import {CategoryDTO} from "./model/CategoryDTO";
 
 @Component({
   selector: 'app-manage-quizzes-page',
@@ -38,38 +39,9 @@ export class ManageQuizzesPageComponent implements OnInit {
   //===========================================================================
   // methods
   //===========================================================================
-  public addCategory(): void {
+  public addCategory(categoryName:string): void {
     console.log("adding categoryColumn...")
-  }
-
-  public searchCategory(e: Event) {
-    const searchValue: string = (e.target as HTMLInputElement).value.toLowerCase().trim();
-    const columnsDOMRepres: NodeListOf<HTMLElement> = document.querySelectorAll(".category-column");
-
-    columnsDOMRepres.forEach(c => {
-      const ulElement: HTMLElement | null = c.querySelector("ul");
-      if (ulElement instanceof HTMLElement) {
-        const ulId: string = ulElement.id.toLowerCase();
-        if (searchValue === "" || ulId.includes(searchValue)) {
-          c.style.display = "block";
-        } else {
-          c.style.display = "none";
-        }
-      }
-    });
-  }
-
-  public searchQuiz(searchTerm:string) {
-    const quizzesDOMRepres: NodeListOf<HTMLElement> = document.querySelectorAll(".quiz");
-    quizzesDOMRepres.forEach(q => {
-      const quizTitle: string = q.innerText.toLowerCase();
-      if (searchTerm === "") {
-        q.style.display = "flex";
-      } else if (quizTitle.includes(searchTerm)) {
-        q.style.display = "flex";
-      } else {
-        q.style.display = "none";
-      }
-    });
+    const category = new CategoryDTO(categoryName);
+    this.quizService.categoryAdded$tream.next(category);
   }
 }

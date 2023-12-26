@@ -8,18 +8,18 @@
 
 
 <div class="manage-container">
-    <input type="text" maxlength="12" id="categoryInp" placeholder="new category..." (keyup.enter)=addCategory() />
-    <button id="add-category-button" class="button addcategory-button" (click)=addCategory()>add category</button>
+    <input type="text" maxlength="12" id="categoryInp" #cinp placeholder="new category..." (keyup.enter)=addCategory(cinp.value) />
+    <button id="add-category-button" class="button addcategory-button" (click)=addCategory(cinp.value)>add category</button>
 
-    <input type="text" maxlength="12" id="searchCategoryInp" (input)=searchCategory($event) placeholder="search category..."/>
+    <input type="text" maxlength="12" id="searchCategoryInp" [formControl]="quizService.categorySearchControl"  placeholder="search category..."/>
     <input type="text" maxlength="12" id="searchQuizInp" [formControl]="quizService.quizSearchControl"  placeholder="search quiz..."/>
 </div>
 
 <div class="category-columns-container">
     <ul class="category-columns">
-        @for (category of this.quizService.categoriesCsig();track category)
+        @for (category of this.quizService.filteredCategoriesCsig();track category)
         {
-            <app-category-column [category]=category />
+            <app-category-column [category]=category.categoryName />
         }
         @empty
         {
