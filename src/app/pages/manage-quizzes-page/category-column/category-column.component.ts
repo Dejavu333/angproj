@@ -1,7 +1,7 @@
-import {Component, computed, Input, Signal} from '@angular/core';
-import {QuizCarouselComponent} from "../quiz-carousel/quiz-carousel.component";
-import {QuizDTO} from '../model/QuizDTO';
-import {QuizService} from "../quiz.service";
+import { Component, computed, Input, Signal } from '@angular/core';
+import { QuizCarouselComponent } from "../quiz-carousel/quiz-carousel.component";
+import { QuizDTO } from '../model/QuizDTO';
+import { QuizService } from "../quiz.service";
 
 @Component({
   selector: 'app-category-column',
@@ -14,18 +14,20 @@ export class CategoryColumnComponent {
 
   @Input()
   category: string = ""; //acts as id
-  quizzesInThisCategoryColumnSig: Signal<QuizDTO[]>;
+  quizzesInThisCategoryColumnCsig: Signal<QuizDTO[]>;
 
   constructor(private quizService: QuizService) {
 
-    this.quizzesInThisCategoryColumnSig = computed(() => {
-      return this.quizService.filteredQuizzesCsig()
-        .filter(quiz => quiz.category == this.category)
+    this.quizzesInThisCategoryColumnCsig = computed(() => {
+      const d = this.quizService.filteredQuizzesCsig()
+        .filter(quiz => quiz.category === this.category)
         .sort((a, b) => a.indexInColumn - b.indexInColumn);
+      console.log("quizzesinthiscategory", d); //todo remove
+      return d;
     });
   }
 
-  addEmptyQuizCarousel() {
+  addEmptyQuizCarouselHandler() {
     console.log("adding empty quizCarousel...")
     this.quizService.quizAdded$tream.next(new QuizDTO(this.category));
   }

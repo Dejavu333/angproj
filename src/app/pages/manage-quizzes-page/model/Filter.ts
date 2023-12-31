@@ -1,4 +1,4 @@
-enum FilterKind {
+export enum FilterKind {
     PARITYFILTER = "parityFilter",
     SEARCHTERMFILTER = "searchTermFilter",
     ORDERFILTER = "orderFilter",

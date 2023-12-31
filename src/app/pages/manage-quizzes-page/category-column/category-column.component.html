@@ -3,10 +3,10 @@
         <h4>{{category}}</h4>
     </div>
     <div class="addquiz-button-container">
-        <button class="button" id="addquiz-button" (click)=addEmptyQuizCarousel() >+</button>
+        <button class="button" id="addquiz-button" (click)=addEmptyQuizCarouselHandler() >+</button>
     </div>
     <ul class="quiz-list" id={{category}}>
-        @for (quiz of this.quizzesInThisCategoryColumnSig(); track quiz.title) {
+        @for (quiz of this.quizzesInThisCategoryColumnCsig(); track quiz) {
             <app-quiz-carousel [quizTitle]=quiz.title />
         }
         @empty {

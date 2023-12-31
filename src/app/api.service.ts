@@ -21,11 +21,11 @@ export class ApiService {
   }
 
   public upsertQuizInDS(quiz: QuizDTO): void {
-    console.log("upsert in ds");
+    console.log("upsert in ds:..");
   }
 
   public deleteQuizInDS(quiz: QuizDTO): void {
-    console.log("delete in ds");
+    console.log("delete in ds...");
   }
 
   public readCategoriesInDS():Observable<CategoryDTO[]> {

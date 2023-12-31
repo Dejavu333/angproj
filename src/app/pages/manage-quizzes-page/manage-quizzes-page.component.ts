@@ -27,7 +27,6 @@ export class ManageQuizzesPageComponent implements OnInit {
   // constructors
   //===========================================================================
   constructor(public quizService: QuizService) {
-    // // this.quizService.readQuizzes();
   }
 
   //===========================================================================

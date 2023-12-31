@@ -1,41 +1,11 @@
 import { Injectable, Signal, WritableSignal, computed, effect, signal } from "@angular/core";
 import { QuizDTO } from "./model/QuizDTO";
-import { Filter } from "./model/Filter";
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { Filter, FilterKind } from "./model/Filter";
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { FormControl } from "@angular/forms";
 import { CategoryDTO } from "./model/CategoryDTO";
 import { ApiService } from "../../api.service";
-
-class QuizzesState {
-    //===========================================================================
-    // properties, fields
-    //===========================================================================
-    quizzes: QuizDTO[];
-    categories: CategoryDTO[];
-    filters: Map<string, Filter>;
-    status: "loading" | "error" | "done";
-
-    //===========================================================================
-    // constructors
-    //===========================================================================
-    constructor(quizzes: QuizDTO[], categories: CategoryDTO[], filters: Map<string, Filter>, status: "loading" | "error" | "done") {
-        this.quizzes = quizzes;
-        this.categories = categories;
-        this.filters = filters;
-        this.status = status;
-    }
-
-    //===========================================================================
-    // methods
-    //===========================================================================
-    public addFilter(filter: Filter): void {
-        this.filters.set(filter.kind, filter); //prevents adding filters from the same kind twice
-    }
-    public removeFilter(kind: string) {
-        this.filters.delete(kind);
-    }
-}
-
+import { QuizzesState } from "./model/QuizzesState";
 
 export @Injectable({ providedIn: 'root' })
 class QuizService {
@@ -61,38 +31,45 @@ class QuizService {
 
     //----------------------------
     // 3.sates
-    public quizzesStateSig = signal(new QuizzesState(
-        [],
-        [],
-        new Map<string, Filter>(),
-        "loading"
-    ));
+    public quizzesStateSig: WritableSignal<QuizzesState> = signal({
+        quizzes: [],
+        categories: [],
+        filters: new Map<string, Filter>(),
+        status: "loading",
+    });
 
     //----------------------------
     // 4.deriveds
-    private categories: Signal<CategoryDTO[]> = computed(()=>{})
-    private quizzes: Signal<QuizDTO[]> = computed(()=>{})
-    private filters: Signal<Map<string,Filter>[]> = computed(()=>{})
+    private categoriesCsig: Signal<CategoryDTO[]> = computed(() => {
+        return [...this.quizzesStateSig().categories];//copy
+    });
+
+    private sortedCategoriesCsig: Signal<CategoryDTO[]> = computed(() => {
+        return [...this.categoriesCsig().sort((a, b) => { return a.indexOnPage - b.indexOnPage })];//copy
+    });
+
+    public quizzesCsig: Signal<QuizDTO[]> = computed(() => {
+        return [...this.quizzesStateSig().quizzes];//copy
+    });
+
+    private filtersCsig: Signal<Map<string, Filter>> = computed(() => {
+        return new Map(this.quizzesStateSig().filters);//copy
+    });
 
     public filteredQuizzesCsig: Signal<QuizDTO[]> = computed(() => {
-        const filters = this.quizzesStateSig().filters;
-        const quizzes = this.quizzesStateSig().quizzes;
-        if (filters.size === 0) return quizzes;
-        else return Array.from(filters.values())
+        if (this.filtersCsig().size === 0) return this.quizzesCsig();
+        else return Array.from(this.filtersCsig().values())
             .reduce((reducedFilteredQuizzes, filter) => {
                 return filter.applyTo(reducedFilteredQuizzes);
-            }, quizzes);
-
+            }, this.quizzesCsig());
     });
 
     public filteredCategoriesCsig: Signal<CategoryDTO[]> = computed(() => {
-        const filters = this.quizzesStateSig().filters;
-        let categories = this.quizzesStateSig().categories.sort((a, b) => a.indexOnPage - b.indexOnPage);
-        if (filters.size === 0) return categories;
-        else return Array.from(filters.values())
+        if (this.filtersCsig().size === 0) return this.sortedCategoriesCsig();
+        else return Array.from(this.filtersCsig().values())
             .reduce((reducedFilteredCategories, filter) => {
                 return filter.applyTo(reducedFilteredCategories);
-            },categories);
+            }, this.sortedCategoriesCsig());
     });
 
     //===========================================================================
@@ -100,96 +77,18 @@ class QuizService {
     //===========================================================================
     constructor(private apiService: ApiService) {
         //----------------------------
-        // 2.reducers (sources -> status quo)
-        this.categoriesLoaded$tream.subscribe((categories) => {
-            this.quizzesStateSig.update((state) => {
-                state.categories = categories;
-                return { ...state };
-            });
-        });
-        this.quizzesLoaded$tream.subscribe((quizzes) => {
-            this.quizzesStateSig.update((state) => {
-                return { ...state, quizzes: quizzes, status: "done" }
-            });
-        });
+        // 2.reducers (sources -> state)
+        this.categoriesLoadedSubs();
 
+        this.quizzesLoadedSubs();
 
-        this.quizSearchTerm$tream.pipe(
-            debounceTime(300),
-            distinctUntilChanged()
-        ).subscribe(searchTerm => {
-            this.quizzesStateSig.update((state) => {
-                if (!searchTerm) {
-                    return { ...state, quizFilters: [] }
-                }
+        this.quizSearchTermSubs();
 
-                const currentFilter = {
-                    origin: this.quizSearchControl,
-                    filterCondition: (q: QuizDTO) => q?.title?.includes(searchTerm),
-                };
+        this.quizAddedSubs();
 
-                const existingFilterIndex = state.quizFilters.findIndex(filter => filter.origin === currentFilter.origin);
-                const filterExists = existingFilterIndex !== -1
+        this.quizDeletedSubs();
 
-                if (filterExists) {
-                    state.quizFilters[existingFilterIndex].filterCondition = currentFilter.filterCondition;
-                } else {
-                    state.quizFilters.push({
-                        origin: this.quizSearchControl,
-                        filterCondition: currentFilter.filterCondition,
-                    });
-                }
-                return { ...state }
-            });
-        });
-
-
-
-        this.quizAdded$tream.subscribe((quizToAdd) => {
-            this.quizzesStateSig.update((state) => {
-
-                const existingQuizIndex = state.quizzes.findIndex((q) => q.title === quizToAdd.title);
-                const quizExists = existingQuizIndex !== -1;
-
-                if (quizExists) {
-                    state.quizzes[existingQuizIndex] = quizToAdd;
-                } else {
-                    state.quizzes.push(quizToAdd);
-                }
-
-                return { ...state };
-            });
-            this.upsertQuizInDS(quizToAdd);
-        });
-
-
-        this.quizDeleted$tream.subscribe((quizTitle) => {
-            // optimistic approach
-            // update UI
-            let target: QuizDTO | undefined;
-            this.quizzesStateSig.update((state) => {
-                const ind = state.quizzes.findIndex(q => q.title == quizTitle);
-                target = state.quizzes[ind];
-                return {
-                    ...state,
-                    quizzes: state.quizzes.filter((q) => {
-                        return q !== target
-                    })
-                }; // or splice
-            });
-            // update data store
-            target &&
-                this.deleteQuizInDS(target);
-        });
-
-
-        this.categoryAdded$tream.subscribe((category) => {
-            this.quizzesStateSig.update((state) => {
-                state.categories.push(category);
-                return { state };
-            });
-        }
-        );
+        this.categoryAddedSubs();
 
         //----------------------------
         // 5.reactions
@@ -200,15 +99,92 @@ class QuizService {
             console.log("filteredquizzes: ", this.filteredQuizzesCsig())
         });
         effect(() => {
-            console.log("catgegories: ", this.filteredCategoriesCsig())
+            console.log("filteredcatgegories: ", this.filteredCategoriesCsig())
         });
         effect(() => {
-            console.log("filter: ", this.quizzesStateSig().quizFilters)
+            console.log("filter: ", this.quizzesStateSig().filters)
         });
     }
 
     //===========================================================================
     // methods
     //===========================================================================
+    categoryAddedSubs() {
+        this.categoryAdded$tream.subscribe((categoryToAdd) => {
+            this.quizzesStateSig.update((state) => {
+                const updatedCategories = [...state.categories, categoryToAdd];
+                return { ...state, categories: updatedCategories };
+            });
+        });
+    }
 
+    quizDeletedSubs() {
+        this.quizDeleted$tream.subscribe((quizTitle) => {
+            // optimistic approach
+            // update UI
+            let target: QuizDTO | undefined;
+            this.quizzesStateSig.update((state) => {
+                const ind = state.quizzes.findIndex(q => q.title == quizTitle);
+                target = state.quizzes[ind];
+
+                const arrWithoutDeletedQuiz = state.quizzes.filter((q) => {
+                    return q !== target;
+                });
+
+                return { ...state, quizzes: arrWithoutDeletedQuiz };
+            });
+            // update data store
+            target &&
+                this.apiService.deleteQuizInDS(target);
+        });
+    }
+
+    quizAddedSubs() {
+        this.quizAdded$tream.subscribe((quizToAdd) => {
+            // optimistic approach
+            // update UI
+            this.quizzesStateSig.update((state) => {
+                const updatedQuizzes = [...state.quizzes, quizToAdd];
+                return { ...state, quizzes: updatedQuizzes };
+            });
+            // update data store
+            this.apiService.upsertQuizInDS(quizToAdd);
+        });
+    }
+
+    quizSearchTermSubs() {
+        this.quizSearchTerm$tream.pipe(debounceTime(300), distinctUntilChanged()).subscribe(searchTerm => {
+            this.quizzesStateSig.update((state) => {
+                const newState = { ...state };
+
+                if (!searchTerm) {
+                    newState.filters.delete(FilterKind.SEARCHTERMFILTER);
+                    return { ...state };
+                }
+
+                const predicate = (q: any) => q?.title?.includes(searchTerm);
+                const newFilter = new Filter(FilterKind.SEARCHTERMFILTER, predicate);
+
+                newState.filters.set(newFilter.kind, newFilter);
+
+                return { ...newState };
+            });
+        });
+    }
+
+    quizzesLoadedSubs() {
+        this.quizzesLoaded$tream.subscribe((quizzes) => {
+            this.quizzesStateSig.update((state) => {
+                return { ...state, quizzes: quizzes, status: "done" };
+            });
+        });
+    }
+
+    categoriesLoadedSubs() {
+        this.categoriesLoaded$tream.subscribe((categories) => {
+            this.quizzesStateSig.update((state) => {
+                return { ...state, categories: categories };
+            });
+        });
+    }
 }
