@@ -11,5 +11,11 @@ export const fadeAnimation = trigger("fade", [
 ]);
 
 export const scaleAnimation = trigger("scale", [
-
+    transition(':enter', [
+      style({ transform: 'scale(0)' }),
+      animate('300ms', style({ transform: 'scale(1)' })),
+    ]),
+    transition(':leave', [
+      animate('300ms', style({ transform: 'scale(0)' })),
+    ]),
 ]);

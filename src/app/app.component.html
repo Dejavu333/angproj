@@ -1,9 +1,12 @@
-<!--  <app-dragndrop></app-dragndrop>-->
+<!-- <app-dragndrop></app-dragndrop> 
+    todo remove -->
 
 <div id="grid-container">
-    <app-sidebar></app-sidebar>
+    <div [@scale]>
+        <app-sidebar/>
+    </div>
 
     <main>
-        <router-outlet></router-outlet>
+        <router-outlet />
     </main>
 </div>

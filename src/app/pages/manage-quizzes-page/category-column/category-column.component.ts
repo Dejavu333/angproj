@@ -2,6 +2,7 @@ import { Component, computed, Input, Signal } from '@angular/core';
 import { QuizCarouselComponent } from "../quiz-carousel/quiz-carousel.component";
 import { QuizDTO } from '../model/QuizDTO';
 import { QuizService } from "../quiz.service";
+import { fadeAnimation, scaleAnimation } from 'app/app.animations';
 
 @Component({
   selector: 'app-category-column',
@@ -9,6 +10,7 @@ import { QuizService } from "../quiz.service";
   templateUrl: './category-column.component.html',
   styleUrl: './category-column.component.css',
   imports: [QuizCarouselComponent],
+  animations: [fadeAnimation, scaleAnimation],
 })
 export class CategoryColumnComponent {
 

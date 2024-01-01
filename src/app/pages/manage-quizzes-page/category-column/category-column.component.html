@@ -7,7 +7,9 @@
     </div>
     <ul class="quiz-list" id={{category}}>
         @for (quiz of this.quizzesInThisCategoryColumnCsig(); track quiz) {
-            <app-quiz-carousel [quizTitle]=quiz.title />
+            <div [@scale]>
+                <app-quiz-carousel [quizTitle]=quiz.title />
+            </div>
         }
         @empty {
             <p>no quizzes</p>
