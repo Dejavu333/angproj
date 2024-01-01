@@ -16,7 +16,12 @@ export class Filter {
 
     applyTo(items: any[]): any[] {
         try {
-            return items.filter(item => this.predicate(item));
+            const result = items.filter(item => {
+                const res:true|false|undefined = this.predicate(item);
+                if (res===true||res===false) return res;
+                else throw new Error("not applicable filter");
+            });
+            return result;
         }
         catch (error) {
             console.log(error);
