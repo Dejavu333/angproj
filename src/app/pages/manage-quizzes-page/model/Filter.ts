@@ -3,7 +3,7 @@ export enum FilterKind {
     SEARCHTERMFILTER = "searchTermFilter",
     ORDERFILTER = "orderFilter",
     LIMITFILTER = "limitFilter",
-  }
+}
 
 export class Filter {
     public kind: FilterKind;
@@ -17,8 +17,8 @@ export class Filter {
     applyTo(items: any[]): any[] {
         try {
             const result = items.filter(item => {
-                const res:true|false|undefined = this.predicate(item);
-                if (res===true||res===false) return res;
+                const res: true | false | undefined = this.predicate(item);
+                if (res === true || res === false) return res;
                 else throw new Error("not applicable filter");
             });
             return result;
@@ -29,5 +29,3 @@ export class Filter {
         }
     }
 }
-
-

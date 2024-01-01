@@ -164,7 +164,6 @@ class QuizService {
 
                 const predicate = (q: any) => q?.title?.includes(searchTerm);
                 const newFilter = new Filter(FilterKind.SEARCHTERMFILTER, predicate);
-
                 newState.filters.set(newFilter.kind, newFilter);
 
                 return { ...newState };

@@ -1,8 +1,9 @@
 #grid-container {
     display: grid;
     grid-template-areas:
-      "sidebar main";
-    grid-template-columns: 14% 86%; /* 14% for the menu, 86% for the main content */
+        "sidebar main";
+    grid-template-columns: 14% 86%;
+    /* 14% for the menu, 86% for the main content */
 }
 
 main {
