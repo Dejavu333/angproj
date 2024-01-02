@@ -3,19 +3,19 @@
         <h4>{{category}}</h4>
     </div>
     <div class="addquiz-button-container">
-        <button class="button" id="addquiz-button" (click)=addEmptyQuizCarouselHandler() >+</button>
+        <button class="button" id="addquiz-button" (click)=addEmptyQuizCarouselHandler()>+</button>
     </div>
 
-    <ul class="quiz-list" id={{category}} cdkDropList [cdkDropListData]="this.quizzesInThisCategoryColumnCsig()" (cdkDropListDropped)="handleDrop($event)" >
-        @for (quiz of this.quizzesInThisCategoryColumnCsig(); track quiz) 
+    <ul class="quiz-list" id={{category}} cdkDropList [cdkDropListData]="this.quizzesInThisCategoryColumnCsig()" (cdkDropListDropped)="dropHandler($event)">
+        @for (quiz of this.quizzesInThisCategoryColumnCsig(); track quiz)
         {
-            <div [@scale] cdkDrag >
-                <app-quiz-carousel [quizTitle]=quiz.title />
-            </div>
+        <div [@scale] cdkDrag [cdkDragData]=quiz>
+            <app-quiz-carousel [quizTitle]=quiz.title />
+        </div>
         }
-        @empty 
+        @empty
         {
-            <p>no quizzes</p>
+        <p>no quizzes</p>
         }
     </ul>
 </li>

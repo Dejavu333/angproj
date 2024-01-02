@@ -34,14 +34,12 @@ export class CategoryColumnComponent {
     this.quizService.quizAdded$tream.next(new QuizDTO(this.category));
   }
 
-  getConnectedLists(index: number): string[] {
-    return this.quizzesInThisCategoryColumnCsig().map((_, i) => 'column-' + i);
-  }
-
-  handleDrop(event: CdkDragDrop<any[]>) {
+  dropHandler(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+        const droppedElement = event.item.data
+        console.log(droppedElement)
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
