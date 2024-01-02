@@ -3,48 +3,61 @@ import { QuizCarouselComponent } from "../quiz-carousel/quiz-carousel.component"
 import { QuizDTO } from '../model/QuizDTO';
 import { QuizService } from "../quiz.service";
 import { fadeAnimation, scaleAnimation } from 'app/app.animations';
-import { moveItemInArray, transferArrayItem, DragDropModule, CdkDragDrop } from '@angular/cdk/drag-drop';
-
+import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-category-column',
-  standalone: true,
-  templateUrl: './category-column.component.html',
-  styleUrl: './category-column.component.css',
-  imports: [QuizCarouselComponent, DragDropModule],
-  animations: [fadeAnimation, scaleAnimation],
+    selector: 'app-category-column',
+    standalone: true,
+    templateUrl: './category-column.component.html',
+    styleUrl: './category-column.component.css',
+    imports: [QuizCarouselComponent, DragDropModule],
+    animations: [fadeAnimation, scaleAnimation],
 })
 export class CategoryColumnComponent {
 
-  @Input()
-  category: string = ""; //acts as id
-  quizzesInThisCategoryColumnCsig: Signal<QuizDTO[]>;
-
-  constructor(private quizService: QuizService) {
-
-    this.quizzesInThisCategoryColumnCsig = computed(() => {
-      return this.quizService.filteredQuizzesCsig()
-        .filter(quiz => quiz.category === this.category)
-        .sort((a, b) => a.indexInColumn - b.indexInColumn);
+    @Input()
+    category: string = ""; //acts as id
+    quizzesInThisCategoryColumnCsig: Signal<QuizDTO[]> = computed(() => {
+        const s =this.quizService.filteredQuizzesCsig()
+            .filter(quiz => quiz.category === this.category)
+            .sort((a, b) => a.indexInColumn - b.indexInColumn);
+        console.log("quizzesinthiscategorecomputed: ",this.category,s)
+            return s;
     });
-  }
 
-  addEmptyQuizCarouselHandler() {
-    console.log("adding empty quizCarousel...")
-    this.quizService.quizAdded$tream.next(new QuizDTO(this.category));
-  }
+    constructor(private quizService: QuizService) {
 
-  dropHandler(event: CdkDragDrop<any[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-        const droppedElement = event.item.data
-        console.log(droppedElement)
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
     }
-  }
-}
 
+    addEmptyQuizCarouselHandler() {
+        console.log("adding empty quizCarousel...")
+        this.quizService.quizUpserted$tream.next(new QuizDTO(this.category));
+    }
+
+    dropHandler(event: CdkDragDrop<any[]>, newCategory: string) {
+        const droppedElement: QuizDTO = event.item.data;
+        
+        if (event.previousContainer === event.container) {
+            console.log("same column")
+            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+            const alteredQuizzes:QuizDTO[] = event.container.data;
+            console.log("container data before next",event.container.data);
+            alteredQuizzes.forEach((q,newIndex) => {
+                q.indexInColumn = newIndex;     
+                this.quizService.quizUpserted$tream.next(q);
+            });    
+        }
+        else {
+            console.log("different column")
+            droppedElement.indexInColumn = event.currentIndex;
+            droppedElement.category = newCategory;
+            transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+            const alteredQuizzes:QuizDTO[] = event.container.data;
+            alteredQuizzes.forEach((q,newIndex) => {
+                q.indexInColumn = newIndex;     
+                this.quizService.quizUpserted$tream.next(q);
+            });   
+        }
+        console.log("container data",event.container.data);
+    }
+}

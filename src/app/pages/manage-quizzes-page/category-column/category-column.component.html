@@ -6,7 +6,7 @@
         <button class="button" id="addquiz-button" (click)=addEmptyQuizCarouselHandler()>+</button>
     </div>
 
-    <ul class="quiz-list" id={{category}} cdkDropList [cdkDropListData]="this.quizzesInThisCategoryColumnCsig()" (cdkDropListDropped)="dropHandler($event)">
+    <ul class="quiz-list" id={{category}} cdkDropList [cdkDropListData]="this.quizzesInThisCategoryColumnCsig()" (cdkDropListDropped)="dropHandler($event,category)">
         @for (quiz of this.quizzesInThisCategoryColumnCsig(); track quiz)
         {
         <div [@scale] cdkDrag [cdkDragData]=quiz>

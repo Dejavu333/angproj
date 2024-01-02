@@ -1,4 +1,4 @@
-import { Injectable, Signal, WritableSignal, computed, effect, signal } from "@angular/core";
+import { Injectable, Signal, WritableSignal, computed, signal } from "@angular/core";
 import { QuizDTO } from "./model/QuizDTO";
 import { Filter, FilterKind } from "./model/Filter";
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -23,7 +23,7 @@ class QuizService {
     public categorySearchControl = new FormControl('');
     public categorySearchTerm$tream = this.categorySearchControl.valueChanges;
 
-    public quizAdded$tream = new Subject<QuizDTO>();
+    public quizUpserted$tream = new Subject<QuizDTO>();
     public quizDeleted$tream = new Subject<string>();
 
     public categoryAdded$tream = new Subject<CategoryDTO>();
@@ -84,26 +84,26 @@ class QuizService {
 
         this.quizSearchTermSubs();
 
-        this.quizAddedSubs();
+        this.quizUpsertedSubs();
 
         this.quizDeletedSubs();
 
         this.categoryAddedSubs();
 
         //----------------------------
-        // 5.reactions
-        effect(() => {
-            console.log("allquizzes: ", this.quizzesStateSig().quizzes)
-        });
-        effect(() => {
-            console.log("filteredquizzes: ", this.filteredQuizzesCsig())
-        });
-        effect(() => {
-            console.log("filteredcatgegories: ", this.filteredCategoriesCsig())
-        });
-        effect(() => {
-            console.log("filter: ", this.quizzesStateSig().filters)
-        });
+        // // 5.reactions
+        // effect(() => {
+        //     console.log("allquizzes: ", this.quizzesStateSig().quizzes)
+        // });
+        // effect(() => {
+        //     console.log("filteredquizzes: ", this.filteredQuizzesCsig())
+        // });
+        // effect(() => {
+        //     console.log("filteredcatgegories: ", this.filteredCategoriesCsig())
+        // });
+        // effect(() => {
+        //     console.log("filter: ", this.quizzesStateSig().filters)
+        // });
     }
 
     //===========================================================================
@@ -139,13 +139,23 @@ class QuizService {
         });
     }
 
-    quizAddedSubs() {
-        this.quizAdded$tream.subscribe((quizToAdd) => {
+    quizUpsertedSubs() {
+        this.quizUpserted$tream.subscribe((quizToAdd) => {
             // optimistic approach
-            // update UI
+            // update UI    //todo use id instead of title for finding what to upsert
+            const qInd: number = this.quizzesCsig().findIndex((q) => q.title === quizToAdd.title);
+            const quizExists: boolean = (qInd !== -1);
+            console.log("quiztoAdd:__________",quizToAdd);
             this.quizzesStateSig.update((state) => {
-                const updatedQuizzes = [...state.quizzes, quizToAdd];
-                return { ...state, quizzes: updatedQuizzes };
+                if (quizExists) {
+                    const newState = { ...state };
+                    newState.quizzes[qInd] = quizToAdd;
+                    return { ...newState };
+                }
+                else {
+                    const updatedQuizzes = [...state.quizzes, quizToAdd];
+                    return { ...state, quizzes: updatedQuizzes };
+                }
             });
             // update data store
             this.apiService.upsertQuizInDS(quizToAdd);
