@@ -9,13 +9,13 @@
     <ul class="quiz-list" id={{category}} cdkDropList [cdkDropListData]="this.quizzesInThisCategoryColumnCsig()" (cdkDropListDropped)="dropHandler($event,category)">
         @for (quiz of this.quizzesInThisCategoryColumnCsig(); track quiz)
         {
-        <div [@scale] cdkDrag [cdkDragData]=quiz>
-            <app-quiz-carousel [quizTitle]=quiz.title />
-        </div>
+            <div [@scale] cdkDrag [cdkDragData]=quiz>
+                <app-quiz-carousel [quizTitle]=quiz.title />
+            </div>
         }
         @empty
         {
-        <p>no quizzes</p>
+            <p>no quizzes</p>
         }
     </ul>
 </li>

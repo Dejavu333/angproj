@@ -17,10 +17,11 @@
   --primary-margin: 0.4rem;
   --primary-border-radius: 2rem;
   --bold: 700;
+  --primary-font-family: 'Lato', sans-serif;
 }
 
 * {
-  font-family: 'Lato', sans-serif;
+  font-family: var(--primary-font-family);
   user-select: none;
   font-size: 1rem;
 }
@@ -32,7 +33,6 @@ h1 {
 
 h4 {
   text-align: center;
-  font-size: 1rem;
 }
 
 a,
@@ -104,7 +104,7 @@ button:hover {
   background-color: var(--primary-color-hightlight);
 }
 
-.parent {
+/* .parent {
   overflow: auto;
   transform: scaleX(-1);
 }
@@ -115,4 +115,27 @@ button:hover {
 
 .bold {
   font-weight: var(--bold);
+} */
+
+/* ckd */
+.cdk-drag-preview .quiz{
+    opacity: 0.5 !important;
+    background-color: aqua !important;
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(185, 11, 11, 0.2),
+        0 8px 10px 1px rgba(255, 1, 1, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging div {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
