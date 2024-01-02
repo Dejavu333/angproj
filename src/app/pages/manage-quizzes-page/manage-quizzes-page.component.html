@@ -16,8 +16,8 @@
 </div>
 
 <div class="category-columns-container">
-    <ul class="category-columns">
-        @for (category of this.quizService.filteredCategoriesCsig();track category)
+    <ul class="category-columns" cdkDropListGroup>
+        @for (category of this.quizService.filteredCategoriesCsig();track category;)
         {
             <app-category-column [category]=category.categoryName />
         }

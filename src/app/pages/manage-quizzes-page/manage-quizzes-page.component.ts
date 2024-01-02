@@ -6,13 +6,15 @@ import { QuizService } from './quiz.service';
 import { RouterOutlet } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CategoryDTO } from "./model/CategoryDTO";
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 @Component({
     selector: 'app-manage-quizzes-page',
     standalone: true,
     templateUrl: './manage-quizzes-page.component.html',
     styleUrl: './manage-quizzes-page.component.css',
-    imports: [CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent, RouterOutlet, ReactiveFormsModule]
+    imports: [CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent, RouterOutlet, ReactiveFormsModule, DragDropModule],
 })
 export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
