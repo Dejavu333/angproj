@@ -5,7 +5,6 @@
     align-items: center;
     list-style-type: none;
     background: var(--white-color);
-    transition: all 0.3s;
     margin: 1rem;
     min-height: 4rem;
     min-width: 10vw;

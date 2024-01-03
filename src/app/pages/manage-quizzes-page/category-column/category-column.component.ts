@@ -18,11 +18,9 @@ export class CategoryColumnComponent {
     @Input()
     category: string = ""; //acts as id
     quizzesInThisCategoryColumnCsig: Signal<QuizDTO[]> = computed(() => {
-        const s =this.quizService.filteredQuizzesCsig()
+        return this.quizService.filteredQuizzesCsig()
             .filter(quiz => quiz.category === this.category)
             .sort((a, b) => a.indexInColumn - b.indexInColumn);
-        console.log("quizzesinthiscategorecomputed: ",this.category,s)
-            return s;
     });
 
     constructor(private quizService: QuizService) {
@@ -36,28 +34,24 @@ export class CategoryColumnComponent {
 
     dropHandler(event: CdkDragDrop<any[]>, newCategory: string) {
         const droppedElement: QuizDTO = event.item.data;
-        
+
         if (event.previousContainer === event.container) {
-            console.log("same column")
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-            const alteredQuizzes:QuizDTO[] = event.container.data;
-            console.log("container data before next",event.container.data);
-            alteredQuizzes.forEach((q,newIndex) => {
-                q.indexInColumn = newIndex;     
+            const alteredQuizzes: QuizDTO[] = event.container.data;
+            alteredQuizzes.forEach((q, newIndex) => {
+                q.indexInColumn = newIndex;
                 this.quizService.quizUpserted$tream.next(q);
-            });    
+            });
         }
         else {
-            console.log("different column")
             droppedElement.indexInColumn = event.currentIndex;
             droppedElement.category = newCategory;
             transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-            const alteredQuizzes:QuizDTO[] = event.container.data;
-            alteredQuizzes.forEach((q,newIndex) => {
-                q.indexInColumn = newIndex;     
+            const alteredQuizzes: QuizDTO[] = event.container.data;
+            alteredQuizzes.forEach((q, newIndex) => {
+                q.indexInColumn = newIndex;
                 this.quizService.quizUpserted$tream.next(q);
-            });   
+            });
         }
-        console.log("container data",event.container.data);
     }
 }
