@@ -29,6 +29,7 @@ class QuizService {
     public categoryAdded$tream = new Subject<CategoryDTO>();
     public categoryDeleted$tream = new Subject<string>();
 
+    public quizCarouselAnimsDisabled$tream = new Subject<string>();
     //----------------------------
     // 3.sates
     public quizzesStateSig: WritableSignal<QuizzesState> = signal({

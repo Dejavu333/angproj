@@ -9,11 +9,12 @@
     <ul 
     class="quiz-list" id={{category}} 
     cdkDropList [cdkDropListData]="this.quizzesInThisCategoryColumnCsig()" (cdkDropListDropped)="dropHandler($event,category)"
-    [@.disabled]="areQuizCarouselLifecycleAnimationsDisabled">
+    [@.disabled]="areAnimsDisabled">
 
-        @for (quiz of this.quizzesInThisCategoryColumnCsig(); track quiz)
+        @for (quiz of this.quizzesInThisCategoryColumnCsig(); track quiz;)
         {
-            <div cdkDrag [cdkDragData]=quiz [@scale]="{ value: '', params: { startScale: '0', endScale: '1.25', animationDuration: '150ms' } }">
+            <div cdkDrag [cdkDragData]=quiz 
+            [@scale]="{ value: '', params: { startScale: '0', endScale: '1.25', animationDuration: '150ms' } }">
 
                 <app-quiz-carousel [quizTitle]=quiz.title />
 

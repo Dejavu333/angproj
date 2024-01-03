@@ -24,24 +24,39 @@ export class CategoryColumnComponent {
             .filter(quiz => quiz.category === this.category)
             .sort((a, b) => a.indexInColumn - b.indexInColumn);
     });
-    public areQuizCarouselLifecycleAnimationsDisabled = false; //todo remove
-    scaleAnimState = ''; // void
+    public areAnimsDisabled = false;
+    // scaleAnimState = ''; // void
 
     //===========================================================================
     // constructors
     //===========================================================================
     constructor(private quizService: QuizService) {
-
+        this.animsDisabledSub();
     }
-
+        
     //===========================================================================
     // methods
     //===========================================================================
+    private animsDisabledSub() {
+        this.quizService.quizCarouselAnimsDisabled$tream.subscribe((category) => {
+            if (category === this.category) {
+                this.areAnimsDisabled = true;
+                setTimeout(() => {
+                    this.areAnimsDisabled = false;
+                }, 0);
+            }
+        });
+    }
+
     addEmptyQuizCarouselHandler() {
         // this.enableLifecycleAnimation();
         this.quizService.quizUpserted$tream.next(new QuizDTO(this.category));
         // this.disableLifecycleAnimation();
-        this.scaleAnimState = 'removeQuiz';
+        // this.scaleAnimState = 'removeQuiz';
+    }
+    
+    tempDisableQuizCarouselAnimsInCategory(category:string) {
+        this.quizService.quizCarouselAnimsDisabled$tream.next(category);
     }
 
     dropHandler(event: CdkDragDrop<any[]>, newCategory: string) {
@@ -51,7 +66,7 @@ export class CategoryColumnComponent {
         //prevents unwanted animations when carousel leaves the current column
         // this.disableLifecycleAnimation();
         const prevCategory:string = droppedElement.category;
-        //todo disable the animations on this column for some time 
+        this.tempDisableQuizCarouselAnimsInCategory(prevCategory);
 
         if (event.previousContainer === event.container) {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);

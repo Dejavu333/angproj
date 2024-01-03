@@ -11,13 +11,13 @@
     <input type="text" maxlength="12" id="categoryInp" #cinp placeholder="new category..." (keyup.enter)=addCategory(cinp.value) />
     <button id="add-category-button" class="button addcategory-button" (click)=addCategory(cinp.value)>add category</button>
 
-    <input type="text" maxlength="12" id="searchCategoryInp" [formControl]="quizService.categorySearchControl"  placeholder="search category..."/>
-    <input type="text" maxlength="12" id="searchQuizInp" [formControl]="quizService.quizSearchControl"  placeholder="search quiz..."/>
+    <input type="text" maxlength="12" id="searchCategoryInp" [formControl]="quizService.categorySearchControl" placeholder="search category..."/>
+    <input type="text" maxlength="12" id="searchQuizInp" [formControl]="quizService.quizSearchControl" placeholder="search quiz..."/>
 </div>
 
 <div class="category-columns-container">
     <ul class="category-columns" cdkDropListGroup>
-        @for (category of this.quizService.filteredCategoriesCsig();track category;)
+        @for (category of this.quizService.filteredCategoriesCsig(); track category;)
         {
             <app-category-column [category]=category.categoryName />
         }
