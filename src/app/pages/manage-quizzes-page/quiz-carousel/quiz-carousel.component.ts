@@ -19,8 +19,9 @@ export class QuizCarouselComponent implements OnInit {
     //===========================================================================
     @Input()
     public quizTitle: string = "";
+    
     public isQuizToolbarShowing: boolean = false;
-
+    
     //===========================================================================
     // constructors
     //===========================================================================

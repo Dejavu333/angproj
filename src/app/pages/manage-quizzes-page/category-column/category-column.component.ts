@@ -14,26 +14,44 @@ import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from 
     animations: [fadeAnimation, scaleAnimation],
 })
 export class CategoryColumnComponent {
-
+    //===========================================================================
+    // properties, fields
+    //===========================================================================
     @Input()
-    category: string = ""; //acts as id
-    quizzesInThisCategoryColumnCsig: Signal<QuizDTO[]> = computed(() => {
+    public category: string = ""; //acts as id
+    public quizzesInThisCategoryColumnCsig: Signal<QuizDTO[]> = computed(() => {
         return this.quizService.filteredQuizzesCsig()
             .filter(quiz => quiz.category === this.category)
             .sort((a, b) => a.indexInColumn - b.indexInColumn);
     });
+    public areQuizCarouselLifecycleAnimationsDisabled = false; //todo remove
+    scaleAnimState = ''; // void
 
+    //===========================================================================
+    // constructors
+    //===========================================================================
     constructor(private quizService: QuizService) {
 
     }
 
+    //===========================================================================
+    // methods
+    //===========================================================================
     addEmptyQuizCarouselHandler() {
-        console.log("adding empty quizCarousel...")
+        // this.enableLifecycleAnimation();
         this.quizService.quizUpserted$tream.next(new QuizDTO(this.category));
+        // this.disableLifecycleAnimation();
+        this.scaleAnimState = 'removeQuiz';
     }
 
     dropHandler(event: CdkDragDrop<any[]>, newCategory: string) {
+
         const droppedElement: QuizDTO = event.item.data;
+
+        //prevents unwanted animations when carousel leaves the current column
+        // this.disableLifecycleAnimation();
+        const prevCategory:string = droppedElement.category;
+        //todo disable the animations on this column for some time 
 
         if (event.previousContainer === event.container) {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -53,5 +71,23 @@ export class CategoryColumnComponent {
                 this.quizService.quizUpserted$tream.next(q);
             });
         }
+
     }
+
+    // enableLifecycleAnimation() {
+    //     this.isQuizCarouselLifecycleAnimationDisabled = false;
+    // }
+
+    // disableLifecycleAnimation() {
+
+    //         this.isQuizCarouselLifecycleAnimationDisabled = true;
+
+    //     setTimeout(() => {
+    //         this.enableLifecycleAnimation();
+    //     }), 250;
+    // }
+
+    // disableUnwantedAnimations() {
+
+    // }
 }

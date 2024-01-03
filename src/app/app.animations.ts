@@ -1,21 +1,51 @@
 import { trigger, style, animate, transition } from '@angular/animations';
 
-export const fadeAnimation = trigger("fade", [
-    transition(':enter', [
-        style({ opacity: 0 }),
-        animate('300ms', style({ opacity: 1 })),
-    ]),
-    transition(':leave', [
-        animate('300ms', style({ opacity: 0 })),
-    ]),
-]);
+export const fadeAnimation = trigger(
+    "fade",
+    [
+        transition(
+            ':enter',
+            [
+                style({ opacity: 0 }),
+                animate('{{animationDuration}}',
+                style({ opacity: 1 })),
+            ],
+            { params: { animationDuration: '300ms' } } //default values
+        ),
 
-export const scaleAnimation = trigger("scale", [
-    transition(':enter', [
-      style({ transform: 'scale(0)' }),
-      animate('300ms', style({ transform: 'scale(1)' })),
-    ]),
-    transition(':leave', [
-      animate('300ms', style({ transform: 'scale(0)' })),
-    ]),
-]);
+        transition(
+            ':leave',
+            [
+                animate('{{animationDuration}}',
+                style({ opacity: 0 })),
+            ],
+            { params: { animationDuration: '300ms' } }
+        ),
+    ]
+);
+
+
+
+export const scaleAnimation = trigger(
+    'scale',
+    [
+        transition(
+            ':enter',
+            [
+                style({ transform: 'scale({{startScale}})' }),
+                animate('{{animationDuration}}',
+                style({ transform: 'scale({{endScale}})' })),
+            ],
+            { params: { startScale: '0', endScale: '1', animationDuration: '300ms' } }
+        ),
+
+        transition(
+            ':leave',
+            [
+                animate('{{animationDuration}}'),
+                style({ transform: 'scale({{startScale}})' })
+            ],
+            { params: { animationDuration: '300ms' } }
+        ),
+    ]
+);

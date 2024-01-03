@@ -6,11 +6,17 @@
         <button class="button" id="addquiz-button" (click)=addEmptyQuizCarouselHandler()>+</button>
     </div>
 
-    <ul class="quiz-list" id={{category}} cdkDropList [cdkDropListData]="this.quizzesInThisCategoryColumnCsig()" (cdkDropListDropped)="dropHandler($event,category)">
+    <ul 
+    class="quiz-list" id={{category}} 
+    cdkDropList [cdkDropListData]="this.quizzesInThisCategoryColumnCsig()" (cdkDropListDropped)="dropHandler($event,category)"
+    [@.disabled]="areQuizCarouselLifecycleAnimationsDisabled">
+
         @for (quiz of this.quizzesInThisCategoryColumnCsig(); track quiz)
         {
-            <div [@scale] cdkDrag [cdkDragData]=quiz>
+            <div cdkDrag [cdkDragData]=quiz [@scale]="{ value: '', params: { startScale: '0', endScale: '1.25', animationDuration: '150ms' } }">
+
                 <app-quiz-carousel [quizTitle]=quiz.title />
+
             </div>
         }
         @empty
