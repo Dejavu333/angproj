@@ -47,7 +47,7 @@ export class QuizCarouselComponent implements OnInit {
         this.isQuizToolbarShowing = true;
     }
 
-    @HostListener("document:click", ["$event"])
+    @HostListener("document:mousedown", ["$event"])
     public hideQuizToolbar(e: Event): void {
         this.isQuizToolbarShowing = false;
     }
