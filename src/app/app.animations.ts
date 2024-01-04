@@ -1,4 +1,4 @@
-import { trigger, style, animate, transition } from '@angular/animations';
+import { trigger, style, animate, transition, keyframes } from '@angular/animations';
 
 export const fadeAnimation = trigger(
     "fade",
@@ -25,7 +25,6 @@ export const fadeAnimation = trigger(
 );
 
 
-
 export const scaleAnimation = trigger(
     'scale',
     [
@@ -43,9 +42,32 @@ export const scaleAnimation = trigger(
             ':leave',
             [
                 animate('{{animationDuration}}'),
-                style({ transform: 'scale({{startScale}})' })
+                style({ transform: 'scale({{startScale}})' }),
             ],
-            { params: { animationDuration: '300ms' } }
+            { params: { startScale: '0', animationDuration: '300ms' } }
         ),
     ]
 );
+
+export const flyInOut = [
+    trigger('flyInOut', [
+        transition(
+            "void => fly-in", 
+            [
+                animate(150, keyframes([
+                    style({ transform: 'scale(2.75) translateX(100%)', opacity: 0 }),
+                    style({ transform: 'scale(0.75) translateX(0) ', opacity: 1, }),
+                ]))
+            ]
+        ),
+        transition(
+            "* => void", 
+            [
+                animate(150, keyframes([
+                    style({ opacity: 1 }),
+                    style({ opacity: 0 }),
+                ]))
+            ]
+        ),
+    ])
+];
