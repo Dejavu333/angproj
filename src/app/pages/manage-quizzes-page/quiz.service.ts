@@ -146,7 +146,6 @@ class QuizService {
             // update UI    //todo use id instead of title for finding what to upsert
             const qInd: number = this.quizzesCsig().findIndex((q) => q.title === quizToAdd.title);
             const quizExists: boolean = (qInd !== -1);
-            console.log("quiztoAdd:__________",quizToAdd);
             this.quizzesStateSig.update((state) => {
                 if (quizExists) {
                     const newState = { ...state };
@@ -173,7 +172,7 @@ class QuizService {
                     return { ...state };
                 }
 
-                const predicate = (q: any) => q?.title?.includes(searchTerm);
+                const predicate = (q: any) => q?.title?.includes(searchTerm.toLocaleLowerCase());
                 const newFilter = new Filter(FilterKind.SEARCHTERMFILTER, predicate);
                 newState.filters.set(newFilter.kind, newFilter);
 

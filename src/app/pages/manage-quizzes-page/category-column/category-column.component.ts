@@ -70,23 +70,17 @@ export class CategoryColumnComponent {
 
         if (event.previousContainer === event.container) {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-            const alteredQuizzes: QuizDTO[] = event.container.data;
-            alteredQuizzes.forEach((q, newIndex) => {
-                q.indexInColumn = newIndex;
-                this.quizService.quizUpserted$tream.next(q);
-            });
         }
         else {
-            droppedElement.indexInColumn = event.currentIndex;
             droppedElement.category = newCategory;
             transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-            const alteredQuizzes: QuizDTO[] = event.container.data;
-            alteredQuizzes.forEach((q, newIndex) => {
-                q.indexInColumn = newIndex;
-                this.quizService.quizUpserted$tream.next(q);
-            });
         }
 
+        const orderAlteredQuizzes: QuizDTO[] = event.container.data;
+        orderAlteredQuizzes.forEach((q, newIndex) => {
+            q.indexInColumn = newIndex;
+            this.quizService.quizUpserted$tream.next(q);
+        });
     }
 
     // enableLifecycleAnimation() {
