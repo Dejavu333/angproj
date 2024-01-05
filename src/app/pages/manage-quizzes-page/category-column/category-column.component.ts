@@ -24,8 +24,8 @@ export class CategoryColumnComponent {
             .filter(quiz => quiz.category === this.category)
             .sort((a, b) => a.indexInColumn - b.indexInColumn);
     });
-    public areAnimsDisabled = false;
-    // scaleAnimState = ''; // void
+    public areAnimsDisabled:boolean = false;
+    public quizAnimState:string = '';
 
     //===========================================================================
     // constructors
@@ -49,10 +49,7 @@ export class CategoryColumnComponent {
     }
 
     addEmptyQuizCarouselHandler() {
-        // this.enableLifecycleAnimation();
         this.quizService.quizUpserted$tream.next(new QuizDTO(this.category));
-        // this.disableLifecycleAnimation();
-        // this.scaleAnimState = 'removeQuiz';
     }
     
     tempDisableQuizCarouselAnimsInCategory(category:string) {
@@ -63,8 +60,6 @@ export class CategoryColumnComponent {
 
         const droppedElement: QuizDTO = event.item.data;
 
-        //prevents unwanted animations when carousel leaves the current column
-        // this.disableLifecycleAnimation();
         const prevCategory:string = droppedElement.category;
         this.tempDisableQuizCarouselAnimsInCategory(prevCategory);
 
@@ -82,21 +77,4 @@ export class CategoryColumnComponent {
             this.quizService.quizUpserted$tream.next(q);
         });
     }
-
-    // enableLifecycleAnimation() {
-    //     this.isQuizCarouselLifecycleAnimationDisabled = false;
-    // }
-
-    // disableLifecycleAnimation() {
-
-    //         this.isQuizCarouselLifecycleAnimationDisabled = true;
-
-    //     setTimeout(() => {
-    //         this.enableLifecycleAnimation();
-    //     }), 250;
-    // }
-
-    // disableUnwantedAnimations() {
-
-    // }
 }

@@ -14,7 +14,7 @@
         @for (quiz of this.quizzesInThisCategoryColumnCsig(); track quiz;)
         {
             <div cdkDrag [cdkDragData]=quiz 
-            [@scale]="{ value: '', params: { startScale: '0', endScale: '1.25', animationDuration: '150ms' } }">
+            [@scale]="{ value: quizAnimState, params: { startScale: '0', endScale: '1.25', animationDuration: '150ms' } }">
 
                 <app-quiz-carousel [quizTitle]=quiz.title />
 
