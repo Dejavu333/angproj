@@ -6,9 +6,7 @@ import { QuizService } from "../quiz.service";
 @Component({
     selector: 'app-quiz-carousel',
     standalone: true,
-    imports: [
-        RouterLink,
-    ],
+    imports: [RouterLink],
     templateUrl: './quiz-carousel.component.html',
     styleUrl: './quiz-carousel.component.css',
     animations: [fadeAnimation, scaleAnimation, flyInOut],
@@ -22,7 +20,6 @@ export class QuizCarouselComponent implements OnInit {
     
     public isQuizToolbarShowing: boolean = false;
     
-    public a = "fly";
     //===========================================================================
     // constructors
     //===========================================================================
@@ -38,17 +35,17 @@ export class QuizCarouselComponent implements OnInit {
     //===========================================================================
     // methods
     //===========================================================================
-    public deleteQuiz() {
+    public deleteQuizHandler() {
         console.log("deleting quiz...")
         this.quizService.quizDeleted$tream.next(this.quizTitle);
     }
 
-    public showQuizToolbar = (): void => {
+    public showQuizToolbarHandler = (): void => {
         this.isQuizToolbarShowing = true;
     }
 
     @HostListener("document:click", ["$event"])
-    public hideQuizToolbar(e: Event): void {
+    public hideQuizToolbarHandler(e: Event): void {
         this.isQuizToolbarShowing = false;
     }
 }
