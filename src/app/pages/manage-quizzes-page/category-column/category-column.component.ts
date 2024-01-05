@@ -31,13 +31,13 @@ export class CategoryColumnComponent {
     // constructors
     //===========================================================================
     constructor(private quizService: QuizService) {
-        this.animsDisabledSub();
+        this.animsDisabledSubs();
     }
         
     //===========================================================================
     // methods
     //===========================================================================
-    private animsDisabledSub() {
+    private animsDisabledSubs() {
         this.quizService.quizCarouselAnimsDisabled$tream.subscribe((category) => {
             if (category === this.category) {
                 this.areAnimsDisabled = true;

@@ -6,14 +6,23 @@ export enum FilterKind {
 }
 
 export class Filter {
+    //===========================================================================
+    // properties, fields
+    //===========================================================================
     public kind: FilterKind;
     public predicate: (...args: any[]) => boolean;
 
+    //===========================================================================
+    // constructors
+    //===========================================================================    
     constructor(kind: FilterKind, predicate: (itemsToFilter: any[]) => boolean) {
         this.kind = kind;
         this.predicate = predicate;
     }
 
+    //===========================================================================
+    // methods
+    //===========================================================================
     applyTo(items: any[]): any[] {
         try {
             const result = items.filter(item => {
