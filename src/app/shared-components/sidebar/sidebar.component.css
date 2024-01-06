@@ -1,3 +1,7 @@
+:host {
+    display: block;
+}
+
 .sidebar {
     position: relative;
     min-width: 14vw;

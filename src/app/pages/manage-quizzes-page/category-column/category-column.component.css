@@ -21,7 +21,14 @@
 }
 
 .quiz-list {
+    display: flex;
+    flex-direction: column;
     min-height: 3rem;
+}
+
+.empty-placeholder {
+    text-align: center;
+    order: -1;
 }
 
 .addquiz-button-container {

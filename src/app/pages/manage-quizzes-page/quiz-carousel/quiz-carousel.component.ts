@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
-import { fadeAnimation, flyInOut, scaleAnimation } from 'app/app.animations';
+import { flyInOutAnimation } from 'app/app.animations';
 import { QuizService } from "../quiz.service";
 
 @Component({
@@ -9,7 +9,7 @@ import { QuizService } from "../quiz.service";
     imports: [RouterLink],
     templateUrl: './quiz-carousel.component.html',
     styleUrl: './quiz-carousel.component.css',
-    animations: [fadeAnimation, scaleAnimation, flyInOut],
+    animations: [flyInOutAnimation],
 })
 export class QuizCarouselComponent implements OnInit {
     //===========================================================================

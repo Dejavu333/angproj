@@ -7,6 +7,7 @@ import { RouterOutlet } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CategoryDTO } from "./model/CategoryDTO";
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { scaleAnimation } from 'app/app.animations';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     templateUrl: './manage-quizzes-page.component.html',
     styleUrl: './manage-quizzes-page.component.css',
     imports: [CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent, RouterOutlet, ReactiveFormsModule, DragDropModule],
+    animations: [scaleAnimation],
 })
 export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================

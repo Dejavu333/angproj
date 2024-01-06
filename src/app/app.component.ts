@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from "./shared-components/sidebar/sidebar.component";
 import { DragndropComponent } from "./dragndrop/dragndrop.component";
-import { scaleAnimation } from './app.animations';
+import { fadeAnimation } from './app.animations';
 
 @Component({
     selector: 'app-root',
@@ -10,7 +10,7 @@ import { scaleAnimation } from './app.animations';
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     imports: [RouterOutlet, SidebarComponent, DragndropComponent],
-    animations: [scaleAnimation],
+    animations: [fadeAnimation],
 })
 export class AppComponent {
 

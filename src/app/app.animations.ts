@@ -49,7 +49,7 @@ export const scaleAnimation = trigger(
     ]
 );
 
-export const flyInOut = [
+export const flyInOutAnimation = [
     trigger('flyInOut', [
         transition(
             "void => fly-in", 

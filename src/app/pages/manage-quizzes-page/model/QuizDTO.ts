@@ -15,7 +15,7 @@ export class QuizDTO {
     //===========================================================================
     // constructors
     //===========================================================================
-    constructor(category: string, indexInColumn: number = -1, title: string = "<<question>>", quizQuestions: QuizQuestionDTO[] = [], isOrdered: boolean = false, timeLimit: number = 0) {
+    constructor(category: string, indexInColumn: number = -1, title: string = "<< new quiz >>", quizQuestions: QuizQuestionDTO[] = [], isOrdered: boolean = false, timeLimit: number = 0) {
         this.category = category;
         this.indexInColumn = indexInColumn;
         this.title = title;
