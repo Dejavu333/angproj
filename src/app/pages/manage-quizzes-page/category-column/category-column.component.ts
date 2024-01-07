@@ -25,7 +25,6 @@ export class CategoryColumnComponent {
             .sort((a, b) => a.indexInColumn - b.indexInColumn);
     });
     public areAnimsDisabled:boolean = false;
-    public quizAnimState:string = '';
 
     //===========================================================================
     // constructors

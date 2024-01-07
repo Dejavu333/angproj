@@ -1,6 +1,6 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
-import { flyInOutAnimation } from 'app/app.animations';
+import { flyInOutAnimation, scaleAnimation } from 'app/app.animations';
 import { QuizService } from "../quiz.service";
 
 @Component({
@@ -9,7 +9,7 @@ import { QuizService } from "../quiz.service";
     imports: [RouterLink],
     templateUrl: './quiz-carousel.component.html',
     styleUrl: './quiz-carousel.component.css',
-    animations: [flyInOutAnimation],
+    animations: [flyInOutAnimation, scaleAnimation],
 })
 export class QuizCarouselComponent implements OnInit {
     //===========================================================================
@@ -17,6 +17,10 @@ export class QuizCarouselComponent implements OnInit {
     //===========================================================================
     @Input()
     public quizTitle: string = "";
+
+    @HostBinding('@scale') 
+    public scale = { value: '', params: { startScale: '0', endScale: '1.25', animationDuration: '150ms' } };
+
     
     public isQuizToolbarShowing: boolean = false;
     
