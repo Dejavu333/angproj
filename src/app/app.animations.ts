@@ -24,7 +24,6 @@ export const fadeAnimation = trigger(
     ]
 );
 
-
 export const scaleAnimation = trigger(
     'scale',
     [
@@ -49,8 +48,9 @@ export const scaleAnimation = trigger(
     ]
 );
 
-export const flyInOutAnimation = [
-    trigger('flyInOut', [
+export const flyInOutAnimation = trigger(
+    'flyInOut', 
+    [
         transition(
             "void => fly-in", 
             [
@@ -60,6 +60,7 @@ export const flyInOutAnimation = [
                 ]))
             ]
         ),
+        
         transition(
             "* => void", 
             [
@@ -69,5 +70,5 @@ export const flyInOutAnimation = [
                 ]))
             ]
         ),
-    ])
-];
+    ]
+);
