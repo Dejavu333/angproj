@@ -1,7 +1,7 @@
 <li class="quiz scale-element" (dblclick)=showQuizToolbarHandler() >
     @if (this.isQuizToolbarShowing)
     {
-        <div class="quiz-toolbar" [@scale]="scale">
+        <div class="quiz-toolbar" [@flyInOut]="'fly-in'">
             <div [routerLink]="'quiz-editor'">E</div>
             <div [routerLink]="'quiz-instance-editor'" style="margin-left: 0.5rem;">I</div>
             <div (click)=deleteQuizHandler()>X</div>
