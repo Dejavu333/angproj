@@ -28,22 +28,22 @@ export const scaleAnimation = trigger(
     'scale',
     [
         transition(
-            ':enter',
+            'void => x',
             [
                 style({ transform: 'scale({{startScale}})' }),
-                animate('{{animationDuration}}',
-                style({ transform: 'scale({{endScale}})' })),
+                animate('{{animationDuration}}'+"ms"),
+                style({ transform: 'scale({{endScale}})' }),
             ],
-            { params: { startScale: '0', endScale: '1', animationDuration: '300ms' } }
+            { params: { startScale: '0', endScale: '1', animationDuration: 300 } }
         ),
 
         transition(
-            ':leave',
+            'x => y',
             [
-                animate('{{animationDuration}}'),
+                animate('{{animationDuration}}'+"ms"),
                 style({ transform: 'scale({{startScale}})' }),
             ],
-            { params: { startScale: '0', animationDuration: '300ms' } }
+            { params: { startScale: '0', animationDuration: 300 } }
         ),
     ]
 );
