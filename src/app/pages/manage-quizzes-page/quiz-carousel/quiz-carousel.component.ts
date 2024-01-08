@@ -1,7 +1,6 @@
-import { Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
+import { Component,  HostListener,  Input, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { flyInOutAnimation, scaleAnimation } from 'app/app.animations';
-import { QuizService } from "../quiz.service";
 
 @Component({
     selector: 'app-quiz-carousel',
@@ -18,16 +17,14 @@ export class QuizCarouselComponent implements OnInit {
     @Input()
     public quizTitle: string = "";
 
-    @HostBinding('@scale') 
-    public scale = { value: '', params: { startScale: '0', endScale: '1.25', animationDuration: '150ms' } };
+    public scale = { value: 'asd', params: { startScale: '0', endScale: '1.25', animationDuration: '150ms' } };
 
-    
     public isQuizToolbarShowing: boolean = false;
     
     //===========================================================================
     // constructors
     //===========================================================================
-    constructor(private quizService: QuizService) {
+    constructor() {
     }
 
     //===========================================================================
@@ -40,8 +37,12 @@ export class QuizCarouselComponent implements OnInit {
     // methods
     //===========================================================================
     public deleteQuizHandler() {
+        this.scale = {...this.scale,value:"fadeout"}
+        // this.scale = {...this.scale,value:"scaleout"}
         console.log("deleting quiz...")
-        this.quizService.quizDeleted$tream.next(this.quizTitle);
+        setTimeout(()=>this.isQuizToolbarShowing = false)
+
+        // this.quizService.quizDeleted$tream.next(this.quizTitle)
     }
 
     public showQuizToolbarHandler = (): void => {
@@ -50,6 +51,6 @@ export class QuizCarouselComponent implements OnInit {
 
     @HostListener("document:click", ["$event"])
     public hideQuizToolbarHandler(e: Event): void {
-        this.isQuizToolbarShowing = false;
+        // this.isQuizToolbarShowing = false;
     }
 }
