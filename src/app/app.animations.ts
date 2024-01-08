@@ -27,29 +27,21 @@ export const fadeAnimation = trigger(
 export const scaleAnimation = trigger(
     'scale',
     [
-        
         transition(
-            'void=>asd',
+            ':enter',
             [
                 style({ transform: 'scale({{startScale}})' }),
-                animate('{{animationDuration}}'),
-                style({ transform: 'scale({{endScale}})' }),
+                animate('{{animationDuration}}',
+                style({ transform: 'scale({{endScale}})' })),
             ],
             { params: { startScale: '0', endScale: '1', animationDuration: '300ms' } }
         ),
+
         transition(
-            'scaleout=>void',
+            ':leave',
             [
                 animate('{{animationDuration}}'),
                 style({ transform: 'scale({{startScale}})' }),
-            ],
-            { params: { startScale: '0', animationDuration: '300ms' } }
-        ),
-        transition(
-            'fadeout=>void',
-            [
-                animate('{{animationDuration}}'),
-                style({ opacity: 0 }),
             ],
             { params: { startScale: '0', animationDuration: '300ms' } }
         ),
