@@ -11,19 +11,17 @@ import { QuizEditorComponent } from "./pages/manage-quizzes-page/quiz-editor/qui
 import { QuizInstanceEditorComponent } from "./pages/manage-quizzes-page/quiz-instance-editor/quiz-instance-editor.component";
 
 export const routes: Routes = [
-    { path: 'login', component: LoginPageComponent },
-    { path: 'register', component: RegisterPageComponent },
-    {
-        path: 'manage-quizzes', component: ManageQuizzesPageComponent,
+    { path: 'login',                        component: LoginPageComponent },
+    { path: 'register',                     component: RegisterPageComponent },
+    { path: 'manage-quizzes',               component: ManageQuizzesPageComponent,
         children: [
-            { path: 'quiz-editor', component: QuizEditorComponent },
+            { path: 'quiz-editor',          component: QuizEditorComponent },
             { path: 'quiz-instance-editor', component: QuizInstanceEditorComponent }
             // {path: 'quiz-category-columns-editor', component: ### }
-        ]
-    },
-    { path: 'manage-quiz-instances', component: ManageQuizInstancesPageComponent },
-    { path: 'email-templates', component: EmailTemplatesPageComponent },
-    { path: 'settings', component: SettingsPageComponent },
+        ]},
+    { path: 'manage-quiz-instances',        component: ManageQuizInstancesPageComponent },
+    { path: 'email-templates',              component: EmailTemplatesPageComponent },
+    { path: 'settings',                     component: SettingsPageComponent },
     { path: 'attend-quiz/:quizaccesstoken', component: AttendQuizPageComponent },
-    { path: '**', component: NotFoundPageComponent },
+    { path: '**',                           component: NotFoundPageComponent },
 ];

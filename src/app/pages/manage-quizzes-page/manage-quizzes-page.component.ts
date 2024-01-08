@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { CategoryColumnComponent } from "./category-column/category-column.component";
 import { QuizEditorComponent } from "./quiz-editor/quiz-editor.component";
 import { QuizInstanceEditorComponent } from "./quiz-instance-editor/quiz-instance-editor.component";
@@ -7,7 +7,7 @@ import { RouterOutlet } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CategoryDTO } from "./model/CategoryDTO";
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { scaleAnimation } from 'app/app.animations';
+import { fadeAnimation, scaleAnimation } from 'app/app.animations';
 
 
 @Component({
@@ -16,7 +16,7 @@ import { scaleAnimation } from 'app/app.animations';
     templateUrl: './manage-quizzes-page.component.html',
     styleUrl: './manage-quizzes-page.component.css',
     imports: [CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent, RouterOutlet, ReactiveFormsModule, DragDropModule],
-    animations: [scaleAnimation],
+    animations: [scaleAnimation,fadeAnimation],
 })
 export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
@@ -26,6 +26,9 @@ export class ManageQuizzesPageComponent implements OnInit {
         emptyError: "cannot be empty",
         duplicateError: "already exists"
     }
+
+    @HostBinding('@fade') 
+    public fade = "";
 
     //===========================================================================
     // constructors
