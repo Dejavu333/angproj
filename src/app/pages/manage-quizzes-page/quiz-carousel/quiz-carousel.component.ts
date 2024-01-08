@@ -2,7 +2,6 @@ import { Component, HostBinding, HostListener, Input, OnInit } from '@angular/co
 import { RouterLink } from "@angular/router";
 import { flyInOutAnimation, scaleAnimation } from 'app/app.animations';
 import { QuizService } from "../quiz.service";
-import { doWaitDo } from 'main';
 
 @Component({
     selector: 'app-quiz-carousel',
@@ -20,7 +19,7 @@ export class QuizCarouselComponent implements OnInit {
     public quizTitle: string = "";
 
     @HostBinding('@scale') 
-    public scale = { value: "x", params: { startScale: '0', endScale: '1.25', animationDuration: 1200 } };
+    public scale = { value: '', params: { startScale: '0', endScale: '1.25', animationDuration: '150ms' } };
 
     
     public isQuizToolbarShowing: boolean = false;
@@ -41,11 +40,8 @@ export class QuizCarouselComponent implements OnInit {
     // methods
     //===========================================================================
     public deleteQuizHandler() {
-        doWaitDo(
-            () => this.scale = { ...this.scale, value: "y" },
-            this.scale.params.animationDuration,
-            () => this.quizService.quizDeleted$tream.next(this.quizTitle)
-        );
+        console.log("deleting quiz...")
+        this.quizService.quizDeleted$tream.next(this.quizTitle);
     }
 
     public showQuizToolbarHandler = (): void => {
@@ -56,5 +52,4 @@ export class QuizCarouselComponent implements OnInit {
     public hideQuizToolbarHandler(e: Event): void {
         this.isQuizToolbarShowing = false;
     }
-
 }
