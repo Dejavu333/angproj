@@ -29,7 +29,9 @@ class QuizService {
     public categoryAdded$tream = new Subject<CategoryDTO>();
     public categoryDeleted$tream = new Subject<string>();
 
-    public quizCarouselAnimsDisabled$tream = new Subject<string>();
+    // public quizCarouselAnimsDisabled$tream = new Subject<string>();
+    public quizaAnimChanged$tream = new Subject<{quizTitle:string,animState:any}>();
+    
     //----------------------------
     // 3.sates
     public quizzesStateSig: WritableSignal<QuizzesState> = signal({
@@ -50,6 +52,7 @@ class QuizService {
     });
 
     public quizzesCsig: Signal<QuizDTO[]> = computed(() => {
+        console.log("quizzescsig");
         return [...this.quizzesStateSig().quizzes];//copy
     });
 
@@ -58,6 +61,8 @@ class QuizService {
     });
 
     public filteredQuizzesCsig: Signal<QuizDTO[]> = computed(() => {
+        console.log("filteredquizzescsig");
+
         if (this.filtersCsig().size === 0) return this.quizzesCsig();
         else return Array.from(this.filtersCsig().values())
             .reduce((reducedFilteredQuizzes, filter) => {
@@ -90,6 +95,19 @@ class QuizService {
         this.quizDeletedSubs();
 
         this.categoryAddedSubs();
+
+        this.quizaAnimChanged$tream.subscribe((inp)=>{
+            this.quizzesStateSig.update((state)=>{
+                const newState = {...state};
+                const nq = newState.quizzes.find((q)=>{
+                    return q.title === inp.quizTitle
+                });
+                nq?.setAnimState(inp.animState);
+                console.log(nq);
+                return {...newState};
+            });
+            // console.log(this.quizzesStateSig());
+        });
 
         //----------------------------
         // // 5.reactions

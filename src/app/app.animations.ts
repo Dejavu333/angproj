@@ -28,20 +28,38 @@ export const scaleAnimation = trigger(
     'scale',
     [
         transition(
-            ':enter',
-            [
-                style({ transform: 'scale({{startScale}})' }),
-                animate('{{animationDuration}}',
-                style({ transform: 'scale({{endScale}})' })),
-            ],
-            { params: { startScale: '0', endScale: '1', animationDuration: '300ms' } }
-        ),
-
-        transition(
-            ':leave',
+            'scale-out=>void',
             [
                 animate('{{animationDuration}}'),
                 style({ transform: 'scale({{startScale}})' }),
+                // query('@*', animateChild(),{ optional: true }),
+            ],
+            { params: { startScale: '0', animationDuration: '300ms' } }
+        ),
+        
+        transition(
+            'void=>scale-in',
+            [
+                style({ transform: 'scale({{startScale}})' }),
+                animate('{{animationDuration}}'),
+                style({ transform: 'scale({{endScale}})' }),
+            ],
+            { params: { startScale: '0', endScale: '1', animationDuration: '300ms' } }
+        ),
+        transition(
+            'void=>scale-in',
+            [
+                style({ transform: 'scale({{startScale}})' }),
+                animate('{{animationDuration}}'),
+                style({ transform: 'scale({{endScale}})' }),
+            ],
+            { params: { startScale: '0', endScale: '1', animationDuration: '300ms' } }
+        ),
+        transition(
+            'fade-out=>void',
+            [
+                animate('{{animationDuration}}'),
+                style({ opacity: 0 }),
             ],
             { params: { startScale: '0', animationDuration: '300ms' } }
         ),

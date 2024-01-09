@@ -118,7 +118,7 @@ button:hover {
 } */
 
 /* ckd */
-app-quiz-carousel.cdk-drag-preview .quiz {
+div.cdk-drag-preview .quiz {
     opacity: 0.5;
     background-color: var(--primary-color);
 }

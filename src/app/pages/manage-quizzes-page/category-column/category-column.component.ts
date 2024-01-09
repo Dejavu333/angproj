@@ -20,47 +20,49 @@ export class CategoryColumnComponent {
     @Input()
     public category: string = ""; //acts as id
     public quizzesInThisCategoryColumnCsig: Signal<QuizDTO[]> = computed(() => {
+        console.log(this.category,this.quizService.filteredQuizzesCsig());
         return this.quizService.filteredQuizzesCsig()
             .filter(quiz => quiz.category === this.category)
             .sort((a, b) => a.indexInColumn - b.indexInColumn);
     });
-    public areAnimsDisabled:boolean = false;
+asd: any = "x";
+    // public areAnimsDisabled:boolean = false; //to be removed
 
     //===========================================================================
     // constructors
     //===========================================================================
     constructor(private quizService: QuizService) {
-        this.animsDisabledSubs();
+        // this.animsDisabledSubs();
     }
         
     //===========================================================================
     // methods
     //===========================================================================
-    private animsDisabledSubs() {
-        this.quizService.quizCarouselAnimsDisabled$tream.subscribe((category) => {
-            if (category === this.category) {
-                this.areAnimsDisabled = true;
-                setTimeout(() => {
-                    this.areAnimsDisabled = false;
-                }, 0);
-            }
-        });
-    }
+    // private animsDisabledSubs() {
+    //     this.quizService.quizCarouselAnimsDisabled$tream.subscribe((category) => {
+    //         if (category === this.category) {
+    //             this.areAnimsDisabled = true;
+    //             setTimeout(() => {
+    //                 this.areAnimsDisabled = false;
+    //             }, 0);
+    //         }
+    //     });
+    // }
 
     addEmptyQuizCarouselHandler() {
         this.quizService.quizUpserted$tream.next(new QuizDTO(this.category));
     }
     
-    tempDisableQuizCarouselAnimsInCategory(category:string) {
-        this.quizService.quizCarouselAnimsDisabled$tream.next(category);
-    }
+    // tempDisableQuizCarouselAnimsInCategory(category:string) {
+    //     this.quizService.quizCarouselAnimsDisabled$tream.next(category);
+    // }
 
     dropHandler(event: CdkDragDrop<any[]>, newCategory: string) {
 
         const droppedElement: QuizDTO = event.item.data;
 
-        const prevCategory:string = droppedElement.category;
-        this.tempDisableQuizCarouselAnimsInCategory(prevCategory);
+        // const prevCategory:string = droppedElement.category;
+        // this.tempDisableQuizCarouselAnimsInCategory(prevCategory);
 
         if (event.previousContainer === event.container) {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
