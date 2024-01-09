@@ -1,4 +1,3 @@
-import { signal } from "@angular/core";
 import { QuizQuestionDTO } from "./QuizQuestionDTO";
 
 export class QuizDTO {
@@ -11,8 +10,7 @@ export class QuizDTO {
     public quizQuestions: QuizQuestionDTO[];
     public isOrdered: boolean;
     public timeLimit: number;
-    animState: "" | "fade-out" | "scale-in" | "fly-in";
-    animStatee = signal("scale-in");
+    private animState: "" | "fade-out" | "scale-in" | "fly-in";
     
     //===========================================================================
     // constructors
@@ -33,10 +31,8 @@ export class QuizDTO {
     //===========================================================================
     setAnimState(toState: "" | "fade-out" | "scale-in" | "fly-in") {
         this.animState = toState;
-        this.animStatee.set(toState);
     }
     getAnimState() {
-        console.log("animstate",this.animState); //todo remove
         return this.animState;
     }
 }

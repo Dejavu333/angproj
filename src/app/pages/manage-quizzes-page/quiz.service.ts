@@ -29,7 +29,6 @@ class QuizService {
     public categoryAdded$tream = new Subject<CategoryDTO>();
     public categoryDeleted$tream = new Subject<string>();
 
-    // public quizCarouselAnimsDisabled$tream = new Subject<string>();
     public quizaAnimChanged$tream = new Subject<{quizTitle:string,animState:any}>();
     
     //----------------------------
@@ -44,25 +43,22 @@ class QuizService {
     //----------------------------
     // 4.deriveds
     private categoriesCsig: Signal<CategoryDTO[]> = computed(() => {
-        return [...this.quizzesStateSig().categories];//copy
+        return [...this.quizzesStateSig().categories];// csig must return a copy so further computed signals (csigs) can be derived from it
     });
 
     private sortedCategoriesCsig: Signal<CategoryDTO[]> = computed(() => {
-        return [...this.categoriesCsig().sort((a, b) => { return a.indexOnPage - b.indexOnPage })];//copy
+        return [...this.categoriesCsig().sort((a, b) => { return a.indexOnPage - b.indexOnPage })];
     });
 
     public quizzesCsig: Signal<QuizDTO[]> = computed(() => {
-        console.log("quizzescsig");
-        return [...this.quizzesStateSig().quizzes];//copy
+        return [...this.quizzesStateSig().quizzes];
     });
 
     private filtersCsig: Signal<Map<string, Filter>> = computed(() => {
-        return new Map(this.quizzesStateSig().filters);//copy
+        return new Map(this.quizzesStateSig().filters);
     });
 
     public filteredQuizzesCsig: Signal<QuizDTO[]> = computed(() => {
-        console.log("filteredquizzescsig");
-
         if (this.filtersCsig().size === 0) return this.quizzesCsig();
         else return Array.from(this.filtersCsig().values())
             .reduce((reducedFilteredQuizzes, filter) => {
@@ -96,18 +92,7 @@ class QuizService {
 
         this.categoryAddedSubs();
 
-        this.quizaAnimChanged$tream.subscribe((inp)=>{
-            this.quizzesStateSig.update((state)=>{
-                const newState = {...state};
-                const nq = newState.quizzes.find((q)=>{
-                    return q.title === inp.quizTitle
-                });
-                nq?.setAnimState(inp.animState);
-                console.log(nq);
-                return {...newState};
-            });
-            // console.log(this.quizzesStateSig());
-        });
+        this.quizAnimChangedSubs();
 
         //----------------------------
         // // 5.reactions
@@ -125,10 +110,23 @@ class QuizService {
         // });
     }
 
+    
     //===========================================================================
     // methods
     //===========================================================================
-    categoryAddedSubs() {
+    private quizAnimChangedSubs() {
+        this.quizaAnimChanged$tream.subscribe((inp) => {
+            this.quizzesStateSig.update((state) => {
+                const newState = { ...state };
+                newState.quizzes.find((q) => {
+                    return q.title === inp.quizTitle;
+                })?.setAnimState(inp.animState);
+                return { ...newState };
+            });
+        });
+    }
+
+    private categoryAddedSubs() {
         this.categoryAdded$tream.subscribe((categoryToAdd) => {
             this.quizzesStateSig.update((state) => {
                 const updatedCategories = [...state.categories, categoryToAdd];
@@ -137,7 +135,7 @@ class QuizService {
         });
     }
 
-    quizDeletedSubs() {
+    private quizDeletedSubs() {
         this.quizDeleted$tream.subscribe((quizTitle) => {
             // optimistic approach
             // update UI
@@ -158,7 +156,7 @@ class QuizService {
         });
     }
 
-    quizUpsertedSubs() {
+    private quizUpsertedSubs() {
         this.quizUpserted$tream.subscribe((quizToAdd) => {
             // optimistic approach
             // update UI    //todo use id instead of title for finding what to upsert
@@ -180,7 +178,7 @@ class QuizService {
         });
     }
 
-    quizSearchTermSubs() {
+    private quizSearchTermSubs() {
         this.quizSearchTerm$tream.pipe(debounceTime(300), distinctUntilChanged()).subscribe(searchTerm => {
             this.quizzesStateSig.update((state) => {
                 const newState = { ...state };
@@ -199,7 +197,7 @@ class QuizService {
         });
     }
 
-    quizzesLoadedSubs() {
+    private quizzesLoadedSubs() {
         this.quizzesLoaded$tream.subscribe((quizzes) => {
             this.quizzesStateSig.update((state) => {
                 return { ...state, quizzes: quizzes, status: "done" };
@@ -207,7 +205,7 @@ class QuizService {
         });
     }
 
-    categoriesLoadedSubs() {
+    private categoriesLoadedSubs() {
         this.categoriesLoaded$tream.subscribe((categories) => {
             this.quizzesStateSig.update((state) => {
                 return { ...state, categories: categories };
