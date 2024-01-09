@@ -1,3 +1,4 @@
+import { QuizAnimState } from "app/app.animations";
 import { QuizQuestionDTO } from "./QuizQuestionDTO";
 
 export class QuizDTO {
@@ -10,8 +11,8 @@ export class QuizDTO {
     public quizQuestions: QuizQuestionDTO[];
     public isOrdered: boolean;
     public timeLimit: number;
-    private animState: "" | "fade-out" | "scale-in" | "fly-in";
-    
+    private animState: QuizAnimState;
+
     //===========================================================================
     // constructors
     //===========================================================================
@@ -23,13 +24,13 @@ export class QuizDTO {
         this.isOrdered = isOrdered;
         this.timeLimit = timeLimit;
 
-        this.animState = "scale-in";
+        this.animState = QuizAnimState.ScaleIn;
     }
 
     //===========================================================================
     // methods
     //===========================================================================
-    setAnimState(toState: "" | "fade-out" | "scale-in" | "fly-in") {
+    setAnimState(toState: QuizAnimState) {
         this.animState = toState;
     }
     getAnimState() {

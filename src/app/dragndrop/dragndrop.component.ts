@@ -1,4 +1,3 @@
-// import { signal, computed } from '@angular/core';
 import { Component } from '@angular/core';
 import { moveItemInArray, transferArrayItem, DragDropModule, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
@@ -12,16 +11,6 @@ import { fadeAnimation } from '../app.animations';
   styleUrl: './dragndrop.component.css',
   animations: [fadeAnimation],
 })
-// export class BoxComponent {
-//   y = signal<number>(20);
-//   x = signal<number>(10);
-//   sumXY = computed<number>(()=> this.addXY());
-
-//   addXY():number {
-//     return this.x() + this.y();
-//   }
-// }
-
 
 export class DragndropComponent {
   columns = [

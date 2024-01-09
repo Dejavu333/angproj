@@ -1,7 +1,8 @@
-import { Component,  HostListener,  Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
-import { flyInOutAnimation, scaleAnimation } from 'app/app.animations';
+import { QuizAnimState, flyInOutAnimation, scaleAnimation } from 'app/app.animations';
 import { QuizService } from '../quiz.service';
+import { doInSequence } from 'main';
 
 @Component({
     selector: 'app-quiz-carousel',
@@ -19,11 +20,11 @@ export class QuizCarouselComponent implements OnInit {
     public quizTitle: string = "";
 
     public isQuizToolbarShowing: boolean = false;
-    
+
     //===========================================================================
     // constructors
     //===========================================================================
-    constructor(private quizService:QuizService) {
+    constructor(private quizService: QuizService) {
     }
 
     //===========================================================================
@@ -37,8 +38,10 @@ export class QuizCarouselComponent implements OnInit {
     //===========================================================================
     public deleteQuizHandler() {
         console.log("deleting quiz...")
-        this.quizService.quizaAnimChanged$tream.next({quizTitle:this.quizTitle,animState:"scale-out"});
-        setTimeout(()=>this.quizService.quizDeleted$tream.next(this.quizTitle),2000)
+        doInSequence(
+            ()=> this.quizService.quizaAnimChanged$tream.next({ quizTitle: this.quizTitle, animState: QuizAnimState.ScaleOut }),
+            ()=> this.quizService.quizDeleted$tream.next(this.quizTitle),
+        );
     }
 
     public showQuizToolbarHandler = (): void => {

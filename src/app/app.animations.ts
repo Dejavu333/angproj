@@ -1,5 +1,13 @@
 import { trigger, style, animate, transition, keyframes } from '@angular/animations';
 
+export enum QuizAnimState {
+    None = "",
+    ScaleOut = "scale-out",
+    FadeOut = "fade-out",
+    ScaleIn = "scale-in",
+    FadeIn = "fade-in"
+}
+
 export const fadeAnimation = trigger(
     "fade",
     [
@@ -8,7 +16,7 @@ export const fadeAnimation = trigger(
             [
                 style({ opacity: 0 }),
                 animate('{{animationDuration}}',
-                style({ opacity: 1 })),
+                    style({ opacity: 1 })),
             ],
             { params: { animationDuration: '300ms' } } //default values
         ),
@@ -17,7 +25,7 @@ export const fadeAnimation = trigger(
             ':leave',
             [
                 animate('{{animationDuration}}',
-                style({ opacity: 0 })),
+                    style({ opacity: 0 })),
             ],
             { params: { animationDuration: '300ms' } }
         ),
@@ -28,17 +36,16 @@ export const scaleAnimation = trigger(
     'scale',
     [
         transition(
-            'scale-out=>void',
+            QuizAnimState.ScaleOut + '=> void',
             [
                 animate('{{animationDuration}}'),
                 style({ transform: 'scale({{startScale}})' }),
-                // query('@*', animateChild(),{ optional: true }),
             ],
             { params: { startScale: '0', animationDuration: '300ms' } }
         ),
-        
+
         transition(
-            'void=>scale-in',
+            'void =>' + QuizAnimState.ScaleIn,
             [
                 style({ transform: 'scale({{startScale}})' }),
                 animate('{{animationDuration}}'),
@@ -46,17 +53,9 @@ export const scaleAnimation = trigger(
             ],
             { params: { startScale: '0', endScale: '1', animationDuration: '300ms' } }
         ),
+
         transition(
-            'void=>scale-in',
-            [
-                style({ transform: 'scale({{startScale}})' }),
-                animate('{{animationDuration}}'),
-                style({ transform: 'scale({{endScale}})' }),
-            ],
-            { params: { startScale: '0', endScale: '1', animationDuration: '300ms' } }
-        ),
-        transition(
-            'fade-out=>void',
+            QuizAnimState.FadeOut + '=>void',
             [
                 animate('{{animationDuration}}'),
                 style({ opacity: 0 }),
@@ -67,10 +66,10 @@ export const scaleAnimation = trigger(
 );
 
 export const flyInOutAnimation = trigger(
-    'flyInOut', 
+    'flyInOut',
     [
         transition(
-            "void => fly-in", 
+            "void => fly-in",
             [
                 animate(150, keyframes([
                     style({ transform: 'scale(2.75) translateX(100%)', opacity: 0 }),
@@ -78,9 +77,9 @@ export const flyInOutAnimation = trigger(
                 ]))
             ]
         ),
-        
+
         transition(
-            "* => void", 
+            "* => void",
             [
                 animate(150, keyframes([
                     style({ opacity: 1 }),

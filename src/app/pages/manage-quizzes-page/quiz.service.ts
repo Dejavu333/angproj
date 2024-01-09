@@ -29,8 +29,8 @@ class QuizService {
     public categoryAdded$tream = new Subject<CategoryDTO>();
     public categoryDeleted$tream = new Subject<string>();
 
-    public quizaAnimChanged$tream = new Subject<{quizTitle:string,animState:any}>();
-    
+    public quizaAnimChanged$tream = new Subject<{ quizTitle: string, animState: any }>();
+
     //----------------------------
     // 3.sates
     public quizzesStateSig: WritableSignal<QuizzesState> = signal({
@@ -110,7 +110,7 @@ class QuizService {
         // });
     }
 
-    
+
     //===========================================================================
     // methods
     //===========================================================================
