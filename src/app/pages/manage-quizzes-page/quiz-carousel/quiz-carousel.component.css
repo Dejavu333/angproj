@@ -1,8 +1,3 @@
-:host {
-    /* anims require block */
-    display: block;
-}
-
 .quiz {
     position: relative;
     display: flex;

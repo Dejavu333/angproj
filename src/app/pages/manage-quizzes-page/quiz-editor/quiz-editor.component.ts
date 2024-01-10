@@ -8,5 +8,4 @@ import { Component } from '@angular/core';
     styleUrl: './quiz-editor.component.css'
 })
 export class QuizEditorComponent {
-
 }

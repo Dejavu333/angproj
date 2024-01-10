@@ -1,11 +1,6 @@
 <h1>quizzes</h1>
 
-<!--<app-quiz-editor currentlyEditedQuizTitle="currentlyEditedQuizTitle"/>-->
-<!--<app-quiz-instance-editor currentlyEditedQuizTitle="currentlyEditedQuizTitle"/>-->
-<!-- <app-quiz-columns-editor/> -->
-
-<router-outlet></router-outlet>
-
+<router-outlet [@fade]></router-outlet>
 
 <div class="manage-container">
     <input type="text" maxlength="12" id="categoryInp" #cinp placeholder="new category..." (keyup.enter)=addCategory(cinp.value) />
@@ -19,7 +14,9 @@
     <ul class="category-columns" cdkDropListGroup>
         @for (category of this.quizService.filteredCategoriesCsig(); track category;)
         {
-            <app-category-column [category]=category.categoryName [@scale]/>
+            <div [@fade]>
+                <app-category-column [category]=category.categoryName />
+            </div>
         }
         @empty
         {

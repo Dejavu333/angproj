@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CategoryColumnComponent } from "./category-column/category-column.component";
 import { QuizEditorComponent } from "./quiz-editor/quiz-editor.component";
 import { QuizInstanceEditorComponent } from "./quiz-instance-editor/quiz-instance-editor.component";
@@ -26,9 +26,6 @@ export class ManageQuizzesPageComponent implements OnInit {
         emptyError: "cannot be empty",
         duplicateError: "already exists"
     }
-
-    @HostBinding('@fade') 
-    public fade = "";
 
     //===========================================================================
     // constructors

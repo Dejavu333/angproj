@@ -1,6 +1,4 @@
 :host {
-    /* anims require block */
-    display: block;
     /* to not interfere with layout */
     position: absolute;
     width: 100%;
