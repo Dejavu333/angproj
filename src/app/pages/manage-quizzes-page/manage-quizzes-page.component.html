@@ -3,7 +3,19 @@
 <router-outlet [@fade]></router-outlet>
 
 <div class="manage-container">
-    <input type="text" maxlength="12" id="categoryInp" #cinp placeholder="new category..." (keyup.enter)=addCategory(cinp.value) />
+    <form [formGroup]="newCategoryFormGroup">
+        <input formControlName="newCategoryFormControl" #cinp type="text" maxlength="12" id="categoryInp"  placeholder="new category..." (keyup.enter)=addCategory(cinp.value) />
+
+        @if(this.newCategoryFormGroup.get('newCategoryFormControl')?.invalid
+            && ( newCategoryFormGroup.get('newCategoryFormControl')?.dirty || newCategoryFormGroup.get('newCategoryFormControl')?.touched ))
+        {
+            @for(error of newCategoryFormGroup.get('newCategoryFormControl')?.errors | keyvalue; track error)
+            {
+                <p>{{ getErrorMessage(error.key) }}</p>
+            }
+        }
+
+    </form>
     <button id="add-category-button" class="button addcategory-button" (click)=addCategory(cinp.value)>add category</button>
 
     <input type="text" maxlength="12" id="searchCategoryInp" [formControl]="quizService.categorySearchControl" placeholder="search category..."/>
