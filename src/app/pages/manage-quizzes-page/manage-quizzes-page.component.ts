@@ -49,10 +49,8 @@ export class ManageQuizzesPageComponent implements OnInit {
         // act on val errors
         this.purgeErrorMessages();
         if (!this.newCategoryFG.valid) {
-            const categoryInpErrors = this.newCategoryFG.get(this.newCategoryFCName)?.errors;
-            for (const errorKey in categoryInpErrors) {
-                this.newCategoryErrorMessages.push(getErrorMessage(errorKey));
-            }
+            const newCategoryFCErrors = this.newCategoryFG.get(this.newCategoryFCName)?.errors;
+            for (const errorKey in newCategoryFCErrors) this.newCategoryErrorMessages.push(getErrorMessage(errorKey));
             this.purgeErrorMessagesAfter(3000);
             return;
         }
