@@ -3,23 +3,15 @@
 <router-outlet [@fade]></router-outlet>
 
 <div class="manage-container">
-    <form [formGroup]="newCategoryFormGroup">
-        <input formControlName="newCategoryFormControl" #cinp type="text" maxlength="12" id="categoryInp"  placeholder="new category..." (keyup.enter)=addCategory(cinp.value) />
+    <form [formGroup]="newCategoryFG">
+        <input [formControlName]=this.newCategoryFCName type="text" maxlength="12" id="categoryInp"  placeholder="new category..." (keyup.enter)=addCategory() autocomplete="off"/>
 
-        @if(this.newCategoryFormGroup.get('newCategoryFormControl')?.invalid
-            && ( newCategoryFormGroup.get('newCategoryFormControl')?.dirty || newCategoryFormGroup.get('newCategoryFormControl')?.touched ))
-        {
-            @for(error of newCategoryFormGroup.get('newCategoryFormControl')?.errors | keyvalue; track error)
-            {
-                <p>{{ getErrorMessage(error.key) }}</p>
-            }
-        }
-
+        <app-tooltip [show]="newCategoryErrorMessages.length > 0" [content]="newCategoryErrorMessages.join(' ')"></app-tooltip>
     </form>
-    <button id="add-category-button" class="button addcategory-button" (click)=addCategory(cinp.value)>add category</button>
+    <button id="add-category-button" class="button addcategory-button" (click)=addCategory()>add category</button>
 
-    <input type="text" maxlength="12" id="searchCategoryInp" [formControl]="quizService.categorySearchControl" placeholder="search category..."/>
-    <input type="text" maxlength="12" id="searchQuizInp" [formControl]="quizService.quizSearchControl" placeholder="search quiz..."/>
+    <input type="text" maxlength="12" id="searchCategoryInp" [formControl]="quizService.categorySearchControl" placeholder="search category..." autocomplete="off"/>
+    <input type="text" maxlength="12" id="searchQuizInp" [formControl]="quizService.quizSearchControl" placeholder="search quiz..." autocomplete="off"/>
 </div>
 
 <div class="category-columns-container">

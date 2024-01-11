@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CategoryColumnComponent } from "./category-column/category-column.component";
 import { QuizEditorComponent } from "./quiz-editor/quiz-editor.component";
 import { QuizInstanceEditorComponent } from "./quiz-instance-editor/quiz-instance-editor.component";
@@ -9,6 +9,7 @@ import { CategoryDTO } from "./model/CategoryDTO";
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { fadeAnimation, scaleAnimation } from 'app/app.animations';
 import { CommonModule } from '@angular/common';
+import { TooltipComponent } from "../../shared-components/tooltip/tooltip.component";
 
 
 @Component({
@@ -16,33 +17,27 @@ import { CommonModule } from '@angular/common';
     standalone: true,
     templateUrl: './manage-quizzes-page.component.html',
     styleUrl: './manage-quizzes-page.component.css',
-    imports: [CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent, RouterOutlet, ReactiveFormsModule, DragDropModule, CommonModule],
-    animations: [scaleAnimation,fadeAnimation],
+    animations: [scaleAnimation, fadeAnimation],
+    imports: [CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent, RouterOutlet, ReactiveFormsModule, DragDropModule, CommonModule, TooltipComponent]
 })
 export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
     // properties, fields
     //===========================================================================
-    @ViewChild('cinp')
-    cinp!: ElementRef<HTMLInputElement>;
-    
-    readonly errorMessages = {
-        emptyError: "cannot be empty",
-        duplicateError: "already exists"
-    }
-
-    newCategoryFormGroup: FormGroup<any>;
+    newCategoryFG: FormGroup<any>;
+    newCategoryFCName:string = 'newCategoryFC';
+    newCategoryErrorMessages:string[] = [];
 
     //===========================================================================
     // constructors
     //===========================================================================
     constructor(public quizService: QuizService, private formBuilder: FormBuilder) {
-        this.newCategoryFormGroup = this.formBuilder.group({
-            newCategoryFormControl: ['', [Validators.required, containsUppercaseValidator()]]
+        this.newCategoryFG = this.formBuilder.group({
+            [this.newCategoryFCName]: ['', [Validators.required, containsUppercaseValidator()]] //equivalent  to 'newCategoryFC': ['', [Validators.required, containsUppercaseValidator()]]
         });
     }
 
-    //===========================================================================
+    //=======================================================================A====
     // lifecycle hooks
     //===========================================================================
     ngOnInit(): void {
@@ -51,18 +46,23 @@ export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
     // methods
     //===========================================================================
-    public addCategory(categoryName: string): void {
-        console.log("adding categoryColumn...")
-        if (!this.newCategoryFormGroup.valid) return;
-        const newCategory = this.newCategoryFormGroup.get('newCategoryFormControl')?.value; 
+    public addCategory(): void {
+        this.newCategoryErrorMessages = []; // clear error messages
+        if (!this.newCategoryFG.valid) {
+
+            const categoryInpErrors = this.newCategoryFG.get(this.newCategoryFCName)?.errors;
+            for (const errorKey in categoryInpErrors) {
+                    const errorMessage = this.getErrorMessage(errorKey);
+                    this.newCategoryErrorMessages.push(errorMessage);
+            }
+            this.purgeErrorMessagesAfter(3000);
+            return;
+        }
+
+        const newCategory = this.newCategoryFG.get(this.newCategoryFCName)?.value; 
         const category = new CategoryDTO(newCategory); 
         this.quizService.categoryAdded$tream.next(category);
-        this.purgeInput(this.cinp);
-    }
-
-    
-    purgeInput(inp:ElementRef) {
-        inp.nativeElement.value = '';
+        this.newCategoryFG.reset();
     }
 
     getErrorMessage(errorName: string): string {
@@ -76,7 +76,14 @@ export class ManageQuizzesPageComponent implements OnInit {
                 return '';
         }
     }
+
+    purgeErrorMessagesAfter(delay: number) {
+        setTimeout(() => {
+            this.newCategoryErrorMessages = [];
+        }, delay);
+    }
 }
+
 
 function containsUppercaseValidator(): ValidatorFn {
     return function (control: AbstractControl): { [key: string]: any } | null {
