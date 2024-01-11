@@ -11,7 +11,6 @@ import { fadeAnimation, scaleAnimation } from 'app/app.animations';
 import { CommonModule } from '@angular/common';
 import { TooltipComponent } from "../../shared-components/tooltip/tooltip.component";
 
-
 @Component({
     selector: 'app-manage-quizzes-page',
     standalone: true,
@@ -33,7 +32,7 @@ export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
     constructor(public quizService: QuizService, private formBuilder: FormBuilder) {
         this.newCategoryFG = this.formBuilder.group({
-            [this.newCategoryFCName]: ['', [Validators.required, containsUppercaseValidator()]] //equivalent  to 'newCategoryFC': ['', [Validators.required, containsUppercaseValidator()]]
+            [this.newCategoryFCName]: ['', [Validators.required, containsUppercaseVal()]] //equivalent  to 'newCategoryFC': ['', [Validators.required, containsUppercaseValidator()]]
         });
     }
 
@@ -47,47 +46,48 @@ export class ManageQuizzesPageComponent implements OnInit {
     // methods
     //===========================================================================
     public addCategory(): void {
-        this.newCategoryErrorMessages = []; // clear error messages
+        // act on val errors
+        this.purgeErrorMessages();
         if (!this.newCategoryFG.valid) {
-
             const categoryInpErrors = this.newCategoryFG.get(this.newCategoryFCName)?.errors;
             for (const errorKey in categoryInpErrors) {
-                    const errorMessage = this.getErrorMessage(errorKey);
-                    this.newCategoryErrorMessages.push(errorMessage);
+                this.newCategoryErrorMessages.push(getErrorMessage(errorKey));
             }
             this.purgeErrorMessagesAfter(3000);
             return;
         }
-
+        // create new category 
         const newCategory = this.newCategoryFG.get(this.newCategoryFCName)?.value; 
         const category = new CategoryDTO(newCategory); 
         this.quizService.categoryAdded$tream.next(category);
         this.newCategoryFG.reset();
     }
-
-    getErrorMessage(errorName: string): string {
-        switch (errorName) {
-            case 'required':
-                return 'This field is required.';
-            case 'containsUppercase':
-                return 'The category must contain at least one uppercase letter.';
-            // Add more error cases as needed...
-            default:
-                return '';
-        }
+    
+    private purgeErrorMessages() {
+        this.newCategoryErrorMessages = []; // clear error messages
     }
-
-    purgeErrorMessagesAfter(delay: number) {
+    
+    private purgeErrorMessagesAfter(delay: number) {
         setTimeout(() => {
-            this.newCategoryErrorMessages = [];
+            this.purgeErrorMessages();
         }, delay);
     }
 }
 
 
-function containsUppercaseValidator(): ValidatorFn {
+
+function getErrorMessage(errorName: string): string {
+    const errorMessages = {
+        [Validators.required.name]:     'This field is required.',
+        [containsUppercaseVal.name]:    'The category must contain at least one uppercase letter.',
+        // Add more error cases as needed...
+    };
+   return errorMessages[errorName] || '';
+}
+
+function containsUppercaseVal(): ValidatorFn {
     return function (control: AbstractControl): { [key: string]: any } | null {
         const containsUppercase = /[A-Z]/.test(control.value);
-        return containsUppercase ? null : { containsUppercase: true };
+        return containsUppercase ? null : { [containsUppercaseVal.name]: true };
     };
 }
