@@ -1,4 +1,4 @@
-import { Injectable, Signal, WritableSignal, computed, signal } from "@angular/core";
+import { Injectable, Signal, WritableSignal, computed, effect, signal } from "@angular/core";
 import { QuizDTO } from "./model/QuizDTO";
 import { Filter, FilterKind } from "./model/Filter";
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -95,19 +95,19 @@ class QuizService {
         this.quizAnimChangedSubs();
 
         //----------------------------
-        // // 5.reactions
-        // effect(() => {
-        //     console.log("allquizzes: ", this.quizzesStateSig().quizzes)
-        // });
-        // effect(() => {
-        //     console.log("filteredquizzes: ", this.filteredQuizzesCsig())
-        // });
-        // effect(() => {
-        //     console.log("filteredcatgegories: ", this.filteredCategoriesCsig())
-        // });
-        // effect(() => {
-        //     console.log("filter: ", this.quizzesStateSig().filters)
-        // });
+        // 5.reactions
+        effect(() => {
+            console.log("allquizzes: ", this.quizzesStateSig().quizzes)
+        });
+        effect(() => {
+            console.log("filteredquizzes: ", this.filteredQuizzesCsig())
+        });
+        effect(() => {
+            console.log("filteredcatgegories: ", this.filteredCategoriesCsig())
+        });
+        effect(() => {
+            console.log("filter: ", this.quizzesStateSig().filters)
+        });
     }
 
 
