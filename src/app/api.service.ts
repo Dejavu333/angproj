@@ -14,8 +14,8 @@ export class ApiService {
     public readQuizzesInDS(): Observable<QuizDTO[]> {
         //fake implementation
         return of([
-            new QuizDTO("some category", 0, "test1", [new QuizQuestionDTO("test?", ["test1", "test2", "test3", "test4"], [0, 1])], false, 600),
-            new QuizDTO("some category", 1, "test2", [new QuizQuestionDTO("test?", ["test1", "test2", "test3"], [0])], true, 700),
+            new QuizDTO("some category",  0, "test1", [new QuizQuestionDTO("test?", ["test1", "test2", "test3", "test4"], [0, 1])], false, 600),
+            new QuizDTO("some category",  1, "test2", [new QuizQuestionDTO("test?", ["test1", "test2", "test3"], [0])], true, 700),
             new QuizDTO("other category", 2, "test3", [new QuizQuestionDTO("test?", ["test1", "test2"], [1])], false, 800),
         ]);
     }
