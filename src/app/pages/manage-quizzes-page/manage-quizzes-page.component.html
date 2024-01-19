@@ -3,10 +3,9 @@
 <router-outlet/>
 
 <div class="manage-container">
-    <form [formGroup]="newCategoryFG">
-        <input [formControlName]=this.newCategoryFCName type="text" maxlength="12" id="categoryInp"  placeholder="new category..." (keyup.enter)=addCategory() autocomplete="off"/>
-
-        <app-tooltip [show]="errorMessages['newCategoryFC'].length > 0" [content]="errorMessages['newCategoryFC'].join(' ')"/>
+    <form #f="ngForm" [formGroup]="newCategoryFG" >
+        <input [formControl]=this.newCategoryFC type="text" maxlength="12" id="categoryInp"  placeholder="new category..." (keyup.enter)=addCategory() autocomplete="off"/>
+        <app-print-error [control]="newCategoryFC"/>
     </form>
     <button id="add-category-button" class="button addcategory-button" (click)=addCategory()>add category</button>
 

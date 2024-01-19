@@ -4,12 +4,13 @@ import { QuizEditorComponent } from "./quiz-editor/quiz-editor.component";
 import { QuizInstanceEditorComponent } from "./quiz-instance-editor/quiz-instance-editor.component";
 import { QuizService } from './quiz.service';
 import { RouterOutlet } from "@angular/router";
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from "@angular/forms";
 import { CategoryDTO } from "./model/CategoryDTO";
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { fadeAnimation, scaleAnimation } from 'app/app.animations';
 import { CommonModule } from '@angular/common';
 import { TooltipComponent } from "../../shared-components/tooltip/tooltip.component";
+import { PrintErrorComponent } from "../../shared-components/print-error/print-error.component";
 
 @Component({
     selector: 'app-manage-quizzes-page',
@@ -17,16 +18,16 @@ import { TooltipComponent } from "../../shared-components/tooltip/tooltip.compon
     templateUrl: './manage-quizzes-page.component.html',
     styleUrl: './manage-quizzes-page.component.css',
     animations: [scaleAnimation, fadeAnimation],
-    imports: [CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent, RouterOutlet, ReactiveFormsModule, DragDropModule, CommonModule, TooltipComponent]
+    imports: [CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent, RouterOutlet, ReactiveFormsModule, DragDropModule, CommonModule, TooltipComponent, PrintErrorComponent, FormsModule]
 })
 export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
     // properties, fields
     //===========================================================================
     newCategoryFG: FormGroup<any>;
-    newCategoryFCName:string = 'newCategoryFC';
-    newCategoryErrorMessages:string[] = []; //todo remove
-    errorMessages: { [key: string]: string[] } = {}; //todo preferred to be in a seperate service
+    newCategoryFCName:string = 'newCategoryFC'; //todo remove
+    newCategoryFC:FormControl = new FormControl('', [Validators.required, containsUppercaseVal()]);
+    errorMessages: { [key: string]: string[] } = {}; //todo preferred to be in a seperate service //remove
 
     //===========================================================================
     // constructors
@@ -37,7 +38,7 @@ export class ManageQuizzesPageComponent implements OnInit {
         });
     }
 
-    //=======================================================================A====
+    //===========================================================================
     // lifecycle hooks
     //===========================================================================
     ngOnInit(): void {
@@ -62,10 +63,6 @@ export class ManageQuizzesPageComponent implements OnInit {
             return false;
         }
         return true;
-    }
-
-    public validFC() { //todo implement
-
     }
 
     public addCategory(): void {
