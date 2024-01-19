@@ -25,7 +25,8 @@ export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
     newCategoryFG: FormGroup<any>;
     newCategoryFCName:string = 'newCategoryFC';
-    newCategoryErrorMessages:string[] = [];
+    newCategoryErrorMessages:string[] = []; //todo remove
+    errorMessages: { [key: string]: string[] } = {}; //todo preferred to be in a seperate service
 
     //===========================================================================
     // constructors
@@ -45,29 +46,45 @@ export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
     // methods
     //===========================================================================
-    public addCategory(): void {
-        // act on val errors
-        this.purgeErrorMessages();
-        if (!this.newCategoryFG.valid) {
-            const newCategoryFCErrors = this.newCategoryFG.get(this.newCategoryFCName)?.errors;
-            for (const errorKey in newCategoryFCErrors) this.newCategoryErrorMessages.push(getErrorMessage(errorKey));
-            this.purgeErrorMessagesAfter(3000);
-            return;
+    public validFG(FG:FormGroup):boolean
+    {
+        // act on validation errors
+        if (!FG.valid) {
+            for (const FCName in FG.controls) {
+                this.purgeErrorMessages(FCName);
+                const FCErrors = FG.get(FCName)?.errors;
+                for (const errorKey in FCErrors) {
+                    if(this.errorMessages[FCName] == undefined) this.errorMessages[FCName] = [];
+                    this.errorMessages[FCName].push(getErrorMessage(errorKey));
+                }
+                this.purgeErrorMessagesAfter(FCName,3000);
+            }
+            return false;
         }
+        return true;
+    }
+
+    public validFC() { //todo implement
+
+    }
+
+    public addCategory(): void {
+        if(!this.validFG(this.newCategoryFG)) return;
         // create new category 
         const newCategory = this.newCategoryFG.get(this.newCategoryFCName)?.value; 
         const category = new CategoryDTO(newCategory); 
         this.quizService.categoryAdded$tream.next(category);
-        this.newCategoryFG.reset();
+        this.newCategoryFG.reset();             
     }
     
-    private purgeErrorMessages() {
-        this.newCategoryErrorMessages = []; // clear error messages
+    private purgeErrorMessages(controlName: string) {
+        // Clear error messages for a specific control
+        this.errorMessages[controlName] = [];
     }
     
-    private purgeErrorMessagesAfter(delay: number) {
+    private purgeErrorMessagesAfter(controlName: string, delay: number) {
         setTimeout(() => {
-            this.purgeErrorMessages();
+            this.purgeErrorMessages(controlName);
         }, delay);
     }
 }
@@ -78,7 +95,7 @@ function getErrorMessage(errorName: string): string {
     const errorMessages = {
         [Validators.required.name]:     'This field is required.',
         [containsUppercaseVal.name]:    'The category must contain at least one uppercase letter.',
-        // Add more error cases as needed...
+        // add more error cases as needed...
     };
    return errorMessages[errorName] || '';
 }

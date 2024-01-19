@@ -1,12 +1,12 @@
 <h1>quizzes</h1>
 
-<router-outlet></router-outlet>
+<router-outlet/>
 
 <div class="manage-container">
     <form [formGroup]="newCategoryFG">
         <input [formControlName]=this.newCategoryFCName type="text" maxlength="12" id="categoryInp"  placeholder="new category..." (keyup.enter)=addCategory() autocomplete="off"/>
 
-        <app-tooltip [show]="newCategoryErrorMessages.length > 0" [content]="newCategoryErrorMessages.join(' ')"></app-tooltip>
+        <app-tooltip [show]="errorMessages['newCategoryFC'].length > 0" [content]="errorMessages['newCategoryFC'].join(' ')"/>
     </form>
     <button id="add-category-button" class="button addcategory-button" (click)=addCategory()>add category</button>
 
