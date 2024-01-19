@@ -107,13 +107,13 @@ button:hover {
 /* .parent {
   overflow: auto;
   transform: scaleX(-1);
-}
+} */
 
-.sleeve {
+.slave {
   transform: scaleX(-1);
 }
 
-.bold {
+/* .bold {
   font-weight: var(--bold);
 } */
 

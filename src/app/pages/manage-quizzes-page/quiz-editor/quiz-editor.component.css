@@ -1,0 +1,116 @@
+span {
+    margin-left: 0.5rem;
+    opacity: 0.25;
+}
+
+.popup-content {
+    position: fixed;
+    overflow: hidden;
+    min-width: 70rem;
+    min-height: 45rem;
+    background-color: var(--light-color);
+    padding: 0px;
+    border-radius: 2rem;
+}
+
+.quiz-container {
+    min-height: 40rem;
+    display: flex;
+    justify-content: space-between;
+    position: relative; 
+}
+
+#questionsEditor {
+    width: 18rem;
+    padding: 20px;
+    left: 0; 
+    z-index: 2;
+}
+
+#optionsEditor {
+    width: 45rem;
+    min-height: 50rem;
+    position: absolute; 
+    right: 3rem; 
+    background-color: white; 
+    padding: 20px;
+    z-index: 10;
+}
+
+#optionsEditor:after {
+    content: "";
+    position: absolute;
+    right: -7.5rem;
+    top: -10rem;
+    height: 70rem;
+    width: 58rem;
+    background: var(--primary-color);
+    transform: rotate(7deg);
+    box-shadow: 0 0 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
+    z-index: -1;
+}
+
+#optionsEditor:before {
+    content: "";
+    position: absolute;
+    right: 10rem;
+    top: 31.1rem;
+    height: 70rem;
+    width: 58rem;
+    background: var(--secondary-color);
+    transform: rotate(87deg);
+    box-shadow: 0 0 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
+    z-index: -1;
+}
+
+.button-container {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    bottom: -5rem;
+    margin: 1rem;
+    z-index:10;
+
+}
+
+button {
+    width: 5.5rem;
+    height: 3rem;
+    border-radius: var(--primary-border-radius);
+    margin: 0.25rem;
+}
+.button-container>button {
+    background-color: var(--secondary-color);
+}
+.button-container>button:hover {
+    background-color: var(--secondary-color-highlight);
+}
+#questionsEditor>button {
+    background-color: var(--light-color);
+}
+#questionsEditor>button:hover {
+    background-color: var(--light-color-highlight);
+}
+
+.optionDiv {
+    display: flex;
+    align-items: center;
+}
+
+ul {
+    height: 25rem; 
+    overflow-y: auto; /* Enable vertical scrolling when content exceeds the container */
+    /* box-shadow: var(--shadow-primary); */
+}
+
+textarea {
+    width: 45rem;
+    height: 10rem;
+    border-radius: var(--primary-border-radius);
+    padding: 1rem;
+}
+
+/* .master div is for left side scrollbar */
+.master {
+    min-height: 20rem;
+}
