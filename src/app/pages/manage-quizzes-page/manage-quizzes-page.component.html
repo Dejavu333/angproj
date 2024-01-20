@@ -3,14 +3,14 @@
 <router-outlet/>
 
 <div class="manage-container">
-    <form #f="ngForm" [formGroup]="newCategoryFG" >
-        <input [formControl]=this.newCategoryFC type="text" maxlength="12" id="categoryInp"  placeholder="new category..." (keyup.enter)=addCategory() autocomplete="off"/>
-        <app-print-error [control]="newCategoryFC"/>
+    <form [formGroup]="newCategoryFG"  (ngSubmit)="addCategory()">
+        <input [formControlName]="newCategoryFCName" type="text" maxlength="12" (keyup.enter)=addCategory() placeholder="new category..."  autocomplete="off"/>
+        <button type="submit" class="button addcategory-button" (click)=addCategory()>add category</button>
+        <app-print-error [control]="newCategoryFG.get(newCategoryFCName)!"/>
     </form>
-    <button id="add-category-button" class="button addcategory-button" (click)=addCategory()>add category</button>
 
-    <input type="text" maxlength="12" id="searchCategoryInp" [formControl]="quizService.categorySearchControl" placeholder="search category..." autocomplete="off"/>
-    <input type="text" maxlength="12" id="searchQuizInp" [formControl]="quizService.quizSearchControl" placeholder="search quiz..." autocomplete="off"/>
+    <input type="text" maxlength="12" [formControl]="quizService.categorySearchControl" placeholder="search category..." autocomplete="off"/>
+    <input type="text" maxlength="12" [formControl]="quizService.quizSearchControl" placeholder="search quiz..." autocomplete="off"/>
 </div>
 
 <div class="category-columns-container">

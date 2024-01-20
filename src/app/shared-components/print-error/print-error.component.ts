@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { debounceTime, startWith, switchMap, timer } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AbstractControl, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { debounceTime, switchMap, tap, timer } from 'rxjs';
 
 @Component({
   selector: 'app-print-error',
@@ -13,15 +12,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class PrintErrorComponent implements OnInit {
     @Input("control")
-    control: FormControl | undefined;
+    control: FormControl | AbstractControl | undefined;
 
     displayErrors: boolean = false;
 
     @Input("visible-for")
     visibleFor: number = 3000; // Set the visibility duration to 3000ms
-
-    @Input("show-on")
-    showOn: 'submit' | 'valueChange' = 'valueChange'; // New input to control when to show errors
 
     @Input("form")
     form: NgForm | FormGroupDirective | undefined; // New input for the form
@@ -29,22 +25,16 @@ export class PrintErrorComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {
-        if (this.control && this.showOn === 'valueChange') {
+        if (this.control) {
             this.control.valueChanges.pipe(
-                debounceTime(300), // adjust this to the desired debounce time
-                startWith(''), // to immediately start the timer
+                debounceTime(300),
+                tap(() => {
+                    if(this.control?.valid) return;
+                    this.displayErrors = true; // Set displayErrors to true after debounceTime
+                }),
                 switchMap(() => timer(this.visibleFor)),
-                takeUntilDestroyed() // Automatically unsubscribe when the component is destroyed
             ).subscribe(() => {
-                this.displayErrors = false; // Always set displayErrors to false after the timer
-            });
-        }
-
-        if (this.form && this.showOn === 'submit') {
-            this.form.ngSubmit.pipe(
-                takeUntilDestroyed() // Automatically unsubscribe when the component is destroyed
-            ).subscribe(() => {
-                this.displayErrors = false; // Always set displayErrors to false on form submit
+                this.displayErrors = false; // Set displayErrors to false after visibleFor milliseconds
             });
         }
     }
