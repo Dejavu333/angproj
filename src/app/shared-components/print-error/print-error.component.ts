@@ -37,5 +37,15 @@ export class PrintErrorComponent implements OnInit {
                 this.displayErrors = false; // Set displayErrors to false after visibleFor milliseconds
             });
         }
+
+        if (this.form) {
+            this.form?.ngSubmit.pipe(
+                tap(() => { this.displayErrors = true }),
+                switchMap(() => timer(this.visibleFor)),
+            ).subscribe(() => {
+                console.log(this.form?.errors)
+                this.displayErrors = false; // Set displayErrors to false after visibleFor milliseconds
+            });
+        }
     }
 }

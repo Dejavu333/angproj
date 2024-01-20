@@ -11,3 +11,16 @@
         <div *ngIf="control.errors.confirmPassword"><small>{{control.errors.confirmPassword}}</small></div> -->
     </div>
 }
+@if (form && form.errors && form.submitted
+&& displayErrors)
+{
+    <div class="text-danger">
+        <div *ngIf="form.errors['d']"><small>This d is d.</small></div>
+        <!-- <div *ngIf="control.errors.unique"><small>{{control.errors.unique}}</small></div>
+        <div *ngIf="control.errors.lessThen"><small>{{control.errors.lessThen}}</small></div>
+        <div *ngIf="control.errors.greaterThan"><small>{{control.errors.greaterThan}}</small></div>
+        <div *ngIf="control.errors.email"><small>{{control.errors.email}}</small></div>
+        <div *ngIf="control.errors.mobile"><small>{{control.errors.mobile}}</small></div>
+        <div *ngIf="control.errors.confirmPassword"><small>{{control.errors.confirmPassword}}</small></div> -->
+    </div>
+}

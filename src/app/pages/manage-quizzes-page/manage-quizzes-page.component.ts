@@ -4,7 +4,7 @@ import { QuizEditorComponent } from "./quiz-editor/quiz-editor.component";
 import { QuizInstanceEditorComponent } from "./quiz-instance-editor/quiz-instance-editor.component";
 import { QuizService } from './quiz.service';
 import { RouterOutlet } from "@angular/router";
-import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { CategoryDTO } from "./model/CategoryDTO";
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { fadeAnimation, scaleAnimation } from 'app/app.animations';
@@ -25,9 +25,8 @@ export class ManageQuizzesPageComponent implements OnInit {
     // properties, fields
     //===========================================================================
     newCategoryFG: FormGroup<any>;
-    newCategoryFCName:string = 'newCategoryFC'; //todo remove
-    newCategoryFC:FormControl = new FormControl('', [Validators.required, containsUppercaseVal()]);
-    errorMessages: { [key: string]: string[] } = {}; //todo preferred to be in a seperate service //remove
+    newCategoryFCName:string = 'newCategoryFC';
+    // newCategoryFC:FormControl = new FormControl('', [Validators.required, containsUppercaseVal()]);
 
     //===========================================================================
     // constructors
@@ -35,7 +34,8 @@ export class ManageQuizzesPageComponent implements OnInit {
     constructor(public quizService: QuizService, private formBuilder: FormBuilder) {
         this.newCategoryFG = this.formBuilder.group({
             [this.newCategoryFCName]: ['', [Validators.required, containsUppercaseVal()]] //equivalent  to 'newCategoryFC': ['', [Validators.required, containsUppercaseValidator()]]
-        });
+        },  
+        { validators: c });
     }
 
     //===========================================================================
@@ -47,54 +47,15 @@ export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
     // methods
     //===========================================================================
-    public validFG(FG:FormGroup):boolean
-    {
-        // act on validation errors
-        if (!FG.valid) {
-            for (const FCName in FG.controls) {
-                this.purgeErrorMessages(FCName);
-                const FCErrors = FG.get(FCName)?.errors;
-                for (const errorKey in FCErrors) {
-                    if(this.errorMessages[FCName] == undefined) this.errorMessages[FCName] = [];
-                    this.errorMessages[FCName].push(getErrorMessage(errorKey));
-                }
-                this.purgeErrorMessagesAfter(FCName,3000);
-            }
-            return false;
-        }
-        return true;
-    }
 
     public addCategory(): void {
-        if(!this.validFG(this.newCategoryFG)) return;
+        if(!this.newCategoryFG.valid) return;
         // create new category 
         const newCategory = this.newCategoryFG.get(this.newCategoryFCName)?.value; 
         const category = new CategoryDTO(newCategory); 
         this.quizService.categoryAdded$tream.next(category);
         this.newCategoryFG.reset();             
     }
-    
-    private purgeErrorMessages(controlName: string) {
-        // Clear error messages for a specific control
-        this.errorMessages[controlName] = [];
-    }
-    
-    private purgeErrorMessagesAfter(controlName: string, delay: number) {
-        setTimeout(() => {
-            this.purgeErrorMessages(controlName);
-        }, delay);
-    }
-}
-
-
-
-function getErrorMessage(errorName: string): string {
-    const errorMessages = {
-        [Validators.required.name]:     'This field is required.',
-        [containsUppercaseVal.name]:    'The category must contain at least one uppercase letter.',
-        // add more error cases as needed...
-    };
-   return errorMessages[errorName] || '';
 }
 
 function containsUppercaseVal(): ValidatorFn {
@@ -102,4 +63,12 @@ function containsUppercaseVal(): ValidatorFn {
         const containsUppercase = /[A-Z]/.test(control.value);
         return containsUppercase ? null : { [containsUppercaseVal.name]: true };
     };
+}
+
+
+function c(fg:FormGroup): ValidationErrors | null {
+
+    return {"d":true};
+
+
 }

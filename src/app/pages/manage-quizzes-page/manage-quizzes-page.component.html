@@ -3,10 +3,10 @@
 <router-outlet/>
 
 <div class="manage-container">
-    <form [formGroup]="newCategoryFG"  (ngSubmit)="addCategory()">
+    <form #f="ngForm" [formGroup]="newCategoryFG"  (ngSubmit)="addCategory()">
         <input [formControlName]="newCategoryFCName" type="text" maxlength="12" (keyup.enter)=addCategory() placeholder="new category..."  autocomplete="off"/>
         <button type="submit" class="button addcategory-button" (click)=addCategory()>add category</button>
-        <app-print-error [control]="newCategoryFG.get(newCategoryFCName)!"/>
+        <app-print-error [form]="f" [control]="newCategoryFG.get(newCategoryFCName)!"/>
     </form>
 
     <input type="text" maxlength="12" [formControl]="quizService.categorySearchControl" placeholder="search category..." autocomplete="off"/>
