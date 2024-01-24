@@ -1,8 +1,9 @@
 @if (control && control.errors && (control.dirty || control.touched) 
-&& displayErrors)
+&& control.value!=="")
 {
     <div class="text-danger">
         <div *ngIf="control.errors['required']"><small>This field is required</small></div>
+        <div *ngIf="control.errors['containsUppercaseVal']"><small>This field must contain uppercase</small></div>
         <!-- <div *ngIf="control.errors.unique"><small>{{control.errors.unique}}</small></div>
         <div *ngIf="control.errors.lessThen"><small>{{control.errors.lessThen}}</small></div>
         <div *ngIf="control.errors.greaterThan"><small>{{control.errors.greaterThan}}</small></div>
