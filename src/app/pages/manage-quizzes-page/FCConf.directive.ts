@@ -1,9 +1,13 @@
 import { Directive, ElementRef,  Input, Optional, Renderer2, Self, } from "@angular/core";
-import { FC } from "./manage-quizzes-page.component";
+import { FC } from "./FC";
 import { NgControl } from "@angular/forms";
 
-
 export type TriggerEvents = ("blur" | "submit" | "click" | "dblclick" | "focus" | "input" | "hover")[];
+export type FCConf = {
+    triggers?:TriggerEvents,
+    cascadeValidityCheck?:boolean,
+    cascadeValueChange?:boolean,
+}
 
 @Directive({
     standalone: true,
@@ -11,7 +15,7 @@ export type TriggerEvents = ("blur" | "submit" | "click" | "dblclick" | "focus" 
 })
 export class FCConfDirective {
     @Input()
-    FCConf: TriggerEvents = [];
+    FCConf: FCConf = {triggers:["blur"], cascadeValidityCheck:true, cascadeValueChange:false}; //cascadeValueChange:true triggers validityChange too in the parent
     nonOrdinaryTriggerEvents = ["submit"]
 
     constructor(private el: ElementRef, @Optional() @Self() private control: NgControl, private renderer: Renderer2) {
@@ -20,7 +24,7 @@ export class FCConfDirective {
     }
 
     ngAfterViewInit() {
-        this.FCConf.forEach(event => {
+        this.FCConf.triggers?.forEach(event => {
             if(!this.nonOrdinaryTriggerEvents.includes(event)) {
                 this.renderer.listen(this.el.nativeElement, event, () => this.onEvent(event));
             }
@@ -30,20 +34,10 @@ export class FCConfDirective {
         });
     }
 
-    // @HostListener('click')
-    // click() {
-    //     if (this.control?.control instanceof FC) {
-    //         console.log(this.FCConf)
-    //         this.control.control.manualUpdate = false;
-    //         this.control.control?.updateValueAndValidity();
-    //         this.control.control.manualUpdate = true;
-    //     }
-    // }
-
     private onEvent(event: string) {
         if (this.control?.control instanceof FC) {
           console.log(`Event: ${event}`);
-          this.control.control.forceUpdateValueAndValidity();
+          this.control.control.forceUpdateValueAndValidity({ onlySelf: !this.FCConf.cascadeValidityCheck, emitEvent: this.FCConf.cascadeValueChange });
         }
       }
 }
