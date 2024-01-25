@@ -13,9 +13,8 @@ import { debounceTime, switchMap, tap, timer } from 'rxjs';
 export class PrintErrorComponent implements OnInit {
     @Input("control")
     control: FormControl | AbstractControl | undefined;
-
     displayErrors: boolean = false;
-
+    
     @Input("visible-for")
     visibleFor: number = 3000; // Set the visibility duration to 3000ms
 
@@ -23,7 +22,7 @@ export class PrintErrorComponent implements OnInit {
     form: NgForm | FormGroupDirective | undefined; // New input for the form
 
     constructor() {}
-
+    
     ngOnInit(): void {
         if (this.control) {
             this.control.valueChanges.pipe(
@@ -31,6 +30,7 @@ export class PrintErrorComponent implements OnInit {
                 tap(() => {
                     if(this.control?.valid) return;
                     this.displayErrors = true; // Set displayErrors to true after debounceTime
+                    console.log("fddssadknmfaesfesdnj")
                 }),
                 switchMap(() => timer(this.visibleFor)),
             ).subscribe(() => {

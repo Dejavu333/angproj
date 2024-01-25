@@ -4,7 +4,9 @@
 
 <div class="manage-container">
     <form #f="ngForm" [formGroup]="newCategoryFG"  (ngSubmit)="addCategory()">
-        <input [formControlName]="newCategoryFCName" type="text" maxlength="12" (keyup.enter)=addCategory() placeholder="new category..."  autocomplete="off"/>
+
+        <input [FCConf]="['dblclick','blur','submit']" [formControlName]="newCategoryFCName" type="text" maxlength="12" (keyup.enter)=addCategory() placeholder="new category..."  autocomplete="off"/>
+      
         <button type="submit" class="button addcategory-button" (click)=addCategory()>add category</button>
         <app-print-error [form]="f" [control]="newCategoryFG.get(newCategoryFCName)!"/>
     </form>
