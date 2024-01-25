@@ -27,6 +27,10 @@
     box-shadow: var(--primary-shadow);
 }
 
-.addcategory-button:hover {
+.addcategory-button:hover:enabled {
     background-color: var(--primary-color-hightlight);
+}
+
+.addcategory-button:disabled {
+    opacity: 0.5;
 }
