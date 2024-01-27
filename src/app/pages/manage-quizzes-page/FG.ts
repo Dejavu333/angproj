@@ -4,7 +4,7 @@ import { FC, FCConf } from "./FC";
 export class FG extends FormGroup {
     public FCConf: FCConf;
 
-    private manualUpdate: boolean = false;
+    private manualUpdate: boolean = false; //todo rethink
 
     constructor(controls?: any, FCConf?: FCConf) {
         const defaultFCConf: FCConf = {

@@ -38,7 +38,7 @@ export class ManageQuizzesPageComponent implements OnInit {
     constructor(public quizService: QuizService) {
         
         const newCategoryFC = new FC(
-            "startingvalue", 
+            "somestartingvalue", 
             {   triggers: ["dblclick", "blur"], 
                 cascadeValueChange: true , 
                 validators: [Validators.required, containsUppercaseVal()] 

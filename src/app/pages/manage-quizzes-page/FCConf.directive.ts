@@ -14,17 +14,20 @@ export class FCConfDirective {
 
     constructor(private el: ElementRef, private renderer: Renderer2) {
     }
-    
+
     ngAfterViewInit() {
-        if (!this.FC) console.error("You didn't provide an FC instance to the directive... Add [FC]=yourFCInstance")
-        
+        if (!this.FC) { console.error("You didn't provide an FC instance to the directive... Add [FC]=yourFCInstance"); return; }
+
         this.renderer.listen(this.el.nativeElement, "input", (event) => {
             console.log(event)
             let v = this.el.nativeElement.value;
             this.FC!.setValue(v);
         });
 
-        this.FC!.FCConf.triggers?.forEach(event => {
+        this.el.nativeElement.value = this.FC?.value;
+        this.FC?.reset$tream.subscribe(()=>this.el.nativeElement.value=this.FC?.value) // into two-way binding
+
+        this.FC.FCConf.triggers?.forEach(event => {
             if (!this.nonOrdinaryTriggerEvents.includes(event)) {
                 this.renderer.listen(this.el.nativeElement, event, () => this.onEvent(event));
             }
