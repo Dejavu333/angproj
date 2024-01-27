@@ -5,10 +5,10 @@
 <div class="manage-container">
     <form #f="ngForm" [formGroup]="newCategoryFG"  (ngSubmit)="addCategory()">
 
-        <input [FCConf]="{triggers:['dblclick','blur','submit'],cascadeValueChange:true}" [formControlName]="newCategoryFCName" type="text" maxlength="12" (keyup.enter)=addCategory() placeholder="new category..."  autocomplete="off"/>
+        <input [FC]="testfc"  type="text" maxlength="12" (keyup.enter)=addCategory() placeholder="new category..."  autocomplete="off"/>
       
         <button type="submit" class="button addcategory-button" (click)=addCategory()>add category</button>
-        <app-print-error [form]="f" [control]="newCategoryFG.get(newCategoryFCName)!"/>
+        <app-print-error [form]="f" [control]="testfc"/>
     </form>
 
     <input type="text" maxlength="12" [formControl]="quizService.categorySearchControl" placeholder="search category..." autocomplete="off"/>

@@ -27,18 +27,21 @@ export class ManageQuizzesPageComponent implements OnInit {
     // properties, fields
     //===========================================================================
     newCategoryFG: FormGroup<any>;
-    newCategoryFCName:string = 'newCategoryFC';
+    newCategoryFCName: string = 'newCategoryFC';
     // newCategoryFC:FormControl = new FormControl('', [Validators.required, containsUppercaseVal()]);
+    testfc: FC;
 
     //===========================================================================
     // constructors
     //===========================================================================
     constructor(public quizService: QuizService, private formBuilder: FormBuilder) {
         this.newCategoryFG = this.formBuilder.group(
-        {
-            [this.newCategoryFCName]: new FC('', {validators: [Validators.required, containsUppercaseVal()]}) //equivalent  to 'newCategoryFC': ['', [Validators.required, containsUppercaseValidator()]]
-        },  
-        { validators: dummyValidator});
+            {
+                [this.newCategoryFCName]: new FC('', { triggers: ["dblclick", "blur"], cascadeValueChange: true }, { validators: [Validators.required, containsUppercaseVal()] })
+            },
+            { validators: dummyValidator });
+
+        this.testfc = this.newCategoryFG.get(this.newCategoryFCName)! as FC;
     }
 
     //===========================================================================
@@ -52,12 +55,12 @@ export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
 
     public addCategory(): void {
-        if(!this.newCategoryFG.valid) return;
+        if (!this.newCategoryFG.valid) return;
         // create new category 
-        const newCategory = this.newCategoryFG.get(this.newCategoryFCName)?.value; 
-        const category = new CategoryDTO(newCategory); 
+        const newCategory = this.newCategoryFG.get(this.newCategoryFCName)?.value;
+        const category = new CategoryDTO(newCategory);
         this.quizService.categoryAdded$tream.next(category);
-        this.newCategoryFG.reset();             
+        this.newCategoryFG.reset();
     }
 }
 
@@ -69,7 +72,7 @@ export function containsUppercaseVal(): ValidatorFn {
     };
 }
 
-function dummyValidator(fg:FormGroup): ValidationErrors | null {
+function dummyValidator(fg: FormGroup): ValidationErrors | null {
     console.log("dummyvalidatortriggered")
     // return {"d":true};
     return null;
