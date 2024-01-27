@@ -1,20 +1,28 @@
-import { AbstractControlOptions, AsyncValidatorFn, FormControl, ValidatorFn } from "@angular/forms";
+import { AsyncValidatorFn, FormControl, ValidatorFn } from "@angular/forms";
 
 export type TriggerEvents = ("blur" | "submit" | "click" | "dblclick" | "focus" | "input" | "hover")[];
 export type FCConf = {
     triggers?: TriggerEvents,
     cascadeValidityCheck?: boolean,
     cascadeValueChange?: boolean,
+    validators?: ValidatorFn | ValidatorFn[],
+    asyncValidators?: AsyncValidatorFn | AsyncValidatorFn[],
 }
 
 export class FC extends FormControl {
-    public FCConf: FCConf = { triggers: ["blur"], cascadeValidityCheck: true, cascadeValueChange: false };
-
+    public FCConf: FCConf;
     private manualUpdate: boolean = true;
 
-    constructor(formState?: any, FCCOnf?: FCConf, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null, asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null) {
-        super(formState, validatorOrOpts, asyncValidator);
-        if(FCCOnf) this.FCConf = FCCOnf;
+    constructor(formState?: any, FCConf?:FCConf) {
+        const defaultFCConf: FCConf = {
+            triggers: ["blur"],
+            cascadeValidityCheck: true,
+            cascadeValueChange: false,
+        }
+        const mergedFCConf = {...defaultFCConf, ...FCConf};
+
+        super(formState, mergedFCConf.validators, mergedFCConf.asyncValidators);
+        this.FCConf = mergedFCConf;
     }
 
     // prevents original behaviour

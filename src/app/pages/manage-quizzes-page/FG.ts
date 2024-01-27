@@ -1,8 +1,22 @@
 import { FormGroup } from "@angular/forms";
+import { FC, FCConf } from "./FC";
 
 export class FG extends FormGroup {
-    
-    public manualUpdate: boolean = true;
+    public FCConf: FCConf;
+
+    private manualUpdate: boolean = false;
+
+    constructor(controls?: any, FCConf?: FCConf) {
+        const defaultFCConf: FCConf = {
+            triggers: ["blur"],
+            cascadeValidityCheck: true,
+            cascadeValueChange: false,
+        }
+        const mergedFCConf = {...defaultFCConf, ...FCConf};
+
+        super(controls, mergedFCConf.validators, mergedFCConf.asyncValidators);
+        this.FCConf = mergedFCConf;
+    }
 
     // prevents original behaviour
     override updateValueAndValidity(opts: { onlySelf?: boolean; emitEvent?: boolean } = {}): void {
@@ -13,5 +27,9 @@ export class FG extends FormGroup {
 
     forceUpdateValueAndValidity(opts: { onlySelf?: boolean; emitEvent?: boolean } = {}): void {
         super.updateValueAndValidity(opts);
+    }
+
+    getFC(FCName: string): FC {
+        return this.get(FCName) as FC;
     }
 }
