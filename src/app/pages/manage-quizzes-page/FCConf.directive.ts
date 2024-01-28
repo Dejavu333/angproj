@@ -1,7 +1,6 @@
 import { Directive, ElementRef, Input, Renderer2, } from "@angular/core";
 import { FC } from "./FC";
 
-
 @Directive({
     standalone: true,
     selector: '[FC]',
@@ -16,7 +15,7 @@ export class FCConfDirective {
     }
 
     ngAfterViewInit() {
-        if (!this.FC) { console.error("You didn't provide an FC instance to the directive... Add [FC]=yourFCInstance"); return; }
+        if (!this.FC) { console.error("You didn't provide an FC instance to the [FC] directive... Add [FC]=yourFCInstance"); return; }
 
         this.renderer.listen(this.el.nativeElement, "input", (event) => {
             console.log(event)
@@ -25,7 +24,7 @@ export class FCConfDirective {
         });
 
         this.el.nativeElement.value = this.FC?.value;
-        this.FC?.reset$tream.subscribe(()=>this.el.nativeElement.value=this.FC?.value) // into two-way binding
+        this.FC?.reset$tream.subscribe((formState)=>this.el.nativeElement.value=formState) // into two-way binding
 
         this.FC.FCConf.triggers?.forEach(event => {
             if (!this.nonOrdinaryTriggerEvents.includes(event)) {
@@ -39,7 +38,7 @@ export class FCConfDirective {
 
     private onEvent(event: string) {
         if (this.FC instanceof FC) {
-            console.log(`Event: ${event}`);
+            console.log(`FCEvent: ${event}`);
             this.FC.forceUpdateValueAndValidity({ onlySelf: !this.FC.FCConf.cascadeValidityCheck, emitEvent: this.FC.FCConf.cascadeValueChange });
         }
     }

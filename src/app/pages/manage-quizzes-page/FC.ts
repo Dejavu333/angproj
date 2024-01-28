@@ -1,7 +1,7 @@
 import { AsyncValidatorFn, FormControl, ValidatorFn } from "@angular/forms";
 import { Subject } from "rxjs";
 
-export type TriggerEvents = ("blur" | "submit" | "click" | "dblclick" | "focus" | "input" | "hover")[];
+export type TriggerEvents = ("blur" | "submit" | "click" | "dblclick" | "focus" | "input" | "mouseover")[];
 export type FCConf = {
     triggers?: TriggerEvents,
     cascadeValidityCheck?: boolean,
@@ -13,7 +13,8 @@ export type FCConf = {
 export class FC extends FormControl {
     public FCConf: FCConf;
     private manualUpdate: boolean = true;
-    public reset$tream:Subject<void> = new Subject<void>();
+    public reset$tream:Subject<string> = new Subject<string>();
+    public initialValue:string;
 
     constructor(formState?: any, FCConf?:FCConf) {
         const defaultFCConf: FCConf = {
@@ -22,9 +23,10 @@ export class FC extends FormControl {
             cascadeValueChange: false,
         }
         const mergedFCConf = {...defaultFCConf, ...FCConf};
-
+        
         super(formState, mergedFCConf.validators, mergedFCConf.asyncValidators);
         this.FCConf = mergedFCConf;
+        this.initialValue = formState ?? "";
     }
 
     // prevents original behaviour
@@ -40,6 +42,6 @@ export class FC extends FormControl {
 
     override reset(formState?: any, options?: { onlySelf?: boolean | undefined; emitEvent?: boolean | undefined; } | undefined): void {
         super.reset(formState, options);
-        this.reset$tream?.next();
+            this.reset$tream?.next(this.initialValue);
     }
 }

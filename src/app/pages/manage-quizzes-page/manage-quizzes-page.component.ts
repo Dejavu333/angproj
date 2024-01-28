@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { TooltipComponent } from "../../shared-components/tooltip/tooltip.component";
 import { PrintErrorComponent } from "../../shared-components/print-error/print-error.component";
 import { FCConfDirective } from './FCConf.directive';
+import { FGConfDirective } from './FGConf.directive';
 import { FC } from './FC';
 import { FG } from './FG';
 
@@ -21,7 +22,7 @@ import { FG } from './FG';
     templateUrl: './manage-quizzes-page.component.html',
     styleUrl: './manage-quizzes-page.component.css',
     animations: [scaleAnimation, fadeAnimation],
-    imports: [FCConfDirective, CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent, RouterOutlet, ReactiveFormsModule, DragDropModule, CommonModule, TooltipComponent, PrintErrorComponent, FormsModule],
+    imports: [FGConfDirective, FCConfDirective, CategoryColumnComponent, QuizEditorComponent, QuizInstanceEditorComponent, RouterOutlet, ReactiveFormsModule, DragDropModule, CommonModule, TooltipComponent, PrintErrorComponent, FormsModule],
 })
 export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
@@ -36,28 +37,35 @@ export class ManageQuizzesPageComponent implements OnInit {
     // constructors
     //===========================================================================
     constructor(public quizService: QuizService) {
-        
+        //FC_____________________________________
         const newCategoryFC = new FC(
-            "somestartingvalue", 
-            {   triggers: ["dblclick", "blur"], 
-                cascadeValueChange: true , 
-                validators: [Validators.required, containsUppercaseVal()] 
+            "somestartingvalue",
+            {
+                triggers: ["dblclick", "mouseover"],
+                cascadeValueChange: true,
+                validators: [Validators.required, containsUppercaseVal()],
             },
-        )
-        const newCategoryFC2 = new FC(
-            "startingvalue", 
-            {   triggers: ["dblclick", "blur"], 
-                cascadeValueChange: true , 
-                validators: [Validators.required, containsUppercaseVal()] 
+        );
+        const someFormControl = new FC(
+            "initialvalue",
+            {
+                triggers: ["dblclick", "blur"],
+                cascadeValidityCheck: true,
+                cascadeValueChange: true,
+                validators: [Validators.required, Validators.min(5)],
             },
-        )
+        );
 
+        //FG_____________________________________
         this.newCategoryFG = new FG(
             {  
                 [this.newCategoryFCName]: newCategoryFC,
-                "newCategoryFC2": newCategoryFC2,
+                "newCategoryFC2": someFormControl,
             },
-        { validators: [dummyValidator] });
+            {   triggers:["dblclick"], 
+                validators: [dummyValidator] 
+            }
+        );
 
         this.testfc = this.newCategoryFG.getFC(this.newCategoryFCName);
     }

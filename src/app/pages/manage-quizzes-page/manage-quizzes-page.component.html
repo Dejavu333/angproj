@@ -3,7 +3,7 @@
 <router-outlet/>
 
 <div class="manage-container">
-    <form #f="ngForm" [formGroup]="newCategoryFG"  (ngSubmit)="addCategory()">
+    <form #f="ngForm" [FG]="newCategoryFG"  (ngSubmit)="addCategory()">
 
         <input [FC]="testfc"  type="text" maxlength="12" (keyup.enter)=addCategory() placeholder="new category..."  autocomplete="off"/>
       
