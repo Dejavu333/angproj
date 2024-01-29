@@ -3,13 +3,15 @@
 <router-outlet/>
 
 <div class="manage-container">
-    <form #f="ngForm" [FG]="newCategoryFG"  (ngSubmit)="addCategory()">
-
-        <input [FC]="testfc"  type="text" maxlength="12" (keyup.enter)=addCategory() placeholder="new category..."  autocomplete="off"/>
-      
-        <button type="submit" class="button addcategory-button" (click)=addCategory() (dblclick)="this.testfc.reset()">add category</button>
-        <app-print-error [form]="f" [control]="testfc"/>
-    </form>
+<form [FG]="upperFG">
+        <form #f="ngForm" [FG]="newCategoryFG"  (ngSubmit)="addCategory()">
+    
+            <input [FC]="testfc"  type="text" maxlength="12" (keyup.enter)=addCategory() placeholder="new category..."  autocomplete="off"/>
+          
+            <button type="submit" class="button addcategory-button" (click)=addCategory() (dblclick)="this.upperFG.reset()">add category</button>
+            <app-print-error [control]="upperFG"/>
+        </form>
+</form>
 
     <input type="text" maxlength="12" [formControl]="quizService.categorySearchControl" placeholder="search category..." autocomplete="off"/>
     <input type="text" maxlength="12" [formControl]="quizService.quizSearchControl" placeholder="search quiz..." autocomplete="off"/>

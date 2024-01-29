@@ -29,6 +29,7 @@ export class ManageQuizzesPageComponent implements OnInit {
     // properties, fields
     //===========================================================================
     newCategoryFG: FG;
+    upperFG:FG;
     newCategoryFCName: string = 'newCategoryFC';
     // newCategoryFC:FormControl = new FormControl('', [Validators.required, containsUppercaseVal()]);
     testfc: FC;
@@ -41,15 +42,16 @@ export class ManageQuizzesPageComponent implements OnInit {
         const newCategoryFC = new FC(
             "somestartingvalue",
             {
-                triggers: ["dblclick", "mouseover"],
-                cascadeValueChange: true,
+                triggers: ["blur", "submit"],
                 validators: [Validators.required, containsUppercaseVal()],
+                cascadeValueChange: false,
+                cascadeValidityCheck: true,
             },
         );
         const someFormControl = new FC(
             "initialvalue",
             {
-                triggers: ["dblclick", "blur"],
+                triggers: ["dblclick"],
                 cascadeValidityCheck: true,
                 cascadeValueChange: true,
                 validators: [Validators.required, Validators.min(5)],
@@ -60,14 +62,29 @@ export class ManageQuizzesPageComponent implements OnInit {
         this.newCategoryFG = new FG(
             {  
                 [this.newCategoryFCName]: newCategoryFC,
-                "newCategoryFC2": someFormControl,
+                "sometestcontrol": someFormControl,
             },
-            {   triggers:["dblclick"], 
-                validators: [dummyValidator] 
+            {   triggers:["submit"],
+                validators: [dummyValidator],
+                cascadeValidityCheck: true,
+                cascadeValueChange: true,
             }
         );
 
         this.testfc = this.newCategoryFG.getFC(this.newCategoryFCName);
+
+
+        //upper FG_____________________________________
+        this.upperFG = new FG(
+            {
+                "innerFG": this.newCategoryFG,
+            },
+            {
+                triggers:[],
+                cascadeValueChange: true,
+                validators: [dummyValidator2]         
+            }
+        );
     }
 
     //===========================================================================
@@ -79,7 +96,6 @@ export class ManageQuizzesPageComponent implements OnInit {
     //===========================================================================
     // methods
     //===========================================================================
-
     public addCategory(): void {
         if (!this.newCategoryFG.valid) return;
         // create new category 
@@ -101,7 +117,13 @@ export function containsUppercaseVal(): ValidatorFn {
 }
 
 function dummyValidator(control: AbstractControl): ValidationErrors | null {
-    console.log("dummyvalidatortriggered")
+    console.log("dummyvalidatortriggered1")
+    // return {"d":true};
+    return null;
+}
+
+function dummyValidator2(control: AbstractControl): ValidationErrors | null {
+    console.log("dummyvalidatortriggered2")
     // return {"d":true};
     return null;
 }

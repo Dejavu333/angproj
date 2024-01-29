@@ -1,5 +1,6 @@
 import { AsyncValidatorFn, FormControl, ValidatorFn } from "@angular/forms";
 import { Subject } from "rxjs";
+import { FG } from "./FG";
 
 export type TriggerEvents = ("blur" | "submit" | "click" | "dblclick" | "focus" | "input" | "mouseover")[];
 export type FCConf = {
@@ -13,17 +14,17 @@ export type FCConf = {
 export class FC extends FormControl {
     public FCConf: FCConf;
     private manualUpdate: boolean = true;
-    public reset$tream:Subject<string> = new Subject<string>();
-    public initialValue:string;
+    public reset$tream: Subject<string> = new Subject<string>();
+    public initialValue: string;
 
-    constructor(formState?: any, FCConf?:FCConf) {
+    constructor(formState?: any, FCConf?: FCConf) {
         const defaultFCConf: FCConf = {
             triggers: ["blur"],
             cascadeValidityCheck: true,
             cascadeValueChange: false,
         }
-        const mergedFCConf = {...defaultFCConf, ...FCConf};
-        
+        const mergedFCConf = { ...defaultFCConf, ...FCConf };
+
         super(formState, mergedFCConf.validators, mergedFCConf.asyncValidators);
         this.FCConf = mergedFCConf;
         this.initialValue = formState ?? "";
@@ -36,12 +37,17 @@ export class FC extends FormControl {
         }
     }
 
-    forceUpdateValueAndValidity(opts: { onlySelf?: boolean; emitEvent?: boolean } = {}): void {
+    forceUpdateValueAndValidity(): void {
+        const opts = { onlySelf: !this.FCConf.cascadeValidityCheck, emitEvent: this.FCConf.cascadeValueChange };
         super.updateValueAndValidity(opts);
+        const p = this.parent as FG;
+        if (p && !opts.onlySelf) { // so cascadeValidyCheck is true
+            p.forceUpdateValueAndValidity();
+        }
     }
 
     override reset(formState?: any, options?: { onlySelf?: boolean | undefined; emitEvent?: boolean | undefined; } | undefined): void {
         super.reset(formState, options);
-            this.reset$tream?.next(this.initialValue);
+        this.reset$tream?.next(this.initialValue);
     }
 }

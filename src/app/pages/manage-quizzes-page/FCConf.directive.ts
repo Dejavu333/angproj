@@ -24,7 +24,7 @@ export class FCConfDirective {
         });
 
         this.el.nativeElement.value = this.FC?.value;
-        this.FC?.reset$tream.subscribe((formState)=>this.el.nativeElement.value=formState) // into two-way binding
+        this.FC?.reset$tream.subscribe((formState) => this.el.nativeElement.value = formState) // into two-way binding
 
         this.FC.FCConf.triggers?.forEach(event => {
             if (!this.nonOrdinaryTriggerEvents.includes(event)) {
@@ -32,6 +32,7 @@ export class FCConfDirective {
             }
             else if (event === "submit") {
                 console.log("submit event requires special handling //todo");
+                console.log(this.el.nativeElement.root)
             }
         });
     }
@@ -39,7 +40,7 @@ export class FCConfDirective {
     private onEvent(event: string) {
         if (this.FC instanceof FC) {
             console.log(`FCEvent: ${event}`);
-            this.FC.forceUpdateValueAndValidity({ onlySelf: !this.FC.FCConf.cascadeValidityCheck, emitEvent: this.FC.FCConf.cascadeValueChange });
+            this.FC.forceUpdateValueAndValidity();
         }
     }
 

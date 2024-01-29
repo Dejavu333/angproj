@@ -38,11 +38,12 @@ export class PrintErrorComponent implements OnInit {
             });
         }
 
-        if (this.control) {
-            this.control.valueChanges?.pipe(
+        //doesnt work somehow 
+        if (this.form) {
+            this.form.valueChanges?.pipe(
                 debounceTime(300),
                 tap(() => {
-                    if(this.control?.valid) return;
+                    if(this.form?.valid) return;
                     this.displayErrors = true; // Set displayErrors to true after debounceTime
                     console.log("valuechangestriggeredFG")
                 }),
