@@ -2,7 +2,7 @@ import { Component, computed, Input, Signal } from '@angular/core';
 import { QuizCarouselComponent } from "../quiz-carousel/quiz-carousel.component";
 import { QuizDTO } from '../model/QuizDTO';
 import { QuizService } from "../quiz.service";
-import { fadeAnimation, scaleAnimation } from 'app/app.animations';
+import { fadeAnimation, QuizAnimState, scaleAnimation } from 'app/app.animations';
 import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
@@ -52,6 +52,7 @@ export class CategoryColumnComponent {
         const orderAlteredQuizzes: QuizDTO[] = event.container.data;
         orderAlteredQuizzes.forEach((q, newIndex) => {
             q.indexInColumn = newIndex;
+            q.setAnimState(QuizAnimState.None); // prevents void=>* animation when quiz is moved to new category
             this.quizService.quizUpserted$tream.next(q);
         });
     }
