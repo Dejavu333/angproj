@@ -23,6 +23,9 @@ throw new Error('Method not implemented.');
 
     constructor() { }
 
+    //===========================================================================
+    // lifecycle hooks
+    //===========================================================================
     ngOnInit(): void {
         this.configurateDragulForQuizQuestions();
         this.quizTitleInp?.nativeElement.addEventListener("focus", () => {

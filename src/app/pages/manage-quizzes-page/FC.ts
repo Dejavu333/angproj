@@ -12,11 +12,18 @@ export type FCConf = {
 }
 
 export class FC extends FormControl {
+    //===========================================================================
+    // properties, fields
+    //===========================================================================
     public FCConf: FCConf;
     private manualUpdate: boolean = true;
     public reset$tream: Subject<string> = new Subject<string>();
     public initialValue: string;
+    public submitted$tream: Subject<void> | undefined;
 
+    //===========================================================================
+    // constructors
+    //===========================================================================
     constructor(formState?: any, FCConf?: FCConf) {
         const defaultFCConf: FCConf = {
             triggers: ["blur"],
@@ -30,23 +37,26 @@ export class FC extends FormControl {
         this.initialValue = formState ?? "";
     }
 
+    //===========================================================================
+    // methods
+    //===========================================================================
     // prevents original behaviour
-    override updateValueAndValidity(opts: { onlySelf?: boolean; emitEvent?: boolean } = {}): void {
+    public override updateValueAndValidity(opts: { onlySelf?: boolean; emitEvent?: boolean } = {}): void {
         if (!this.manualUpdate) {
             super.updateValueAndValidity(opts);
         }
     }
 
-    forceUpdateValueAndValidity(): void {
+    public forceUpdateValueAndValidity(): void {
         const opts = { onlySelf: !this.FCConf.cascadeValidityCheck, emitEvent: this.FCConf.cascadeValueChange };
         super.updateValueAndValidity(opts);
         const p = this.parent as FG;
-        if (p && !opts.onlySelf) { // so cascadeValidyCheck is true
+        if (p && !opts.onlySelf) { // cascadeValidyCheck is true
             p.forceUpdateValueAndValidity();
         }
     }
 
-    override reset(formState?: any, options?: { onlySelf?: boolean | undefined; emitEvent?: boolean | undefined; } | undefined): void {
+    public override reset(formState?: any, options?: { onlySelf?: boolean | undefined; emitEvent?: boolean | undefined; } | undefined): void {
         super.reset(formState, options);
         this.reset$tream?.next(this.initialValue);
     }

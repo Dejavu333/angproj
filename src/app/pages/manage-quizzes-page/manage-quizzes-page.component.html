@@ -8,9 +8,9 @@
     
             <input [FC]="testfc"  type="text" maxlength="12" (keyup.enter)=addCategory() placeholder="new category..."  autocomplete="off"/>
           
-            <button type="submit" class="button addcategory-button" (click)=addCategory() (dblclick)="this.upperFG.reset()">add category</button>
             <app-print-error [control]="upperFG"/>
         </form>
+        <button type="submit" class="button addcategory-button" (click)=addCategory() (dblclick)="this.upperFG.reset()">add category</button>
 </form>
 
     <input type="text" maxlength="12" [formControl]="quizService.categorySearchControl" placeholder="search category..." autocomplete="off"/>

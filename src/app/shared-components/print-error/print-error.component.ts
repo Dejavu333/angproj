@@ -38,21 +38,6 @@ export class PrintErrorComponent implements OnInit {
             });
         }
 
-        //doesnt work somehow 
-        if (this.form) {
-            this.form.valueChanges?.pipe(
-                debounceTime(300),
-                tap(() => {
-                    if(this.form?.valid) return;
-                    this.displayErrors = true; // Set displayErrors to true after debounceTime
-                    console.log("valuechangestriggeredFG")
-                }),
-                switchMap(() => timer(this.visibleFor)),
-            ).subscribe(() => {
-                this.displayErrors = false; // Set displayErrors to false after visibleFor milliseconds
-            });
-        }
-
         if (this.form) {
             this.form?.ngSubmit.pipe(
                 tap(() => { this.displayErrors = true }),

@@ -1,10 +1,18 @@
 import { FormGroup } from "@angular/forms";
 import { FC, FCConf } from "./FC";
+import { FGConfDirective } from "./FGConf.directive";
 
 export class FG extends FormGroup {
-    public FCConf: FCConf;
+    //===========================================================================
+    // properties, fields
+    //===========================================================================
+    public FGConf: FCConf;
+    public ownerDirective: FGConfDirective | undefined;
     private manualUpdate: boolean = true;
-
+    
+    //===========================================================================
+    // constructors
+    //===========================================================================
     constructor(controls?: any, FCConf?: FCConf) {
         const defaultFCConf: FCConf = {
             triggers: ["blur"],
@@ -14,34 +22,21 @@ export class FG extends FormGroup {
         const mergedFCConf = { ...defaultFCConf, ...FCConf };
 
         super(controls, mergedFCConf.validators, mergedFCConf.asyncValidators);
-        this.FCConf = mergedFCConf;
-
-        // Object.keys(this.controls).forEach(key => {
-        //     let control = this.get(key) as FC;
-        //     if (control.FCConf.cascadeValueChange) {
-        //         control?.valueChanges.subscribe(() =>{ 
-        //             console.info("VALUE changed in ", control)
-        //             // this.forceUpdateValueAndValidity({onlySelf:true,emitEvent:true});
-        //         });
-        //     }
-        // }); //todo remove
-
-        this.valueChanges.subscribe(() =>{ 
-            console.info("VALUE changed in ", this) //todo remove
-            // this.forceUpdateValueAndValidity({onlySelf:true,emitEvent:true});
-        });
+        this.FGConf = mergedFCConf;
     }
 
+    //===========================================================================
+    // methods
+    //===========================================================================
     // prevents original behaviour
-    override updateValueAndValidity(opts: { onlySelf?: boolean; emitEvent?: boolean } = {}): void {
+    public override updateValueAndValidity(opts: { onlySelf?: boolean; emitEvent?: boolean } = {}): void {
         if (!this.manualUpdate) {
-            // console.log("updateVandV got called", opts) //todo                  
             super.updateValueAndValidity(opts);
         }
     }
 
-    forceUpdateValueAndValidity(): void {
-        const opts = { onlySelf: !this.FCConf.cascadeValidityCheck, emitEvent: this.FCConf.cascadeValueChange };
+    public forceUpdateValueAndValidity(): void {
+        const opts = { onlySelf: !this.FGConf.cascadeValidityCheck, emitEvent: this.FGConf.cascadeValueChange };
         super.updateValueAndValidity(opts);
         const p = this.parent as FG;
         if (p && !opts.onlySelf) { // so cascadeValidyCheck is true
@@ -49,7 +44,7 @@ export class FG extends FormGroup {
         }
     }
 
-    getFC(FCName: string): FC {
+    public getFC(FCName: string): FC {
         return this.get(FCName) as FC;
     }
 }

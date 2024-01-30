@@ -64,7 +64,7 @@ export class ManageQuizzesPageComponent implements OnInit {
                 [this.newCategoryFCName]: newCategoryFC,
                 "sometestcontrol": someFormControl,
             },
-            {   triggers:["submit"],
+            {   triggers:["dblclick"],
                 validators: [dummyValidator],
                 cascadeValidityCheck: true,
                 cascadeValueChange: true,
