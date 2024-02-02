@@ -9,14 +9,15 @@ import { AttendQuizPageComponent } from './pages/attend-quiz-page/attend-quiz-pa
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { QuizEditorComponent } from "./pages/manage-quizzes-page/quiz-editor/quiz-editor.component";
 import { QuizInstanceEditorComponent } from "./pages/manage-quizzes-page/quiz-instance-editor/quiz-instance-editor.component";
+import { Constants } from './app.constants';
 
 export const routes: Routes = [
     { path: 'login',                        component: LoginPageComponent },
     { path: 'register',                     component: RegisterPageComponent },
-    { path: 'manage-quizzes',               component: ManageQuizzesPageComponent,
+    { path: Constants.MANAGE_QUIZZES_PAGE_ROUTE,               component: ManageQuizzesPageComponent,
         children: [
-            { path: 'quiz-editor',          component: QuizEditorComponent },
-            { path: 'quiz-instance-editor', component: QuizInstanceEditorComponent }
+            { path: Constants.QUIZ_EDITOR_ROUTE+"/:id",          component: QuizEditorComponent },
+            { path: Constants.QUIZ_INSTANCE_EDITOR_ROUTE+"/:id", component: QuizInstanceEditorComponent },
             // {path: 'quiz-category-columns-editor', component: ### }
         ]},
     { path: 'manage-quiz-instances',        component: ManageQuizInstancesPageComponent },

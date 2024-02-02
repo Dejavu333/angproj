@@ -1,5 +1,6 @@
 import { QuizAnimState } from "app/app.animations";
 import { QuizQuestionDTO } from "./QuizQuestionDTO";
+import { Constants } from "app/app.constants";
 
 export class QuizDTO {
     //===========================================================================
@@ -7,7 +8,7 @@ export class QuizDTO {
     //===========================================================================
     public title: string;
     public category: string;
-    public indexInColumn: number;
+    public indexInParent: number;
     public quizQuestions: QuizQuestionDTO[];
     public isOrdered: boolean;
     public timeLimit: number;
@@ -16,9 +17,9 @@ export class QuizDTO {
     //===========================================================================
     // constructors
     //===========================================================================
-    constructor(category: string, indexInColumn: number = -1, title: string = "<< new quiz >>", quizQuestions: QuizQuestionDTO[] = [], isOrdered: boolean = false, timeLimit: number = 0) {
+    constructor(category: string, indexInParent: number = -1, title: string = Constants.DEFAULT_QUIZ_NAME, quizQuestions: QuizQuestionDTO[] = [], isOrdered: boolean = false, timeLimit: number = 0) {
         this.category = category;
-        this.indexInColumn = indexInColumn;
+        this.indexInParent = indexInParent;
         this.title = title;
         this.quizQuestions = quizQuestions;
         this.isOrdered = isOrdered;

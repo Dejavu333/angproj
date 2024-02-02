@@ -3,6 +3,7 @@
 <router-outlet/>
 
 <div class="manage-container">
+<!-- todo remove unused form -->
 <form [FG]="upperFG">
         <form #f="ngForm" [FG]="newCategoryFG"  (ngSubmit)="addCategory()">
     
@@ -10,7 +11,7 @@
           
             <app-print-error [control]="upperFG"/>
         </form>
-        <button type="submit" class="button addcategory-button" (click)=addCategory() (dblclick)="this.upperFG.reset()">add category</button>
+        <button type="submit" class="button addcategory-button" (click)=addCategory() >add category</button>
 </form>
 
     <input type="text" maxlength="12" [formControl]="quizService.categorySearchControl" placeholder="search category..." autocomplete="off"/>

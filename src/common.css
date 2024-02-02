@@ -109,10 +109,6 @@ button:hover {
   transform: scaleX(-1);
 } */
 
-.slave {
-  transform: scaleX(-1);
-}
-
 /* .bold {
   font-weight: var(--bold);
 } */

@@ -22,7 +22,7 @@ export class CategoryColumnComponent {
     public quizzesInThisCategoryColumnCsig: Signal<QuizDTO[]> = computed(() => {
         return this.quizService.filteredQuizzesCsig()
             .filter(quiz => quiz.category === this.category)
-            .sort((a, b) => a.indexInColumn - b.indexInColumn);
+            .sort((a, b) => a.indexInParent - b.indexInParent);
     });
 
     //===========================================================================
@@ -51,7 +51,7 @@ export class CategoryColumnComponent {
 
         const orderAlteredQuizzes: QuizDTO[] = event.container.data;
         orderAlteredQuizzes.forEach((q, newIndex) => {
-            q.indexInColumn = newIndex;
+            q.indexInParent = newIndex;
             q.setAnimState(QuizAnimState.None); // prevents void=>* animation when quiz is moved to new category
             this.quizService.quizUpserted$tream.next(q);
         });

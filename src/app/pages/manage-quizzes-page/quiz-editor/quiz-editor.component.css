@@ -3,36 +3,54 @@ span {
     opacity: 0.25;
 }
 
+.popup-background {
+    /* Position the overlay */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    /* Set the background color and opacity */
+    background-color: rgba(0, 0, 0, 0.5);
+
+    /* Ensure the overlay is behind .popup-content */
+    z-index: 98;
+}
+
 .popup-content {
     position: fixed;
     overflow: hidden;
-    min-width: 70rem;
-    min-height: 45rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 90rem;
+    min-height: 48rem;
     background-color: var(--light-color);
     padding: 0px;
-    border-radius: 2rem;
+    border-radius: var(--primary-border-radius);
+    z-index: 99;
 }
 
 .quiz-container {
-    min-height: 40rem;
     display: flex;
     justify-content: space-between;
-    position: relative; 
+    position: relative;
 }
 
 #questionsEditor {
     width: 18rem;
     padding: 20px;
-    left: 0; 
+    left: 0;
     z-index: 2;
 }
 
 #optionsEditor {
     width: 45rem;
     min-height: 50rem;
-    position: absolute; 
-    right: 3rem; 
-    background-color: white; 
+    position: absolute;
+    right: 3rem;
+    background-color: white;
     padding: 20px;
     z-index: 10;
 }
@@ -69,8 +87,7 @@ span {
     justify-content: space-between;
     bottom: -5rem;
     margin: 1rem;
-    z-index:10;
-
+    z-index: 10;
 }
 
 button {
@@ -79,15 +96,19 @@ button {
     border-radius: var(--primary-border-radius);
     margin: 0.25rem;
 }
+
 .button-container>button {
     background-color: var(--secondary-color);
 }
+
 .button-container>button:hover {
     background-color: var(--secondary-color-highlight);
 }
+
 #questionsEditor>button {
     background-color: var(--light-color);
 }
+
 #questionsEditor>button:hover {
     background-color: var(--light-color-highlight);
 }
@@ -98,8 +119,9 @@ button {
 }
 
 ul {
-    height: 25rem; 
-    overflow-y: auto; /* Enable vertical scrolling when content exceeds the container */
+    height: 25rem;
+    overflow-y: auto;
+    /* Enable vertical scrolling when content exceeds the container */
     /* box-shadow: var(--shadow-primary); */
 }
 
@@ -110,7 +132,7 @@ textarea {
     padding: 1rem;
 }
 
-/* .master div is for left side scrollbar */
-.master {
-    min-height: 20rem;
+.no {
+    display: inline-block;
+    width: 30px;
 }

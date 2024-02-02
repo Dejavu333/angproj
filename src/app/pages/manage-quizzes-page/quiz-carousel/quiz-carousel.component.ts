@@ -3,6 +3,7 @@ import { RouterLink } from "@angular/router";
 import { QuizAnimState, flyInOutAnimation, scaleAnimation } from 'app/app.animations';
 import { QuizService } from '../quiz.service';
 import { doInSequence } from 'main';
+import { Constants } from 'app/app.constants';
 
 @Component({
     selector: 'app-quiz-carousel',
@@ -20,6 +21,7 @@ export class QuizCarouselComponent implements OnInit {
     public quizTitle: string = "";
 
     public isQuizToolbarShowing: boolean = false;
+    public Constants = Constants;
 
     //===========================================================================
     // constructors

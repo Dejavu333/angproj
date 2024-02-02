@@ -1,11 +1,11 @@
-<li class="quiz scale-element" (dblclick)=showQuizToolbarHandler() >
+<li class="quiz scale-element" (dblclick)=showQuizToolbarHandler()>
     @if (this.isQuizToolbarShowing)
     {
-        <div class="quiz-toolbar" [@flyInOut]="'fly-in'">
-            <div [routerLink]="'quiz-editor'">E</div>
-            <div [routerLink]="'quiz-instance-editor'" style="margin-left: 0.5rem;">I</div>
-            <div (click)=deleteQuizHandler()>X</div>
-        </div>
+    <div class="quiz-toolbar" [@flyInOut]="'fly-in'">
+        <div [routerLink]="Constants.QUIZ_EDITOR_ROUTE + '/' + quizTitle">E</div>
+        <div [routerLink]="'quiz-instance-editor'" style="margin-left: 0.5rem;">I</div>
+        <div (click)=deleteQuizHandler()>X</div>
+    </div>
     }
 
     {{ quizTitle }}
