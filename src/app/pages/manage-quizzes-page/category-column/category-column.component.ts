@@ -4,6 +4,7 @@ import { QuizDTO } from '../model/QuizDTO';
 import { QuizService } from "../quiz.service";
 import { fadeAnimation, QuizAnimState, scaleAnimation } from 'app/app.animations';
 import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { genTempID } from '../quiz-editor/quiz-editor.component';
 
 @Component({
     selector: 'app-category-column',
@@ -35,7 +36,7 @@ export class CategoryColumnComponent {
     // methods
     //===========================================================================
     addEmptyQuizCarouselHandler() {
-        this.quizService.quizUpserted$tream.next(new QuizDTO(this.category));
+        this.quizService.quizUpserted$tream.next(new QuizDTO(genTempID("quiz-"), this.category));
     }
     
     dropHandler(event: CdkDragDrop<any[]>, newCategory: string) {

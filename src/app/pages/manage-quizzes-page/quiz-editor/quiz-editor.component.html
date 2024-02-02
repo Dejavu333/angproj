@@ -30,7 +30,7 @@
                         @for (quizQuestion of currentlyEditedQuiz.quizQuestions | sortOnIndexInParent; track $index)
                         {
                             <div cdkDrag [@scale]="QuizAnimState.ScaleIn">
-                                <li (dblclick)="selectQuizQuestion($index)" class="question">
+                                <li (dblclick)="selectQuizQuestion($index)" id={{$index}} class="question">
                                     <span class="no">{{$index + 1}}.</span>
                                     {{ quizQuestion.questionText | slice:0:19 }}
                                 </li>

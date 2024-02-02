@@ -6,6 +6,7 @@ export class QuizDTO {
     //===========================================================================
     // properties, fields
     //===========================================================================
+    public id: string;
     public title: string;
     public category: string;
     public indexInParent: number;
@@ -17,14 +18,16 @@ export class QuizDTO {
     //===========================================================================
     // constructors
     //===========================================================================
-    constructor(category: string, indexInParent: number = -1, title: string = Constants.DEFAULT_QUIZ_NAME, quizQuestions: QuizQuestionDTO[] = [], isOrdered: boolean = false, timeLimit: number = 0) {
+    constructor(id:string, category: string, indexInParent: number = -1, title: string = Constants.DEFAULT_QUIZ_NAME, quizQuestions: QuizQuestionDTO[] = [], isOrdered: boolean = false, timeLimit: number = 0) {
+        //user cab affect these
+        this.id = id;
         this.category = category;
         this.indexInParent = indexInParent;
         this.title = title;
         this.quizQuestions = quizQuestions;
         this.isOrdered = isOrdered;
         this.timeLimit = timeLimit;
-
+        //user can't affect these
         this.animState = QuizAnimState.ScaleIn;
     }
 

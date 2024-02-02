@@ -1,7 +1,7 @@
 export abstract class QuizEditorTool {
     abstract cursor: string;
     abstract activate(): void;
-    abstract clickCommand(): void;
+    abstract clickCommand(el?:any): void;
 }
 
 export class GroupingTool extends QuizEditorTool {
@@ -15,8 +15,9 @@ export class GroupingTool extends QuizEditorTool {
         });
     }
 
-    override clickCommand(): void {
-        console.log("clickwithgroupingtool");
+    override clickCommand(el?:any): void {
+        el = el as HTMLElement; console.log(el)
+        el.style.background = "red";
     }
 }
 

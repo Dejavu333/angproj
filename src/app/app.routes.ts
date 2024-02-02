@@ -7,7 +7,7 @@ import { EmailTemplatesPageComponent } from './pages/email-templates-page/email-
 import { SettingsPageComponent } from './pages/settings-page/settings-page.component';
 import { AttendQuizPageComponent } from './pages/attend-quiz-page/attend-quiz-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
-import { QuizEditorComponent } from './pages/manage-quizzes-page/quiz-editor/QuizEditorComponent';
+import { QuizEditorComponent } from './pages/manage-quizzes-page/quiz-editor/quiz-editor.component';
 import { QuizInstanceEditorComponent } from "./pages/manage-quizzes-page/quiz-instance-editor/quiz-instance-editor.component";
 import { Constants } from './app.constants';
 

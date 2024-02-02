@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from "rxjs";
 import { QuizDTO } from "./pages/manage-quizzes-page/model/QuizDTO";
-import { QuizOptionDTO, QuizQuestionDTO } from "./pages/manage-quizzes-page/model/QuizQuestionDTO";
+import { QuizQuestionDTO } from "./pages/manage-quizzes-page/model/QuizQuestionDTO";
 import { CategoryDTO } from "./pages/manage-quizzes-page/model/CategoryDTO";
+import { genTempID } from './pages/manage-quizzes-page/quiz-editor/quiz-editor.component';
+import { QuizOptionDTO } from './pages/manage-quizzes-page/model/QuizOptionDTO';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +17,7 @@ export class ApiService {
         //fake implementation
         return of([
             new QuizDTO(
+                genTempID("quiz-"),
                 "some category",  
                 0, 
                 "testQuizX", 
@@ -22,36 +25,40 @@ export class ApiService {
                     new QuizQuestionDTO(
                         "testQuestionX?", 
                         [
-                            new QuizOptionDTO("asdA", 3), 
-                            new QuizOptionDTO("asdX", 2), 
-                            new QuizOptionDTO("asdY", 1), 
-                            new QuizOptionDTO("asdZ", 0)
+                            new QuizOptionDTO(genTempID("option-"),"asdA", 3), 
+                            new QuizOptionDTO(genTempID("option-"),"asdX", 2), 
+                            new QuizOptionDTO(genTempID("option-"),"asdY", 1), 
+                            new QuizOptionDTO(genTempID("option-"),"asdZ", 0)
                         ], 
                         [0, 1],
                         false,
                         1,
-                        1
+                        1,
+                        "",
+                        false,
                     ),
                     new QuizQuestionDTO(
                         "testQuestionY?", 
                         [
-                            new QuizOptionDTO("test1", 0), 
-                            new QuizOptionDTO("test2", 1), 
-                            new QuizOptionDTO("test3", 2), 
-                            new QuizOptionDTO("test4", 3)
+                            new QuizOptionDTO(genTempID("option-"),"test1", 0), 
+                            new QuizOptionDTO(genTempID("option-"),"test2", 1), 
+                            new QuizOptionDTO(genTempID("option-"),"test3", 2), 
+                            new QuizOptionDTO(genTempID("option-"),"test4", 3)
                         ], 
                         [0, 1],
                         false,
                         0,
-                        1
+                        1,
+                        "",
+                        false,
                     ),
                 ], 
                 false, 
                 600
             ),
 
-            new QuizDTO("some category", 1, "test2", [new QuizQuestionDTO("test?", [new QuizOptionDTO("test1", 0), new QuizOptionDTO("test1", 1), new QuizOptionDTO("test1", 2)], [0], false, 1, 1)], true, 700),
-            new QuizDTO("other category", 2, "test3", [new QuizQuestionDTO("test?", [new QuizOptionDTO("test1", 0), new QuizOptionDTO("test1", 1)], [1], false, 2, 1)], false, 800),
+            new QuizDTO(genTempID("quiz-"),"some category", 1, "test2", [new QuizQuestionDTO("test?", [new QuizOptionDTO(genTempID("option-"),"test1", 0), new QuizOptionDTO(genTempID("option-"),"test1", 1), new QuizOptionDTO(genTempID("option-"),"test1", 2)], [0], false, 1, 1, "", false)], true, 700),
+            new QuizDTO(genTempID("quiz-"),"other category",2, "test3", [new QuizQuestionDTO("test?", [new QuizOptionDTO(genTempID("option-"),"test1", 0), new QuizOptionDTO(genTempID("option-"),"test1", 1)], [1], false, 2, 1, "", false)], false, 800),
         ]);
     }
 
