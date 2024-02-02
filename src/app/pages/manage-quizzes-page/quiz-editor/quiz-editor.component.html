@@ -4,9 +4,10 @@
 
             <div id="questionsEditor" class="editor-section">
                 <div>max score {{maxScore()}}</div>
-                <div>passing score</div>
-                <div>draw this many</div>
-                <div>group</div>
+                <input type="number">passing score
+                <input type="number">draw this many
+                <input type="radio" name="activeToolRadio" (click)="activateTool(GroupingTool)"> groupingTool
+                <input type="radio" name="activeToolRadio" (click)="activateTool(DefaultTool)"> defaultTool
 
                 <label for="quizTitle">quiz title:</label>
                 <input #quizTitleInp type="text" placeholder="enter quiz title..." [value]="currentlyEditedQuiz.title" />
@@ -15,12 +16,12 @@
                 <input #timeLimitInp type="text" placeholder="enter time limit..." [value]="currentlyEditedQuiz.timeLimit" />
                 
                 <label for="isOrderedQuiz">ordered questions:</label>
-                <input #isOrderedQuizInp type="checkbox" id="isOrderedQuizInp" name="isOrderedQuiz"
+                <input #isOrderedQuizInp type="checkbox" name="isOrderedQuiz"
                     [checked]="currentlyEditedQuiz.isOrdered" />
              
                 <button (click)="addQuizQuestionSkeleton()">add question</button>
 
-                <div #fasz>
+                <div id="container" #fasz>
 
                     <ul id="questions-list" class="slave" 
                     cdkDropList [cdkDropListData]="currentlyEditedQuiz.quizQuestions | sortOnIndexInParent"
@@ -28,8 +29,8 @@
                     >
                         @for (quizQuestion of currentlyEditedQuiz.quizQuestions | sortOnIndexInParent; track $index)
                         {
-                            <div cdkDrag [@scale]="QuizAnimState.ScaleIn" class="slave question">
-                                <li (dblclick)="selectQuizQuestion($index)" id="{{$index}}" >
+                            <div cdkDrag [@scale]="QuizAnimState.ScaleIn">
+                                <li (dblclick)="selectQuizQuestion($index)" class="question">
                                     <span class="no">{{$index + 1}}.</span>
                                     {{ quizQuestion.questionText | slice:0:19 }}
                                 </li>
@@ -54,7 +55,7 @@
                         [checked]="currentlyEditedQuizQuestion.optionsAreOrdered" />
                         
                     <label for="score">score</label>
-                    <input type="number" name="score" value={{currentlyEditedQuizQuestion.score}} min="1"/>
+                    <input type="number" name="score" [(ngModel)]="currentlyEditedQuizQuestion.score" min="1"/>
                     
                     <label for="subpoints">subpoints:</label>
                     <input type="radio" id="isSubpointsEnabledInp" name="subpoints"/>
@@ -67,7 +68,9 @@
                         (cdkDropListDropped)="dropHandler($event)">
                         @for (option of currentlyEditedQuizQuestion.options | sortOnIndexInParent; track $index)
                         {
-                            <div cdkDrag [@scale]="QuizAnimState.ScaleIn">
+                            <div cdkDrag 
+                                [@scale]="QuizAnimState.ScaleIn"
+                            >
                                 <li class="optionDiv">
                                     <input type="checkbox"               
                                         [checked]="currentlyEditedQuizQuestion.answerIndecies.includes($index)"

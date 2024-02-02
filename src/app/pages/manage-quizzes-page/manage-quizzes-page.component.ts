@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryColumnComponent } from "./category-column/category-column.component";
-import { QuizEditorComponent } from "./quiz-editor/quiz-editor.component";
+import { QuizEditorComponent } from './quiz-editor/QuizEditorComponent';
 import { QuizInstanceEditorComponent } from "./quiz-instance-editor/quiz-instance-editor.component";
 import { QuizService } from './quiz.service';
 import { RouterOutlet } from "@angular/router";
