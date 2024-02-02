@@ -68,9 +68,7 @@
                         (cdkDropListDropped)="dropHandler($event)">
                         @for (option of currentlyEditedQuizQuestion.options | sortOnIndexInParent; track $index)
                         {
-                            <div cdkDrag 
-                                [@scale]="QuizAnimState.ScaleIn"
-                            >
+                            <div cdkDrag [@scale]="QuizAnimState.ScaleIn">
                                 <li class="optionDiv">
                                     <input type="checkbox"               
                                         [checked]="currentlyEditedQuizQuestion.answerIndecies.includes($index)"
