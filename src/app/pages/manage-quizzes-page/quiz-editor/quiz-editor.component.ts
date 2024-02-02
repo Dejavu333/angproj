@@ -1,6 +1,6 @@
 
 
-import { Component, ElementRef, HostListener, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener,  ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from '../quiz.service';
@@ -30,33 +30,35 @@ export class QuizEditorComponent {
     box: HTMLElement | undefined;
     Constants = Constants;
     DefaultTool = new DefaultTool();
-    GroupingTool = new GroupingTool();
+    GroupingTool = new GroupingTool("");
     
     currentlyEditedQuiz: QuizDTO;
     currentlyEditedQuizQuestion: QuizQuestionDTO | undefined;
     selectedQuizQuestionInd = -1;
     QuizAnimState = QuizAnimState;
+    activeTool: QuizEditorTool = new DefaultTool();
     
     @ViewChild('fasz') container: ElementRef | undefined;
     @ViewChild('quizTitleInp') quizTitleInp: ElementRef | undefined;
     @ViewChild('timeLimitInp') timeLimitInp: ElementRef | undefined;
     @ViewChild('isOrderedQuizInp') isOrderedQuizInp: ElementRef | undefined;
-    startX: any;
-    startY: any;
-    activeTool: QuizEditorTool = new DefaultTool();
+    // @ViewChild('groupColorInp') groupColorInp: ElementRef | undefined;
     
     //command design pattern
     @HostListener("document:click", ["$event"])
     clickCommand(e: Event) {
         const target = e.target as HTMLElement;
-        if (target.classList.contains("question")) this.activeTool.clickCommand(target);
+        if (target.classList.contains("question")) {
+            const targetQuestion:QuizQuestionDTO = this.currentlyEditedQuiz.quizQuestions[Number(target.id)];
+            this.activeTool.clickCommand(targetQuestion);
+        }
     }
     
     
     //===========================================================================
     // constructors
     //===========================================================================
-    constructor(private route: ActivatedRoute, private router: Router, private quizService: QuizService, private renderer: Renderer2) {
+    constructor(private route: ActivatedRoute, private router: Router, private quizService: QuizService, ) {
         const title = this.route.snapshot.paramMap.get('id') || undefined;
         const quiz = this.quizService.quizzesCsig().find((q) => q.title === title); //returns a copy
         if (!quiz) this.closeQuizEditor();
@@ -67,50 +69,7 @@ export class QuizEditorComponent {
     // lifecycle hooks
     //===========================================================================
     ngAfterViewInit(): void {
-        setTimeout(() => {
-            console.log("selectionZone", this.container?.nativeElement);
-        }, 1000);
-        
-        this.renderer.listen('document', 'mousedown', (e) => {
-            let rect = this.container?.nativeElement.getBoundingClientRect();
-            if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
-                this.startX = e.clientX - rect.left;
-                this.startY = e.clientY - rect.top;
-                this.box = this.renderer.createElement('div');
-                this.renderer.setStyle(this.box, 'border', '1px solid black');
-                this.renderer.setStyle(this.box, 'position', 'absolute');
-                this.renderer.appendChild(this.container?.nativeElement, this.box);
-            }
-        });
-        
-        this.renderer.listen('document', 'mousemove', (e) => {
-            if (!this.box) return;
-            let rect = this.container?.nativeElement.getBoundingClientRect();
-            if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
-                let x = Math.min(e.clientX - rect.left, this.startX);
-                let y = Math.min(e.clientY - rect.top, this.startY);
-                let width = Math.abs(e.clientX - rect.left - this.startX);
-                let height = Math.abs(e.clientY - rect.top - this.startY);
-                this.renderer.setStyle(this.box, 'left', `${x}px`);
-                this.renderer.setStyle(this.box, 'top', `${y}px`);
-                this.renderer.setStyle(this.box, 'width', `${width}px`);
-                this.renderer.setStyle(this.box, 'height', `${height}px`);
-            }
-        });
-        
-        this.renderer.listen('document', 'mouseup', () => {
-            if (!this.box) return;
-            let { left, top, width, height } = this.box.getBoundingClientRect();
-            let elements = this.container?.nativeElement.querySelectorAll('div.question');
-            elements.forEach((el: { getBoundingClientRect: () => { left: any; top: any; width: any; height: any; }; }) => {
-                let { left: elLeft, top: elTop, width: elWidth, height: elHeight } = el.getBoundingClientRect();
-                if (elLeft > left && elTop > top && elLeft + elWidth < left + width && elTop + elHeight < top + height) {
-                    this.renderer.setStyle(el, 'background', 'yellow');
-                }
-            });
-            this.renderer.removeChild(this.container?.nativeElement, this.box);
-            this.box = undefined;
-        });
+        // this.GroupingTool.groupingColor = this.groupColorInp?.nativeElement.value;
     }
     
     //===========================================================================
@@ -145,8 +104,8 @@ export class QuizEditorComponent {
         this.closeQuizEditor();
     }
     
-    selectQuizQuestion(index: number): void {
-        this.currentlyEditedQuizQuestion = this.currentlyEditedQuiz.quizQuestions[index];
+    selectQuizQuestion(quizQuestion: QuizQuestionDTO): void {
+        this.currentlyEditedQuizQuestion = quizQuestion;
     }
     
     addQuizQuestionSkeleton(): void {

@@ -47,7 +47,7 @@ class QuizService {
     });
 
     private sortedCategoriesCsig: Signal<CategoryDTO[]> = computed(() => {
-        return [...this.categoriesCsig().sort((a, b) => { return a.indexOnPage - b.indexOnPage })];
+        return [...this.categoriesCsig().sort((a, b) => { return a.indexInParent - b.indexInParent })];
     });
 
     public quizzesCsig: Signal<QuizDTO[]> = computed(() => {

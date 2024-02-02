@@ -1,3 +1,5 @@
+import { QuizQuestionDTO } from "../model/QuizQuestionDTO";
+
 export abstract class QuizEditorTool {
     abstract cursor: string;
     abstract activate(): void;
@@ -6,6 +8,12 @@ export abstract class QuizEditorTool {
 
 export class GroupingTool extends QuizEditorTool {
     override cursor: string = "pointer";
+    groupingColor:string;
+
+    constructor(groupingColor:string) {
+        super();
+        this.groupingColor = groupingColor;
+    }
 
     override activate(): void {
         const allElements = document.querySelectorAll('*');
@@ -16,8 +24,8 @@ export class GroupingTool extends QuizEditorTool {
     }
 
     override clickCommand(el?:any): void {
-        el = el as HTMLElement; console.log(el)
-        el.style.background = "red";
+        const targetQestion = el as QuizQuestionDTO;
+        targetQestion.group = this.groupingColor;
     }
 }
 

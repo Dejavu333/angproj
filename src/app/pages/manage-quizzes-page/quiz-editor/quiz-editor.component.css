@@ -136,3 +136,8 @@ textarea {
     display: inline-block;
     width: 30px;
 }
+
+.selectedQuizQuestion {
+    background-color: var(--light-color-highlight);
+    filter: brightness(1.5)
+}

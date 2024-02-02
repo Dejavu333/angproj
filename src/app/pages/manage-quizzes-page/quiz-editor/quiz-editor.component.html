@@ -3,10 +3,13 @@
         <div class="quiz-container">
 
             <div id="questionsEditor" class="editor-section">
-                <div>max score {{maxScore()}}</div>
-                <input type="number">passing score
-                <input type="number">draw this many
-                <input type="radio" name="activeToolRadio" (click)="activateTool(GroupingTool)"> groupingTool
+                <div>maxscore {{maxScore()}}</div>
+                passingscore<input type="number">
+                drawthismany<input type="number">
+                <input #groupToolInp type="radio" name="activeToolRadio" (click)="activateTool(GroupingTool)"> groupingTool
+                @if(groupToolInp.checked===true) {
+                    <input #groupColorInp [(ngModel)]="GroupingTool.groupingColor" type="color"> groupColor 
+                }
                 <input type="radio" name="activeToolRadio" (click)="activateTool(DefaultTool)"> defaultTool
 
                 <label for="quizTitle">quiz title:</label>
@@ -30,9 +33,14 @@
                         @for (quizQuestion of currentlyEditedQuiz.quizQuestions | sortOnIndexInParent; track $index)
                         {
                             <div cdkDrag [@scale]="QuizAnimState.ScaleIn">
-                                <li (dblclick)="selectQuizQuestion($index)" id={{$index}} class="question">
+                                <li (dblclick)="selectQuizQuestion(quizQuestion)" id={{$index}} class="question" 
+                                    [ngClass]="quizQuestion===currentlyEditedQuizQuestion?'selectedQuizQuestion':''"
+                                    [ngStyle]="{background: quizQuestion.group}"
+                                >
+
                                     <span class="no">{{$index + 1}}.</span>
                                     {{ quizQuestion.questionText | slice:0:19 }}
+
                                 </li>
                             </div>
                         }

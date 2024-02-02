@@ -2,14 +2,14 @@ export class CategoryDTO {
     //===========================================================================
     // properties, fields
     //===========================================================================
-    public indexOnPage: number;
+    public indexInParent: number;
     public categoryName: string;
 
     //===========================================================================
     // constructors
     //===========================================================================
-    constructor(categoryName: string, indexOnPage: number = -1) {
-        this.indexOnPage = indexOnPage;
+    constructor(categoryName: string, indexInParent: number = -1) {
+        this.indexInParent = indexInParent;
         this.categoryName = categoryName;
     }
 }
