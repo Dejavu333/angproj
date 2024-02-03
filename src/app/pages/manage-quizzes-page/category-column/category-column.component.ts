@@ -1,10 +1,11 @@
 import { Component, computed, Input, Signal } from '@angular/core';
 import { QuizCarouselComponent } from "../quiz-carousel/quiz-carousel.component";
-import { QuizDTO } from '../model/QuizDTO';
+import { Group, QuizDTO } from '../model/QuizDTO';
 import { QuizService } from "../quiz.service";
 import { fadeAnimation, QuizAnimState, scaleAnimation } from 'app/app.animations';
 import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { genTempID } from '../quiz-editor/quiz-editor.component';
+import { Constants } from 'app/app.constants';
 
 @Component({
     selector: 'app-category-column',
@@ -36,9 +37,20 @@ export class CategoryColumnComponent {
     // methods
     //===========================================================================
     addEmptyQuizCarouselHandler() {
-        this.quizService.quizUpserted$tream.next(new QuizDTO(genTempID("quiz-"), this.category));
+        this.quizService.quizUpserted$tream.next(
+            new QuizDTO(
+                genTempID("quiz-"),
+                this.category,
+                -1,
+                Constants.DEFAULT_QUIZ_NAME,
+                [],
+                false,
+                600,
+                [new Group(Constants.DEFAULT_GROUP_COLOR_VALUE, Math.max())]
+            )
+        );
     }
-    
+
     dropHandler(event: CdkDragDrop<any[]>, newCategory: string) {
         const droppedElement: QuizDTO = event.item.data;
 

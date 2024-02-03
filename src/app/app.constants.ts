@@ -5,4 +5,5 @@ export enum Constants {
     MANAGE_QUIZZES_PAGE_ROUTE = "manage-quizzes",
         QUIZ_EDITOR_ROUTE = "quiz-editor",
         QUIZ_INSTANCE_EDITOR_ROUTE = "quiz-instance-editor",
+    DEFAULT_GROUP_COLOR_VALUE = "transparent",
 }

@@ -1,76 +1,91 @@
 <div class="popup-background">
     <div class="popup-content">
-        <div class="quiz-container">
 
             <div id="questionsEditor" class="editor-section">
                 <div>maxscore {{maxScore()}}</div>
                 passingscore<input type="number">
                 drawthismany<input type="number">
-                <input #groupToolInp type="radio" name="activeToolRadio" (click)="activateTool(GroupingTool)"> groupingTool
-                @if(groupToolInp.checked===true) {
-                    <input #groupColorInp [(ngModel)]="GroupingTool.groupingColor" type="color"> groupColor 
+                
+                groupingTool
+                <input #groupToolInp type="radio" name="activeToolRadio" (click)="activateTool(GroupingTool)"> 
+                @if(groupToolInp.checked===true) 
+                {   groupColor
+                    <input #groupColorInp 
+                        [(ngModel)]="GroupingTool.groupingColor" type="color"
+                    />
+                    @for (g of currentlyEditedQuiz.groups ;track $index) 
+                    {
+                        <div (click)="useGroup()" class="groupRepres" [ngStyle]="{background : g.name}">{{g.name}}</div>
+                    }
                 }
-                <input type="radio" name="activeToolRadio" (click)="activateTool(DefaultTool)"> defaultTool
+                defaultTool
+                <input type="radio" name="activeToolRadio" (click)="activateTool(DefaultTool)"> 
 
                 <label for="quizTitle">quiz title:</label>
-                <input #quizTitleInp type="text" placeholder="enter quiz title..." [value]="currentlyEditedQuiz.title" />
+                <input #quizTitleInp type="text" placeholder="enter quiz title..." 
+                    [(ngModel)]="currentlyEditedQuiz.title" 
+                />
 
                 <label for="timeLimit">time limit (s):</label>
-                <input #timeLimitInp type="text" placeholder="enter time limit..." [value]="currentlyEditedQuiz.timeLimit" />
+                <input #timeLimitInp type="text" placeholder="enter time limit..." 
+                    [(ngModel)]="currentlyEditedQuiz.timeLimit" 
+                />
                 
                 <label for="isOrderedQuiz">ordered questions:</label>
                 <input #isOrderedQuizInp type="checkbox" name="isOrderedQuiz"
-                    [checked]="currentlyEditedQuiz.isOrdered" />
+                    [checked]="currentlyEditedQuiz.isOrdered" 
+                />
              
                 <button (click)="addQuizQuestionSkeleton()">add question</button>
 
-                <div id="container" #fasz>
+                <ul id="questions-list"
+                cdkDropList [cdkDropListData]="currentlyEditedQuiz.quizQuestions | sortOnIndexInParent"
+                (cdkDropListDropped)="dropHandler($event)"
+                >
+                    @for (quizQuestion of currentlyEditedQuiz.quizQuestions | sortOnIndexInParent; track $index)
+                    {
+                        <div cdkDrag [@scale]="QuizAnimState.ScaleIn">
+                            <li (dblclick)="selectQuizQuestion(quizQuestion)" id={{$index}} class="question" 
+                                [ngClass]="quizQuestion === currentlyEditedQuizQuestion ? 'selectedQuizQuestion':''"
+                                [ngStyle]="{background: quizQuestion.group}"
+                            >
 
-                    <ul id="questions-list" class="slave" 
-                    cdkDropList [cdkDropListData]="currentlyEditedQuiz.quizQuestions | sortOnIndexInParent"
-                    (cdkDropListDropped)="dropHandler($event)"
-                    >
-                        @for (quizQuestion of currentlyEditedQuiz.quizQuestions | sortOnIndexInParent; track $index)
-                        {
-                            <div cdkDrag [@scale]="QuizAnimState.ScaleIn">
-                                <li (dblclick)="selectQuizQuestion(quizQuestion)" id={{$index}} class="question" 
-                                    [ngClass]="quizQuestion===currentlyEditedQuizQuestion?'selectedQuizQuestion':''"
-                                    [ngStyle]="{background: quizQuestion.group}"
-                                >
+                                <span class="no">{{$index + 1}}.</span>
+                                {{ quizQuestion.questionText | slice:0:19 }}
 
-                                    <span class="no">{{$index + 1}}.</span>
-                                    {{ quizQuestion.questionText | slice:0:19 }}
+                            </li>
+                        </div>
+                    }
+                </ul>
 
-                                </li>
-                            </div>
-                        }
-                    </ul>
-
-                </div>
             </div><!-- questions editor -->
 
+            <div id="optionsEditor" class="editor-section"> 
             @if (currentlyEditedQuizQuestion)
             {
-                <div id="optionsEditor" class="editor-section">
                     <label for="questionText">question text:</label>
                     <textarea name="questionText" placeholder="enter question text..."
-                        [(ngModel)]="currentlyEditedQuizQuestion.questionText" (blur)="updateQuesionText($event)"
+                        [(ngModel)]="currentlyEditedQuizQuestion.questionText" 
+               
                         (focus)="removeInputContent($event, Constants.DEFAULT_QUIZ_QUESTION_NAME)">
                     </textarea>
 
                     <label for="isOrderedOptions">ordered options:</label>
-                    <input type="checkbox" id="isOrderedOptionsInp" name="isOrderedOptions"
-                        [checked]="currentlyEditedQuizQuestion.optionsAreOrdered" />
+                    <input #isOrderedOptionsInp type="checkbox" name="isOrderedOptions"
+                        [(ngModel)]="currentlyEditedQuizQuestion.optionsAreOrdered" />
                         
                     <label for="score">score</label>
-                    <input type="number" name="score" [(ngModel)]="currentlyEditedQuizQuestion.score" min="1"/>
+                    <input type="number" name="score"  min="1"
+                        [(ngModel)]="currentlyEditedQuizQuestion.score"/>
                     
                     <label for="subpoints">subpoints:</label>
-                    <input type="radio" id="isSubpointsEnabledInp" name="subpoints"/>
+                    <input type="radio" name="subpoints"
+                        [(ngModel)]="currentlyEditedQuizQuestion.isSubpoints"/>
+                    
                     <label for="subpoints">all or nothing:</label>
-                    <input type="radio" id="isSubpointsEnabledInp" name="subpoints"/>
+                    <input type="radio" name="subpoints"/>
                    
-                    <button (click)="addOption()">add option</button>
+                    <button (click)="addQuizOption()">add option</button>
 
                     <ul cdkDropList [cdkDropListData]="currentlyEditedQuizQuestion.options | sortOnIndexInParent"
                         (cdkDropListDropped)="dropHandler($event)">
@@ -88,14 +103,13 @@
                             </div>
                         }
                     </ul>
-                </div><!-- options editor -->
-            }
+                }
+            </div><!-- options editor -->
 
             <div class="button-container">
                 <button id="saveAndCloseEditorBtn" (click)="saveAndCloseQuizEditor()">save</button>
                 <button id="closeEditorBtn" (click)="closeQuizEditor()">cancel</button>
             </div>
             
-        </div> <!-- quiz container -->
     </div> <!-- popup content -->
 </div> <!-- popup background -->

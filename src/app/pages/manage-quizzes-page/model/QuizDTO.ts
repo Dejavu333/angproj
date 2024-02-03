@@ -1,11 +1,21 @@
 import { QuizAnimState } from "app/app.animations";
 import { QuizQuestionDTO } from "./QuizQuestionDTO";
-import { Constants } from "app/app.constants";
+
+export class Group {
+    name: string;
+    drawThisMany: number;
+
+    constructor(name: string, drawThisMany: number) {
+        this.name = name; // colorvalue
+        this.drawThisMany = drawThisMany;
+    }
+}
 
 export class QuizDTO {
     //===========================================================================
     // properties, fields
     //===========================================================================
+    //independent variables
     public id: string;
     public title: string;
     public category: string;
@@ -13,13 +23,18 @@ export class QuizDTO {
     public quizQuestions: QuizQuestionDTO[];
     public isOrdered: boolean;
     public timeLimit: number;
-    private animState: QuizAnimState;
+    public groups: Group[];
+    //dependent variables
+    public get drawThisMany() {
+        return this.groups.reduce((acc,g)=>acc+g.drawThisMany,0);
+    } 
+    //user can't affect these
+    private animState: QuizAnimState = QuizAnimState.ScaleIn;
 
     //===========================================================================
     // constructors
     //===========================================================================
-    constructor(id:string, category: string, indexInParent: number = -1, title: string = Constants.DEFAULT_QUIZ_NAME, quizQuestions: QuizQuestionDTO[] = [], isOrdered: boolean = false, timeLimit: number = 0) {
-        //user cab affect these
+    constructor(id: string, category: string, indexInParent: number, title: string, quizQuestions: QuizQuestionDTO[], isOrdered: boolean, timeLimit: number, groups:Group[]) {
         this.id = id;
         this.category = category;
         this.indexInParent = indexInParent;
@@ -27,8 +42,7 @@ export class QuizDTO {
         this.quizQuestions = quizQuestions;
         this.isOrdered = isOrdered;
         this.timeLimit = timeLimit;
-        //user can't affect these
-        this.animState = QuizAnimState.ScaleIn;
+        this.groups = groups;
     }
 
     //===========================================================================

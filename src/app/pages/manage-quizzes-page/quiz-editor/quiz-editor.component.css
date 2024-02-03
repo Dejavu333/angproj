@@ -19,75 +19,59 @@ span {
 }
 
 .popup-content {
-    position: fixed;
+    display: grid;
+    grid-template-areas:
+        "questions options"
+        "buttons   buttons"
+    ;
+
+    grid-template-columns:
+        20% 80%
+    ;
+    grid-template-rows: 
+        90%
+        10%
+    ;
+
+    position: relative;
     overflow: hidden;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-width: 90rem;
-    min-height: 48rem;
+    width: 90rem;
+    height: 50rem;
     background-color: var(--light-color);
-    padding: 0px;
     border-radius: var(--primary-border-radius);
+    padding: 0px;
     z-index: 99;
 }
 
-.quiz-container {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-}
-
 #questionsEditor {
-    width: 18rem;
+    grid-area: questions;
     padding: 20px;
-    left: 0;
-    z-index: 2;
+    overflow: hidden; /* Hide any content that overflows the container */
+    display: flex; /* Use flexbox */
+    flex-direction: column;
 }
 
 #optionsEditor {
-    width: 45rem;
-    min-height: 50rem;
-    position: absolute;
-    right: 3rem;
-    background-color: white;
+    grid-area: options;
     padding: 20px;
-    z-index: 10;
+    background-color: rgb(205, 54, 54);
 }
 
-#optionsEditor:after {
-    content: "";
-    position: absolute;
-    right: -7.5rem;
-    top: -10rem;
-    height: 70rem;
-    width: 58rem;
-    background: var(--primary-color);
-    transform: rotate(7deg);
-    box-shadow: 0 0 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
-    z-index: -1;
-}
-
-#optionsEditor:before {
-    content: "";
-    position: absolute;
-    right: 10rem;
-    top: 31.1rem;
-    height: 70rem;
-    width: 58rem;
-    background: var(--secondary-color);
-    transform: rotate(87deg);
-    box-shadow: 0 0 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
-    z-index: -1;
+ul {
+    flex-grow: 1; /* Let the ul grow to fill available space */
+    overflow-y: auto;
 }
 
 .button-container {
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    bottom: -5rem;
-    margin: 1rem;
-    z-index: 10;
+    grid-area: buttons;
+    /* display: flex; */
+    /* justify-content: space-between; */
+    background-color: wheat;
+    /* bottom: -5rem; */
+    /* margin: 1rem; */
 }
 
 button {
@@ -118,12 +102,6 @@ button {
     align-items: center;
 }
 
-ul {
-    height: 25rem;
-    overflow-y: auto;
-    /* Enable vertical scrolling when content exceeds the container */
-    /* box-shadow: var(--shadow-primary); */
-}
 
 textarea {
     width: 45rem;
@@ -140,4 +118,9 @@ textarea {
 .selectedQuizQuestion {
     background-color: var(--light-color-highlight);
     filter: brightness(1.5)
+}
+
+/* todo specific styles */
+.editor-section>input {
+    width: 3rem;
 }

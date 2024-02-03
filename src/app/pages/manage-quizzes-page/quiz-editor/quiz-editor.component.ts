@@ -23,6 +23,9 @@ import { QuizOptionDTO } from '../model/QuizOptionDTO';
     animations: [scaleAnimation],
 })
 export class QuizEditorComponent {
+useGroup() {
+throw new Error('Method not implemented.');
+}
     
     //===========================================================================
     // properties, fields
@@ -38,7 +41,6 @@ export class QuizEditorComponent {
     QuizAnimState = QuizAnimState;
     activeTool: QuizEditorTool = new DefaultTool();
     
-    @ViewChild('fasz') container: ElementRef | undefined;
     @ViewChild('quizTitleInp') quizTitleInp: ElementRef | undefined;
     @ViewChild('timeLimitInp') timeLimitInp: ElementRef | undefined;
     @ViewChild('isOrderedQuizInp') isOrderedQuizInp: ElementRef | undefined;
@@ -105,14 +107,15 @@ export class QuizEditorComponent {
     }
     
     selectQuizQuestion(quizQuestion: QuizQuestionDTO): void {
-        this.currentlyEditedQuizQuestion = quizQuestion;
+        if(this.activeTool instanceof DefaultTool) this.currentlyEditedQuizQuestion = quizQuestion;
+
     }
     
     addQuizQuestionSkeleton(): void {
         this.currentlyEditedQuiz.quizQuestions.push(new QuizQuestionDTO(Constants.DEFAULT_QUIZ_QUESTION_NAME, [new QuizOptionDTO(genTempID("question-"),Constants.DEFAULT_QUIZ_OPTION_NAME, 0), new QuizOptionDTO(genTempID("question-"),Constants.DEFAULT_QUIZ_OPTION_NAME, 0)], [], false, this.currentlyEditedQuiz.quizQuestions.length, 1, "", false)); //todo {} instead of undefs
     }
     
-    addOption(): void {
+    addQuizOption(): void {
         this.currentlyEditedQuizQuestion?.options.push(new QuizOptionDTO(genTempID("option-"),Constants.DEFAULT_QUIZ_OPTION_NAME, this.currentlyEditedQuizQuestion.options.length));
     }
     
@@ -145,7 +148,7 @@ export class QuizEditorComponent {
     }
 }
 
-export function genTempID(prefix:string): string {
+export function genTempID(prefix: string): string {
     // Generate a temporal ID based on the current time
     let temporal_id: string = Date.now().toString();
 
