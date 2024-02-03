@@ -1,6 +1,6 @@
 
 
-import { Component, ElementRef, HostListener,  ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from '../quiz.service';
@@ -27,69 +27,68 @@ export class QuizEditorComponent {
     useGroup() {
         throw new Error('Method not implemented.');
     }
-    
+
     //===========================================================================
     // properties, fields
     //===========================================================================
     box: HTMLElement | undefined;
     Constants = Constants;
-    DefaultTool = new DefaultTool();
-    GroupingTool = new GroupingTool("");
-    
+    DefaultTool: DefaultTool = new DefaultTool();
+    GroupingTool: GroupingTool;
+
     currentlyEditedQuiz: QuizDTO;
     currentlyEditedQuizQuestion: QuizQuestionDTO | undefined;
     selectedQuizQuestionInd = -1;
     QuizAnimState = QuizAnimState;
-    activeTool: QuizEditorTool = new DefaultTool();
-    
+    activeTool: QuizEditorTool;
+
     @ViewChild('quizTitleInp') quizTitleInp: ElementRef | undefined;
     // @ViewChild('timeLimitInp') timeLimitInp: ElementRef | undefined;
     // @ViewChild('isOrderedQuizInp') isOrderedQuizInp: ElementRef | undefined;
     // @ViewChild('groupColorInp') groupColorInp: ElementRef | undefined;
-    
+
     //command design pattern
     @HostListener("document:click", ["$event"])
     clickCommand(e: Event) {
-        const target = e.target as HTMLElement;
-        if (target.classList.contains("question")) {
-            const targetQuestion:QuizQuestionDTO = this.currentlyEditedQuiz.quizQuestions[Number(target.id)];
-            this.activeTool.clickCommand(targetQuestion,this.currentlyEditedQuiz);
-        }
+        this.activeTool.clickCommand(e.target as HTMLElement);
     }
-    
+
     //===========================================================================
     // constructors
     //===========================================================================
-    constructor(private route: ActivatedRoute, private router: Router, private quizService: QuizService, ) {
+    constructor(private route: ActivatedRoute, private router: Router, private quizService: QuizService,) {
         const title = this.route.snapshot.paramMap.get('id') || undefined;
         const quiz = this.quizService.quizzesCsig().find((q) => q.title === title); //returns a copy
         if (!quiz) { this.closeQuizEditor() };
         this.currentlyEditedQuiz = quiz!;
+        this.DefaultTool = new DefaultTool();
+        this.GroupingTool = new GroupingTool("", this.currentlyEditedQuiz);
+        this.activeTool = this.DefaultTool;
     }
-    
+
     //===========================================================================
     // lifecycle hooks
     //===========================================================================
     ngAfterViewInit(): void {
         // this.GroupingTool.groupingColor = this.groupColorInp?.nativeElement.value;
     }
-    
+
     //===========================================================================
     // methods
     //===========================================================================
-    activateTool(tool:QuizEditorTool) {
+    activateTool(tool: QuizEditorTool) {
         this.activeTool = tool;
         this.activeTool.activate();
     }
-    
+
     maxScore() {
         return this.currentlyEditedQuiz.quizQuestions.reduce((acc, q) => acc + q.score, 0);
     }
-    
+
     closeQuizEditor(): void {
         this.router.navigate([Constants.MANAGE_QUIZZES_PAGE_ROUTE]);
     }
-    
+
     saveAndCloseQuizEditor(): void {
         if (this.quizTitleInp?.nativeElement.value === "") {
             this.quizTitleInp.nativeElement.value = "cannot be empty";
@@ -105,38 +104,38 @@ export class QuizEditorComponent {
         // Todo: Implement upsertQuizInDB logic
         this.closeQuizEditor();
     }
-    
+
     selectQuizQuestion(quizQuestion: QuizQuestionDTO): void {
-        if(this.activeTool instanceof DefaultTool) this.currentlyEditedQuizQuestion = quizQuestion;
+        if (this.activeTool instanceof DefaultTool) this.currentlyEditedQuizQuestion = quizQuestion;
     }
-    
+
     addQuizQuestionSkeleton(): void {
-        this.currentlyEditedQuiz.quizQuestions.push(new QuizQuestionDTO(Constants.DEFAULT_QUIZ_QUESTION_NAME, [new QuizOptionDTO(genTempID("question-"),Constants.DEFAULT_QUIZ_OPTION_NAME, 0), new QuizOptionDTO(genTempID("question-"),Constants.DEFAULT_QUIZ_OPTION_NAME, 0)], [], false, this.currentlyEditedQuiz.quizQuestions.length, 1, "", false)); //todo {} instead of undefs
+        this.currentlyEditedQuiz.quizQuestions.push(new QuizQuestionDTO(Constants.DEFAULT_QUIZ_QUESTION_NAME, [new QuizOptionDTO(genTempID("question-"), Constants.DEFAULT_QUIZ_OPTION_NAME, 0), new QuizOptionDTO(genTempID("question-"), Constants.DEFAULT_QUIZ_OPTION_NAME, 0)], [], false, this.currentlyEditedQuiz.quizQuestions.length, 1, "", false)); //todo {} instead of undefs
     }
-    
+
     addQuizOption(): void {
-        this.currentlyEditedQuizQuestion?.options.push(new QuizOptionDTO(genTempID("option-"),Constants.DEFAULT_QUIZ_OPTION_NAME, this.currentlyEditedQuizQuestion.options.length));
+        this.currentlyEditedQuizQuestion?.options.push(new QuizOptionDTO(genTempID("option-"), Constants.DEFAULT_QUIZ_OPTION_NAME, this.currentlyEditedQuizQuestion.options.length));
     }
-    
+
     updateAnswer(index: number): void {
         throw new Error('Method not implemented.');
     }
-    
+
     updateOptionText($event: FocusEvent) {
     }
-    
+
     updateQuesionText(event: any): void {
     }
-    
+
     removeInputContent(event: FocusEvent, ifContent: string): void {
         const t = event.target as HTMLInputElement;
         if (t.value === ifContent) t.value = "";
     }
-    
+
     dropHandler(event: CdkDragDrop<any[]>) {
-        
+
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-        
+
         const alteredOrderArr: any[] = event.container.data;
         alteredOrderArr.forEach((el, newIndex) => {
             console.log(el);

@@ -4,16 +4,18 @@ import { QuizQuestionDTO } from "../model/QuizQuestionDTO";
 export abstract class QuizEditorTool {
     abstract cursor: string;
     abstract activate(): void;
-    abstract clickCommand(el?:any, el2?:any): void;
+    abstract clickCommand(target?:any): void;
 }
 
 export class GroupingTool extends QuizEditorTool {
     override cursor: string = "pointer";
     groupingColor:string;
+    currentlyEditedQuiz: QuizDTO;
 
-    constructor(groupingColor:string) {
+    constructor(groupingColor:string, currentlyEditedQuiz: QuizDTO) {
         super();
         this.groupingColor = groupingColor;
+        this.currentlyEditedQuiz= currentlyEditedQuiz;
     }
 
     override activate(): void {
@@ -24,9 +26,12 @@ export class GroupingTool extends QuizEditorTool {
         });
     }
 
-    override clickCommand(el?:QuizQuestionDTO, el2?:QuizDTO): void {
-        const g = new Group(this.groupingColor,Math.max());
-        el && el2?.setGroupForQuizQuestion(el,g);   //doesnt work since passes a copy or IDK
+    override clickCommand(target:HTMLElement): void {
+        if (target.classList.contains("question")) {
+            const targetQuestion:QuizQuestionDTO = this.currentlyEditedQuiz.quizQuestions[Number(target.id)];
+            const g = new Group(this.groupingColor,Math.max());
+            this.currentlyEditedQuiz.setGroupForQuizQuestion(targetQuestion,g);
+        }
     }
 }
 
