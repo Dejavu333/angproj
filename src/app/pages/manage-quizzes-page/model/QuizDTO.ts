@@ -23,7 +23,7 @@ export class QuizDTO {
     public quizQuestions: QuizQuestionDTO[];
     public isOrdered: boolean;
     public timeLimit: number;
-    public groups: Group[];
+    public groups: Group[]; //todo have to change in sync with questions, should make this private, quiz is actually an aggregate
     //dependent variables
     public get drawThisMany() {
         return this.groups.reduce((acc,g)=>acc+g.drawThisMany,0);
@@ -48,6 +48,13 @@ export class QuizDTO {
     //===========================================================================
     // methods
     //===========================================================================
+    setGroupForQuizQuestion(quizQuestion:QuizQuestionDTO, group:Group) {
+        quizQuestion.group = group.name;
+        const alreadyExists = this.groups.map((g)=>{return g.name}).includes(group.name);
+        if (alreadyExists) {return};
+        this.groups.push(group);
+    }
+
     setAnimState(toState: QuizAnimState) {
         this.animState = toState;
     }

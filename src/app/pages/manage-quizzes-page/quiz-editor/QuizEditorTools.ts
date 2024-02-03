@@ -1,9 +1,10 @@
+import { Group, QuizDTO } from "../model/QuizDTO";
 import { QuizQuestionDTO } from "../model/QuizQuestionDTO";
 
 export abstract class QuizEditorTool {
     abstract cursor: string;
     abstract activate(): void;
-    abstract clickCommand(el?:any): void;
+    abstract clickCommand(el?:any, el2?:any): void;
 }
 
 export class GroupingTool extends QuizEditorTool {
@@ -23,9 +24,9 @@ export class GroupingTool extends QuizEditorTool {
         });
     }
 
-    override clickCommand(el?:any): void {
-        const targetQestion = el as QuizQuestionDTO;
-        targetQestion.group = this.groupingColor;
+    override clickCommand(el?:QuizQuestionDTO, el2?:QuizDTO): void {
+        const g = new Group(this.groupingColor,Math.max());
+        el && el2?.setGroupForQuizQuestion(el,g);   //doesnt work since passes a copy or IDK
     }
 }
 

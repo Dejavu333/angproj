@@ -23,9 +23,10 @@ import { QuizOptionDTO } from '../model/QuizOptionDTO';
     animations: [scaleAnimation],
 })
 export class QuizEditorComponent {
-useGroup() {
-throw new Error('Method not implemented.');
-}
+
+    useGroup() {
+        throw new Error('Method not implemented.');
+    }
     
     //===========================================================================
     // properties, fields
@@ -42,8 +43,8 @@ throw new Error('Method not implemented.');
     activeTool: QuizEditorTool = new DefaultTool();
     
     @ViewChild('quizTitleInp') quizTitleInp: ElementRef | undefined;
-    @ViewChild('timeLimitInp') timeLimitInp: ElementRef | undefined;
-    @ViewChild('isOrderedQuizInp') isOrderedQuizInp: ElementRef | undefined;
+    // @ViewChild('timeLimitInp') timeLimitInp: ElementRef | undefined;
+    // @ViewChild('isOrderedQuizInp') isOrderedQuizInp: ElementRef | undefined;
     // @ViewChild('groupColorInp') groupColorInp: ElementRef | undefined;
     
     //command design pattern
@@ -52,10 +53,9 @@ throw new Error('Method not implemented.');
         const target = e.target as HTMLElement;
         if (target.classList.contains("question")) {
             const targetQuestion:QuizQuestionDTO = this.currentlyEditedQuiz.quizQuestions[Number(target.id)];
-            this.activeTool.clickCommand(targetQuestion);
+            this.activeTool.clickCommand(targetQuestion,this.currentlyEditedQuiz);
         }
     }
-    
     
     //===========================================================================
     // constructors
@@ -63,7 +63,7 @@ throw new Error('Method not implemented.');
     constructor(private route: ActivatedRoute, private router: Router, private quizService: QuizService, ) {
         const title = this.route.snapshot.paramMap.get('id') || undefined;
         const quiz = this.quizService.quizzesCsig().find((q) => q.title === title); //returns a copy
-        if (!quiz) this.closeQuizEditor();
+        if (!quiz) { this.closeQuizEditor() };
         this.currentlyEditedQuiz = quiz!;
     }
     
@@ -97,10 +97,10 @@ throw new Error('Method not implemented.');
         }
         // Todo: check if title already exists
         // Update quiz details
-        // Replace the following code with the actual logic to update quiz details
-        this.currentlyEditedQuiz.title = this.quizTitleInp?.nativeElement.value;
-        this.currentlyEditedQuiz.timeLimit = this.timeLimitInp?.nativeElement.value;
-        this.currentlyEditedQuiz.isOrdered = this.isOrderedQuizInp?.nativeElement.checked;
+        // Replace the following code with the actual logic to update quiz details //todo remove
+        // this.currentlyEditedQuiz.title = this.quizTitleInp?.nativeElement.value;
+        // this.currentlyEditedQuiz.timeLimit = this.timeLimitInp?.nativeElement.value;
+        // this.currentlyEditedQuiz.isOrdered = this.isOrderedQuizInp?.nativeElement.checked;
 
         // Todo: Implement upsertQuizInDB logic
         this.closeQuizEditor();
@@ -108,7 +108,6 @@ throw new Error('Method not implemented.');
     
     selectQuizQuestion(quizQuestion: QuizQuestionDTO): void {
         if(this.activeTool instanceof DefaultTool) this.currentlyEditedQuizQuestion = quizQuestion;
-
     }
     
     addQuizQuestionSkeleton(): void {

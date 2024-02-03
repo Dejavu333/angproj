@@ -5,7 +5,7 @@
                 <div>maxscore {{maxScore()}}</div>
                 passingscore<input type="number">
                 drawthismany<input type="number">
-                
+
                 groupingTool
                 <input #groupToolInp type="radio" name="activeToolRadio" (click)="activateTool(GroupingTool)"> 
                 @if(groupToolInp.checked===true) 
@@ -13,7 +13,7 @@
                     <input #groupColorInp 
                         [(ngModel)]="GroupingTool.groupingColor" type="color"
                     />
-                    @for (g of currentlyEditedQuiz.groups ;track $index) 
+                    @for (g of currentlyEditedQuiz.groups; track $index) 
                     {
                         <div (click)="useGroup()" class="groupRepres" [ngStyle]="{background : g.name}">{{g.name}}</div>
                     }

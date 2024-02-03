@@ -124,3 +124,8 @@ textarea {
 .editor-section>input {
     width: 3rem;
 }
+
+.groupRepres {
+    width: 1.5rem;
+    height: 1.5rem;
+}
