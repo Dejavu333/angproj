@@ -26,15 +26,15 @@ export class QuizDTO {
     public groups: Group[]; //todo have to change in sync with questions, should make this private, quiz is actually an aggregate
     //dependent variables
     public get drawThisMany() {
-        return this.groups.reduce((acc,g)=>acc+g.drawThisMany,0);
-    } 
+        return this.groups.reduce((acc, g) => acc + g.drawThisMany, 0);
+    }
     //user can't affect these
     private animState: QuizAnimState = QuizAnimState.ScaleIn;
 
     //===========================================================================
     // constructors
     //===========================================================================
-    constructor(id: string, category: string, indexInParent: number, title: string, quizQuestions: QuizQuestionDTO[], isOrdered: boolean, timeLimit: number, groups:Group[]) {
+    constructor(id: string, category: string, indexInParent: number, title: string, quizQuestions: QuizQuestionDTO[], isOrdered: boolean, timeLimit: number, groups: Group[]) {
         this.id = id;
         this.category = category;
         this.indexInParent = indexInParent;
@@ -48,11 +48,27 @@ export class QuizDTO {
     //===========================================================================
     // methods
     //===========================================================================
-    setGroupForQuizQuestion(quizQuestion:QuizQuestionDTO, group:Group) {
-        quizQuestion.group = group.name;
-        const alreadyExists = this.groups.map((g)=>{return g.name}).includes(group.name);
-        if (alreadyExists) {return};
+    addQuizQuestion(quizQuestion: QuizQuestionDTO) {
+        this.quizQuestions.push(quizQuestion);
+    }
+    addGroup(group:Group) {
         this.groups.push(group);
+    }
+    removeQuizQuestion(id: string) {
+        //  this.quizQuestions.indexOf(this.quizQuestions.find((q)=>q.id===id)!) //todo id 
+    }
+
+    setGroupForQuizQuestion(quizQuestion: QuizQuestionDTO, group: Group) {
+        //set q group
+        quizQuestion.group = group.name;
+        //trash
+        const currentGroupNames = this.quizQuestions.map((q) => q.group);
+        this.groups = this.groups.filter(group => currentGroupNames.includes(group.name));
+        //inventory
+        const inventoryGroupNames = this.groups.map((g) => { return g.name });
+        const alreadyExists = inventoryGroupNames.includes(group.name);
+        if (!alreadyExists) { this.addGroup(group); };
+
     }
 
     setAnimState(toState: QuizAnimState) {
