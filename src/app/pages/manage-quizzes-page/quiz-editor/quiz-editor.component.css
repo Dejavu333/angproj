@@ -26,12 +26,9 @@ span {
     ;
 
     grid-template-columns:
-        20% 80%
-    ;
-    grid-template-rows: 
-        90%
-        10%
-    ;
+        20% 80%;
+    grid-template-rows:
+        90% 10%;
 
     position: relative;
     overflow: hidden;
@@ -49,9 +46,11 @@ span {
 #questionsEditor {
     grid-area: questions;
     padding: 20px;
-    
-    overflow: hidden; /* Hide any content that overflows the container */
-    display: flex; /* Use flexbox */
+
+    overflow: hidden;
+    /* Hide any content that overflows the container */
+    display: flex;
+    /* Use flexbox */
     flex-direction: column;
 }
 
@@ -62,8 +61,13 @@ span {
 }
 
 ul {
-    flex-grow: 1; /* Let the ul grow to fill available space */
+    flex-grow: 1;
+    /* Let the ul grow to fill available space */
     overflow-y: auto;
+}
+
+li {
+    border-radius: var(--primary-border-radius);
 }
 
 .button-container {
@@ -117,8 +121,9 @@ textarea {
 }
 
 .selectedQuizQuestion {
-    background-color: var(--light-color-highlight);
-    filter: brightness(1.5)
+    background-color: var(--light-color);
+    animation: pulse 2s infinite;
+    /* scale: 1.1; */
 }
 
 /* todo specific styles */
@@ -129,4 +134,18 @@ textarea {
 .groupRepres {
     width: 1.5rem;
     height: 1.5rem;
+}
+
+@keyframes pulse {
+    0% {
+        filter: brightness(1.25);
+    }
+
+    50% {
+        filter: brightness(1.5);
+    }
+
+    100% {
+        filter: brightness(1.25);
+    }
 }
