@@ -8,7 +8,7 @@ export abstract class QuizEditorTool {
 }
 
 export class GroupingTool extends QuizEditorTool {
-    override cursor: string = "pointer";
+    override cursor: string = "cell";
     groupingColor:string;
     currentlyEditedQuiz: QuizDTO;
 
