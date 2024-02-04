@@ -44,7 +44,7 @@
                 >
                     @for (quizQuestion of currentlyEditedQuiz.quizQuestions | sortOnIndexInParent; track $index)
                     {
-                        <div cdkDrag [@scale]="QuizAnimState.ScaleIn">
+                        <div cdkDrag [cdkDragDisabled]="activeTool!==DefaultTool" [@scale]="QuizAnimState.ScaleIn">
                             <li (dblclick)="selectQuizQuestion(quizQuestion)" id={{$index}} class="question" 
                                 [ngClass]="quizQuestion === currentlyEditedQuizQuestion ? 'selectedQuizQuestion':''"
                                 [ngStyle]="{background: quizQuestion.group}"
