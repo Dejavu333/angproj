@@ -31,7 +31,7 @@ export class ApiService {
                             new QuizOptionDTO(genTempID("option-"),"asdY", 1), 
                             new QuizOptionDTO(genTempID("option-"),"asdZ", 0)
                         ], 
-                        [0, 1],
+                        [],
                         false,
                         1,
                         1,
@@ -46,7 +46,7 @@ export class ApiService {
                             new QuizOptionDTO(genTempID("option-"),"test3", 2), 
                             new QuizOptionDTO(genTempID("option-"),"test4", 3)
                         ], 
-                        [0, 1],
+                        [],
                         false,
                         0,
                         1,
@@ -59,8 +59,8 @@ export class ApiService {
                 [new Group("red",1)]
             ),
 
-            new QuizDTO(genTempID("quiz-"), "some category", 1, "test2", [new QuizQuestionDTO("test?", [new QuizOptionDTO(genTempID("option-"), "test1", 0), new QuizOptionDTO(genTempID("option-"), "test1", 1), new QuizOptionDTO(genTempID("option-"), "test1", 2)], [0], false, 1, 1, "", false)], true, 700, [new Group("green", 1), new Group(Constants.DEFAULT_GROUP_COLOR_VALUE, Math.max())]),
-            new QuizDTO(genTempID("quiz-"),"other category",2, "test3", [new QuizQuestionDTO("test?", [new QuizOptionDTO(genTempID("option-"),"test1", 0), new QuizOptionDTO(genTempID("option-"),"test1", 1)], [1], false, 2, 1, "", false)], false, 800, [new Group("blue", 1), new Group(Constants.DEFAULT_GROUP_COLOR_VALUE, Math.max())]),
+            new QuizDTO(genTempID("quiz-"), "some category", 1, "test2", [new QuizQuestionDTO("test?", [new QuizOptionDTO(genTempID("option-"), "test1", 0), new QuizOptionDTO(genTempID("option-"), "test1", 1), new QuizOptionDTO(genTempID("option-"), "test1", 2)], [], false, 1, 1, "", false)], true, 700, [new Group("green", 1), new Group(Constants.DEFAULT_GROUP_COLOR_VALUE, Math.max())]),
+            new QuizDTO(genTempID("quiz-"),"other category", 2, "test3", [new QuizQuestionDTO("test?", [new QuizOptionDTO(genTempID("option-"), "test1", 0), new QuizOptionDTO(genTempID("option-"), "test1", 1)], [], false, 2, 1, "", false)], false, 800, [new Group("blue", 1), new Group(Constants.DEFAULT_GROUP_COLOR_VALUE, Math.max())]),
         ]);
     }
 

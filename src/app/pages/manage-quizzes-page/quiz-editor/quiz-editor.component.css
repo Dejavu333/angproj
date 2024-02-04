@@ -49,6 +49,7 @@ span {
 #questionsEditor {
     grid-area: questions;
     padding: 20px;
+    
     overflow: hidden; /* Hide any content that overflows the container */
     display: flex; /* Use flexbox */
     flex-direction: column;

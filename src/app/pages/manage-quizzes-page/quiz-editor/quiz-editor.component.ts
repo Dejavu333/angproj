@@ -132,6 +132,10 @@ export class QuizEditorComponent {
         if (t.value === ifContent) t.value = "";
     }
 
+    // removeInputContent2(t: HTMLInputElement, ifContent: string): void {
+    //     if (t.value === ifContent) t.value = "";
+    // } //todo remove
+
     dropHandler(event: CdkDragDrop<any[]>) {
 
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -143,6 +147,21 @@ export class QuizEditorComponent {
             // q.setAnimState(QuizAnimState.None); // prevents void=>* animation when quiz is moved to new category
             // this.quizService.quizUpserted$tream.next(q); //todo remove
         });
+    }
+
+    isAnswer(optionId: string): boolean {
+        return this.currentlyEditedQuizQuestion?.answerIds.includes(optionId) || false;
+    }
+
+    updateAnswerIds(optionId: string, isChecked: boolean) {
+        if (isChecked) {
+            this.currentlyEditedQuizQuestion?.answerIds.push(optionId);
+        } else {
+            const index = this.currentlyEditedQuizQuestion?.answerIds.indexOf(optionId);
+            if (index && index !== -1) {
+                this.currentlyEditedQuizQuestion?.answerIds.splice(index, 1);
+            }
+        }
     }
 }
 

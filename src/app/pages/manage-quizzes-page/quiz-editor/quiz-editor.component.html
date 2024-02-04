@@ -82,8 +82,8 @@
                     <input type="radio" name="subpoints"
                         [(ngModel)]="currentlyEditedQuizQuestion.isSubpoints"/>
                     
-                    <label for="subpoints">all or nothing:</label>
-                    <input type="radio" name="subpoints"/>
+                        <label for="subpoints">all or nothing:</label>
+                        <input type="radio" name="subpoints"/>
                    
                     <button (click)="addQuizOption()">add option</button>
 
@@ -93,12 +93,14 @@
                         {
                             <div cdkDrag [@scale]="QuizAnimState.ScaleIn">
                                 <li class="optionDiv">
-                                    <input type="checkbox"               
-                                        [checked]="currentlyEditedQuizQuestion.answerIndecies.includes($index)"
-                                        (change)="updateAnswer($index)" />
-                                    <input type="text" class="optionInput" [value]="option.optionText" placeholder="enter option text..."
-                                        (blur)="updateOptionText($event)"
-                                        (focus)="removeInputContent($event, Constants.DEFAULT_QUIZ_OPTION_NAME)" />
+                                    <input #isAnswerInp type="checkbox"               
+                                        [ngModel]="this.isAnswer(option.id)"
+                                        (ngModelChange)="updateAnswerIds(option.id,isAnswerInp.checked)" />
+
+                                    <input #fasz type="text" class="optionInput" placeholder="enter option text..."
+                                        [(ngModel)]="option.optionText"
+                                        (blur)="updateOptionText($event)" />
+                                 
                                 </li>
                             </div>
                         }
