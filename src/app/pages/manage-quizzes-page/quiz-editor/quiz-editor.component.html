@@ -1,119 +1,126 @@
 <div class="popup-background">
-    <div class="popup-content">
+    <div class="popup-content m">
 
-            <div id="questionsEditor" class="editor-section">
-                <div>maxscore {{maxScore()}}</div>
-                passingscore<input type="number">
-                drawthismany<input type="number">
 
-                groupingTool
-                <input #groupToolInp type="radio" name="activeToolRadio" (click)="activateTool(GroupingTool)"> 
-                @if(groupToolInp.checked===true) 
-                {   groupColor
-                    <input #groupColorInp 
-                        [(ngModel)]="GroupingTool.groupingColor" type="color"
-                    />
-                    @for (g of currentlyEditedQuiz.groups; track $index) 
+            <div class="quizInps">
+
+                <div class="toolbar">
+
+                    groupingTool
+                    <input #groupToolInp type="radio" name="activeToolRadio" (click)="activateTool(GroupingTool)">
+                    @if(groupToolInp.checked===true)
                     {
-                        <div (click)="useGroup()" class="groupRepres" [ngStyle]="{background : g.name}">{{g.name}}-{{countGroupMembers(g.name)}}:{{g.drawThisMany}}</div>
+                    groupColor
+                    <input #groupColorInp [(ngModel)]="GroupingTool.groupingColor" type="color" />
+
+                    <div class="groups">
+                        @for (g of currentlyEditedQuiz.groups; track $index)
+                        {
+                        <div (click)="useGroup()" class="groupRepres" [ngStyle]="{background : g.name}">
+                            {{g.name}}-{{countGroupMembers(g.name)}}:{{g.drawThisMany}}</div>
+                        }
+                    </div>
                     }
-                }   
-                defaultTool
-                <input type="radio" name="activeToolRadio" (click)="activateTool(DefaultTool)"> 
 
-                <label for="quizTitle">quiz title:</label>
-                <input #quizTitleInp type="text" placeholder="enter quiz title..." 
-                    [(ngModel)]="currentlyEditedQuiz.title" 
-                />
+                    defaultTool
+                    <input type="radio" name="activeToolRadio" (click)="activateTool(DefaultTool)">
 
-                <label for="timeLimit">time limit (s):</label>
-                <input #timeLimitInp type="text" placeholder="enter time limit..." 
-                    [(ngModel)]="currentlyEditedQuiz.timeLimit" 
-                />
-                
-                <label for="isOrderedQuiz">ordered questions:</label>
-                <input #isOrderedQuizInp type="checkbox" name="isOrderedQuiz"
-                    [checked]="currentlyEditedQuiz.isOrdered" 
-                />
-             
+                </div><!-- toolbar -->
+
+                <div class="inps">
+                    <div>maxscore {{maxScore()}}</div>
+                    passingscore<input type="number">
+                    drawthismany<input type="number">
+
+                    <label for="quizTitle">quiz title:</label>
+                    <input #quizTitleInp type="text" placeholder="enter quiz title..."
+                        [(ngModel)]="currentlyEditedQuiz.title" />
+
+                    <label for="timeLimit">time limit (s):</label>
+                    <input #timeLimitInp type="text" placeholder="enter time limit..."
+                        [(ngModel)]="currentlyEditedQuiz.timeLimit" />
+
+                    <label for="isOrderedQuiz">ordered questions:</label>
+                    <input #isOrderedQuizInp type="checkbox" name="isOrderedQuiz"
+                        [checked]="currentlyEditedQuiz.isOrdered" />
+                </div><!-- inps -->
+
+            </div><!-- quizInps -->
+
+
+            <div class="questions">
                 <button (click)="addQuizQuestionSkeleton()">add question</button>
-
-                <ul id="questions-list"
-                cdkDropList [cdkDropListData]="currentlyEditedQuiz.quizQuestions | sortOnIndexInParent"
-                (cdkDropListDropped)="dropHandler($event)"
-                >
+                <ul id="questions-list" cdkDropList
+                    [cdkDropListData]="currentlyEditedQuiz.quizQuestions | sortOnIndexInParent"
+                    (cdkDropListDropped)="dropHandler($event)">
                     @for (quizQuestion of currentlyEditedQuiz.quizQuestions | sortOnIndexInParent; track $index)
                     {
-                        <div cdkDrag [cdkDragDisabled]="activeTool!==DefaultTool" 
-                            [@scale]="QuizAnimState.ScaleIn"
-                        >
-                            <li (dblclick)="selectQuizQuestion(quizQuestion)" id={{$index}} class="question" 
-                                [ngClass]="quizQuestion === currentlyEditedQuizQuestion ? 'selectedQuizQuestion':''"
-                                [ngStyle]="{background: quizQuestion.group}"
-                            >
+                    <div cdkDrag [cdkDragDisabled]="activeTool!==DefaultTool" [@scale]="QuizAnimState.ScaleIn">
+                        <li (dblclick)="selectQuizQuestion(quizQuestion)" id={{$index}} class="question"
+                            [ngClass]="quizQuestion === currentlyEditedQuizQuestion ? 'selectedQuizQuestion':''"
+                            [ngStyle]="{background: quizQuestion.group}">
 
-                                <span class="no">{{$index + 1}}.</span>
-                                {{ quizQuestion.questionText | slice:0:19 }}
+                            <span class="no">{{$index + 1}}.</span>
+                            {{ quizQuestion.questionText | slice:0:19 }}
 
-                            </li>
-                        </div>
+                        </li>
+                    </div>
                     }
                 </ul>
+            </div><!-- questions -->
 
-            </div><!-- questions editor -->
 
-            <div id="optionsEditor" class="editor-section"> 
+        <!-- todo class removal  -->
+     
             @if (currentlyEditedQuizQuestion)
             {
-                    <label for="questionText">question text:</label>
-                    <textarea name="questionText" placeholder="enter question text..."
-                        [(ngModel)]="currentlyEditedQuizQuestion.questionText" 
-               
-                        (focus)="removeInputContent($event, Constants.DEFAULT_QUIZ_QUESTION_NAME)">
+            <div class="questionInps">
+                <label for="questionText">question text:</label>
+                <textarea name="questionText" placeholder="enter question text..."
+                    [(ngModel)]="currentlyEditedQuizQuestion.questionText"
+                    (focus)="removeInputContent($event, Constants.DEFAULT_QUIZ_QUESTION_NAME)">
                     </textarea>
 
-                    <label for="isOrderedOptions">ordered options:</label>
-                    <input #isOrderedOptionsInp type="checkbox" name="isOrderedOptions"
-                        [(ngModel)]="currentlyEditedQuizQuestion.optionsAreOrdered" />
-                        
-                    <label for="score">score</label>
-                    <input type="number" name="score"  min="1"
-                        [(ngModel)]="currentlyEditedQuizQuestion.score"/>
-                    
-                    <label for="subpoints">subpoints:</label>
-                    <input type="radio" name="subpoints"
-                        [(ngModel)]="currentlyEditedQuizQuestion.isSubpoints"/>
-                    
-                        <label for="subpoints">all or nothing:</label>
-                        <input type="radio" name="subpoints"/>
-                   
-                    <button (click)="addQuizOption()">add option</button>
+                <label for="isOrderedOptions">ordered options:</label>
+                <input #isOrderedOptionsInp type="checkbox" name="isOrderedOptions"
+                    [(ngModel)]="currentlyEditedQuizQuestion.optionsAreOrdered" />
 
-                    <ul cdkDropList [cdkDropListData]="currentlyEditedQuizQuestion.options | sortOnIndexInParent"
-                        (cdkDropListDropped)="dropHandler($event)">
-                        @for (option of currentlyEditedQuizQuestion.options | sortOnIndexInParent; track $index)
-                        {
-                            <div cdkDrag [@scale]="QuizAnimState.ScaleIn">
-                                <li class="optionDiv">
-                                    <input #isAnswerInp type="checkbox"               
-                                        [ngModel]="this.isAnswer(option.id)"
-                                        (ngModelChange)="updateAnswerIds(option.id,isAnswerInp.checked)" />
+                <label for="score">score</label>
+                <input type="number" name="score" min="1" [(ngModel)]="currentlyEditedQuizQuestion.score" />
 
-                                    <input #fasz type="text" class="optionInput" placeholder="enter option text..."
-                                        [(ngModel)]="option.optionText"
-                                        (blur)="updateOptionText($event)" />
-                                 
-                                </li>
-                            </div>
-                        }
-                    </ul>
-                }
-            </div><!-- options editor -->
+                <label for="subpoints">subpoints:</label>
+                <input type="radio" name="subpoints" [(ngModel)]="currentlyEditedQuizQuestion.isSubpoints" />
 
-            <div class="button-container">
-                <button id="saveAndCloseEditorBtn" (click)="saveAndCloseQuizEditor()">save</button>
-                <button id="closeEditorBtn" (click)="closeQuizEditor()">cancel</button>
-            </div>
-            
+                <label for="subpoints">all or nothing:</label>
+                <input type="radio" name="subpoints" />
+            </div> <!-- questionInps -->
+
+            <div class="options">
+                <button (click)="addQuizOption()">add option</button>
+
+                <ul cdkDropList [cdkDropListData]="currentlyEditedQuizQuestion.options | sortOnIndexInParent"
+                    (cdkDropListDropped)="dropHandler($event)">
+                    @for (option of currentlyEditedQuizQuestion.options | sortOnIndexInParent; track $index)
+                    {
+                    <div cdkDrag [@scale]="QuizAnimState.ScaleIn">
+                        <li class="optionDiv">
+                            <input #isAnswerInp type="checkbox" [ngModel]="this.isAnswer(option.id)"
+                                (ngModelChange)="updateAnswerIds(option.id,isAnswerInp.checked)" />
+
+                            <input #fasz type="text" class="optionInput" placeholder="enter option text..."
+                                [(ngModel)]="option.optionText" (blur)="updateOptionText($event)" />
+
+                        </li>
+                    </div>
+                    }
+                </ul>
+            </div><!-- options -->
+            }
+
+        <div class="button-container">
+            <button id="saveAndCloseEditorBtn" (click)="saveAndCloseQuizEditor()">save</button>
+            <button id="closeEditorBtn" (click)="closeQuizEditor()">cancel</button>
+        </div>
+
     </div> <!-- popup content -->
 </div> <!-- popup background -->

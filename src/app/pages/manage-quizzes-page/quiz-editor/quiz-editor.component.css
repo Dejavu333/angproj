@@ -20,45 +20,86 @@ span {
 
 .popup-content {
     display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    grid-template-rows: 0.5fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
     grid-template-areas:
-        "questions options"
-        "buttons   buttons"
-    ;
-
-    grid-template-columns:
-        20% 80%;
-    grid-template-rows:
-        90% 10%;
-
+    "quizInps questionInps"
+    "questions options";
+    
     position: relative;
     overflow: hidden;
+    
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 99;
     width: 90rem;
     height: 50rem;
+    
     background-color: var(--light-color);
+    background-color: aliceblue;
     border-radius: var(--primary-border-radius);
     padding: 0px;
-    z-index: 99;
 }
 
-#questionsEditor {
-    grid-area: questions;
-    padding: 20px;
-
-    overflow: hidden;
-    /* Hide any content that overflows the container */
-    display: flex;
-    /* Use flexbox */
-    flex-direction: column;
-}
-
-#optionsEditor {
+/* #optionsEditor {
     grid-area: options;
     padding: 20px;
     background-color: rgb(205, 54, 54);
+} */
+
+.quizInps {
+    background-color: red;
+    display: grid;
+    grid-template-columns: 1.5fr 0.2fr;
+    grid-template-rows: 0.4fr 1.5fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "toolbar groups"
+        "inps groups";
+    grid-area: quizInps;
 }
+
+.toolbar {
+    background-color: blue;
+    grid-area: toolbar;
+}
+
+.inps {
+    background-color: green;
+    grid-area: inps;
+}
+
+.groups {
+    background-color: orange;
+    grid-area: groups;
+}
+
+.questions {
+    background-color: aqua;
+    grid-area: questions;
+padding: 20px;
+
+overflow: hidden;
+/* Hide any content that overflows the container */
+display: flex;
+/* Use flexbox */
+flex-direction: column;
+}
+
+.questionInps {
+    background-color: rgb(194, 56, 139);
+    grid-area: questionInps;
+}
+
+.options {
+    background-color: rgb(170, 215, 255);
+    grid-area: options;
+}
+
 
 ul {
     flex-grow: 1;
@@ -71,7 +112,6 @@ li {
 }
 
 .button-container {
-    grid-area: buttons;
     /* display: flex; */
     /* justify-content: space-between; */
     background-color: wheat;
@@ -94,11 +134,11 @@ button {
     background-color: var(--secondary-color-highlight);
 }
 
-#questionsEditor>button {
+.m>button {
     background-color: var(--light-color);
 }
 
-#questionsEditor>button:hover {
+.m>button:hover {
     background-color: var(--light-color-highlight);
 }
 
@@ -120,11 +160,6 @@ textarea {
     width: 30px;
 }
 
-.selectedQuizQuestion {
-    background-color: var(--light-color);
-    animation: pulse 2s infinite;
-    /* scale: 1.1; */
-}
 
 /* todo specific styles */
 .editor-section>input {
@@ -136,16 +171,26 @@ textarea {
     height: 1.5rem;
 }
 
+#questions-list {
+    padding-top: 1.5rem;
+}
+.question {
+    
+}
+
+.selectedQuizQuestion {
+    background-color: var(--light-color);
+    animation: pulse 2s infinite;
+    /* scale: 1.1; */
+}
+
+
 @keyframes pulse {
     0% {
-        filter: brightness(1.25);
-    }
-
-    50% {
-        filter: brightness(1.5);
+        box-shadow: 0 0 0 0px rgba(172, 39, 249, 0.2);
     }
 
     100% {
-        filter: brightness(1.25);
+        box-shadow: 0 0 0 0.5rem rgba(0, 0, 0, 0);
     }
 }
