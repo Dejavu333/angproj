@@ -15,9 +15,9 @@
                     />
                     @for (g of currentlyEditedQuiz.groups; track $index) 
                     {
-                        <div (click)="useGroup()" class="groupRepres" [ngStyle]="{background : g.name}">{{g.name}}</div>
+                        <div (click)="useGroup()" class="groupRepres" [ngStyle]="{background : g.name}">{{g.name}}-{{countGroupMembers(g.name)}}:{{g.drawThisMany}}</div>
                     }
-                }
+                }   
                 defaultTool
                 <input type="radio" name="activeToolRadio" (click)="activateTool(DefaultTool)"> 
 
@@ -44,7 +44,9 @@
                 >
                     @for (quizQuestion of currentlyEditedQuiz.quizQuestions | sortOnIndexInParent; track $index)
                     {
-                        <div cdkDrag [cdkDragDisabled]="activeTool!==DefaultTool" [@scale]="QuizAnimState.ScaleIn">
+                        <div cdkDrag [cdkDragDisabled]="activeTool!==DefaultTool" 
+                            [@scale]="QuizAnimState.ScaleIn"
+                        >
                             <li (dblclick)="selectQuizQuestion(quizQuestion)" id={{$index}} class="question" 
                                 [ngClass]="quizQuestion === currentlyEditedQuizQuestion ? 'selectedQuizQuestion':''"
                                 [ngStyle]="{background: quizQuestion.group}"

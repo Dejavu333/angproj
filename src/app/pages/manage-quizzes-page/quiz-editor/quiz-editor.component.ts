@@ -24,6 +24,10 @@ import { QuizOptionDTO } from '../model/QuizOptionDTO';
 })
 export class QuizEditorComponent {
 
+    countGroupMembers(groupName: string) {
+        return this.currentlyEditedQuiz.quizQuestions.filter((q)=>q.group===groupName).length;
+    }
+
     useGroup() {
         throw new Error('Method not implemented.');
     }
