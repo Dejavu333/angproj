@@ -2,30 +2,33 @@
     <div class="popup-content m">
 
 
-            <div class="quizInps">
+        <div class="quizInps">
 
-                <div class="toolbar">
+            <div class="toolbar">
 
-                    groupingTool
-                    <input #groupToolInp type="radio" name="activeToolRadio" (click)="activateTool(GroupingTool)">
+                groupingTool
+                <input #groupToolInp type="radio" name="activeToolRadio" (click)="activateTool(GroupingTool)">
+
+                defaultTool
+                <input type="radio" name="activeToolRadio" (click)="activateTool(DefaultTool)">
+
+            </div><!-- toolbar -->
+
                     @if(groupToolInp.checked===true)
                     {
-                    groupColor
-                    <input #groupColorInp [(ngModel)]="GroupingTool.groupingColor" type="color" />
-
-                    <div class="groups">
-                        @for (g of currentlyEditedQuiz.groups; track $index)
-                        {
-                        <div (click)="useGroup()" class="groupRepres" [ngStyle]="{background : g.name}">
-                            {{g.name}}-{{countGroupMembers(g.name)}}:{{g.drawThisMany}}</div>
-                        }
-                    </div>
+                        
+                        <div class="groups">
+                            <input #groupColorInp [(ngModel)]="GroupingTool.groupingColor" type="color" />
+                            <ul class="group-repres-col">
+                                @for (g of currentlyEditedQuiz.groups; track $index)
+                                {
+                                    <div (click)="useGroup()" class="groupRepres" [ngStyle]="{background : g.name}"></div>
+                                    {{g.name}}-{{countGroupMembers(g.name)}}:{{g.drawThisMany==Math.max()?"all":g.drawThisMany}}
+                                }
+                            </ul>
+                        </div><!-- groups -->
                     }
 
-                    defaultTool
-                    <input type="radio" name="activeToolRadio" (click)="activateTool(DefaultTool)">
-
-                </div><!-- toolbar -->
 
                 <div class="inps">
                     <div>maxscore {{maxScore()}}</div>
@@ -70,8 +73,6 @@
             </div><!-- questions -->
 
 
-        <!-- todo class removal  -->
-     
             @if (currentlyEditedQuizQuestion)
             {
             <div class="questionInps">
@@ -107,7 +108,7 @@
                             <input #isAnswerInp type="checkbox" [ngModel]="this.isAnswer(option.id)"
                                 (ngModelChange)="updateAnswerIds(option.id,isAnswerInp.checked)" />
 
-                            <input #fasz type="text" class="optionInput" placeholder="enter option text..."
+                            <input type="text" class="optionInput" placeholder="enter option text..."
                                 [(ngModel)]="option.optionText" (blur)="updateOptionText($event)" />
 
                         </li>

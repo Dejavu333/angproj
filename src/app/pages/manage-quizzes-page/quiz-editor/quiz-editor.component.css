@@ -1,6 +1,6 @@
-span {
-    margin-left: 0.5rem;
-    opacity: 0.25;
+
+* {
+    --quiz-editor-padding: 1rem;
 }
 
 .popup-background {
@@ -10,10 +10,8 @@ span {
     left: 0;
     right: 0;
     bottom: 0;
-
     /* Set the background color and opacity */
     background-color: rgba(0, 0, 0, 0.5);
-
     /* Ensure the overlay is behind .popup-content */
     z-index: 98;
 }
@@ -23,13 +21,11 @@ span {
     grid-template-columns: 0.5fr 1fr;
     grid-template-rows: 0.5fr 1fr;
     gap: 0px 0px;
-    grid-auto-flow: row;
     grid-template-areas:
     "quizInps questionInps"
     "questions options";
     
     position: relative;
-    overflow: hidden;
     
     top: 50%;
     left: 50%;
@@ -38,56 +34,84 @@ span {
     width: 90rem;
     height: 50rem;
     
-    background-color: var(--light-color);
-    background-color: aliceblue;
-    border-radius: var(--primary-border-radius);
     padding: 0px;
+    border-radius: var(--primary-border-radius);
+    background-color: var(--light-color);
 }
 
-/* #optionsEditor {
-    grid-area: options;
-    padding: 20px;
-    background-color: rgb(205, 54, 54);
-} */
-
 .quizInps {
-    background-color: red;
     display: grid;
+    grid-area: quizInps;
+    background-color: red;
     grid-template-columns: 1.5fr 0.2fr;
-    grid-template-rows: 0.4fr 1.5fr;
+    grid-template-rows: 0.2fr 1.5fr;
     gap: 0px 0px;
-    grid-auto-flow: row;
     grid-template-areas:
         "toolbar groups"
         "inps groups";
-    grid-area: quizInps;
 }
 
+
 .toolbar {
-    background-color: blue;
+    min-height: 100%;
     grid-area: toolbar;
+    background-color: blue;
+    display: flex;
+    flex-direction: row;
+    padding: var(--quiz-editor-padding);
+
+}
+.toolbar>input {
+    width:1rem;
 }
 
 .inps {
-    background-color: green;
     grid-area: inps;
+    min-height: 100%;
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+    padding: var(--quiz-editor-padding);
+}
+.inps>input {
+    width: 4rem;
 }
 
 .groups {
-    background-color: orange;
     grid-area: groups;
+    background-color: orange;
+    padding-top: var(--quiz-editor-padding);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+}
+.group-repres-col {
+    height: 20rem; /* must add a specified height so it becomes scrollable when it grows outside the parent element */
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.groups>input {
+    width: 100%;
+}
+.groupRepres {
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .questions {
     background-color: aqua;
     grid-area: questions;
-padding: 20px;
+    padding: 20px;
 
-overflow: hidden;
-/* Hide any content that overflows the container */
-display: flex;
-/* Use flexbox */
-flex-direction: column;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+ul {
+    flex-grow: 1;
+    /* Let the ul grow to fill available space */
+    overflow-y: auto;
 }
 
 .questionInps {
@@ -101,11 +125,6 @@ flex-direction: column;
 }
 
 
-ul {
-    flex-grow: 1;
-    /* Let the ul grow to fill available space */
-    overflow-y: auto;
-}
 
 li {
     border-radius: var(--primary-border-radius);
@@ -134,19 +153,10 @@ button {
     background-color: var(--secondary-color-highlight);
 }
 
-.m>button {
-    background-color: var(--light-color);
-}
-
-.m>button:hover {
-    background-color: var(--light-color-highlight);
-}
-
 .optionDiv {
     display: flex;
     align-items: center;
 }
-
 
 textarea {
     width: 45rem;
@@ -158,22 +168,14 @@ textarea {
 .no {
     display: inline-block;
     width: 30px;
-}
-
-
-/* todo specific styles */
-.editor-section>input {
-    width: 3rem;
-}
-
-.groupRepres {
-    width: 1.5rem;
-    height: 1.5rem;
+    margin-left: 0.5rem;
+    opacity: 0.25;
 }
 
 #questions-list {
     padding-top: 1.5rem;
 }
+
 .question {
     
 }
@@ -181,7 +183,6 @@ textarea {
 .selectedQuizQuestion {
     background-color: var(--light-color);
     animation: pulse 2s infinite;
-    /* scale: 1.1; */
 }
 
 

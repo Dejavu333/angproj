@@ -23,22 +23,23 @@ import { QuizOptionDTO } from '../model/QuizOptionDTO';
     animations: [scaleAnimation],
 })
 export class QuizEditorComponent {
-
+    
     countGroupMembers(groupName: string) {
         return this.currentlyEditedQuiz.quizQuestions.filter((q)=>q.group===groupName).length;
     }
-
+    
     useGroup() {
         throw new Error('Method not implemented.');
     }
-
+    
     //===========================================================================
     // properties, fields
     //===========================================================================
-    box: HTMLElement | undefined;
+    Math = Math;
     Constants = Constants;
     DefaultTool: DefaultTool = new DefaultTool();
     GroupingTool: GroupingTool;
+    box: HTMLElement | undefined;
 
     currentlyEditedQuiz: QuizDTO;
     currentlyEditedQuizQuestion: QuizQuestionDTO | undefined;
